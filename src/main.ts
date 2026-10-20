@@ -13,8 +13,12 @@ import { split } from './ui/split';
 import { initCursor, initMagnetic, initProximity, initScramble, initTilt } from './ui/interactions';
 import { createStackPhysics } from './ui/physics';
 import { sound } from './ui/sound';
+import { inject as injectAnalytics } from '@vercel/analytics';
+import { injectSpeedInsights } from '@vercel/speed-insights';
 
 gsap.registerPlugin(ScrollTrigger);
+injectAnalytics();
+injectSpeedInsights();
 
 const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s)!;
 const $$ = <T extends HTMLElement = HTMLElement>(s: string, r: ParentNode = document) =>
