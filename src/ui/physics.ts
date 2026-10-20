@@ -146,7 +146,7 @@ export function createStackPhysics(box: HTMLElement) {
 
   const update = (deltaMs: number) => {
     if (!started) return;
-    Engine.update(engine, Math.min(deltaMs, 1000 / 50));
+    Engine.update(engine, Math.min(deltaMs, 1000 / 60));
     for (const it of items) {
       if (!it.body) continue;
       const { x, y } = it.body.position;

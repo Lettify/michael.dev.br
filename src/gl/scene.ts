@@ -26,7 +26,7 @@ export class Universe {
   private renderer: THREE.WebGLRenderer;
   private scene = new THREE.Scene();
   private camera: THREE.PerspectiveCamera;
-  private clock = new THREE.Clock();
+  private lastTime = performance.now();
   private time = 0;
 
   private shapes!: Record<ShapeName, Float32Array>;
@@ -90,7 +90,7 @@ export class Universe {
     });
     document.addEventListener('visibilitychange', () => {
       this.running = !document.hidden;
-      if (this.running) this.clock.getDelta();
+      if (this.running) this.lastTime = performance.now();
     });
   }
 
@@ -316,7 +316,9 @@ export class Universe {
 
   tick() {
     if (!this.running || !this.pMat) return;
-    const dt = Math.min(this.clock.getDelta(), 0.05);
+    const now = performance.now();
+    const dt = Math.min((now - this.lastTime) / 1000, 0.05);
+    this.lastTime = now;
     this.time += dt;
     const t = this.time;
     const L = this.layout;

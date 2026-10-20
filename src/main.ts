@@ -641,9 +641,9 @@ let cmodalOpen = false;
 
 function toggleContactModal(open = !cmodalOpen) {
   cmodalOpen = open;
-  cmodal.setAttribute('aria-hidden', String(!open));
   gsap.killTweensOf([cmodalBackdrop, cmodalPanel]);
   if (open) {
+    cmodal.removeAttribute('aria-hidden');
     cmodal.classList.add('is-open');
     lenis.stop();
     sound.morph();
@@ -655,6 +655,7 @@ function toggleContactModal(open = !cmodalOpen) {
     );
     setTimeout(() => contactForm.querySelector<HTMLInputElement>('input[name="name"]')?.focus(), 120);
   } else {
+    (document.activeElement as HTMLElement)?.blur();
     lenis.start();
     gsap.to(cmodalBackdrop, { opacity: 0, duration: 0.35, ease: 'power2.in' });
     gsap.to(cmodalPanel, {
@@ -663,7 +664,10 @@ function toggleContactModal(open = !cmodalOpen) {
       scale: 0.96,
       duration: 0.35,
       ease: 'power2.in',
-      onComplete: () => cmodal.classList.remove('is-open'),
+      onComplete: () => {
+        cmodal.classList.remove('is-open');
+        cmodal.setAttribute('aria-hidden', 'true');
+      },
     });
   }
 }
@@ -767,7 +771,7 @@ function openCaseStudy(index: number) {
   }
 
   pmodalOpen = true;
-  pmodal.setAttribute('aria-hidden', 'false');
+  pmodal.removeAttribute('aria-hidden');
   pmodal.classList.add('is-open');
   lenis.stop();
   sound.morph();
@@ -782,7 +786,7 @@ function openCaseStudy(index: number) {
 function closeCaseStudy() {
   if (!pmodalOpen) return;
   pmodalOpen = false;
-  pmodal.setAttribute('aria-hidden', 'true');
+  (document.activeElement as HTMLElement)?.blur();
   lenis.start();
   gsap.to(pmodalBackdrop, { opacity: 0, duration: 0.35, ease: 'power2.in' });
   gsap.to(pmodalPanel, {
@@ -791,7 +795,10 @@ function closeCaseStudy() {
     scale: 0.96,
     duration: 0.35,
     ease: 'power2.in',
-    onComplete: () => pmodal.classList.remove('is-open'),
+    onComplete: () => {
+      pmodal.classList.remove('is-open');
+      pmodal.setAttribute('aria-hidden', 'true');
+    },
   });
 }
 
