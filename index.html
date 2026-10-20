@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Michael Silva — Desenvolvedor Full Stack</title>
+    <meta
+      name="description"
+      content="Michael Silva — Desenvolvedor Full Stack e Analista de Sistemas em Brasília, DF. Sistemas robustos, arquiteturas limpas, automações inteligentes e experiências web."
+    />
+    <meta name="theme-color" content="#07040f" />
+    <meta property="og:title" content="Michael Silva — Desenvolvedor Full Stack" />
+    <meta property="og:description" content="Sistemas robustos, arquiteturas limpas e experiências que ficam na memória." />
+    <meta property="og:url" content="https://michael.dev.br" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      html,
+      body {
+        background-color: #07040f !important;
+        color: #f4effe;
+        margin: 0;
+        padding: 0;
+      }
+      body.is-loading {
+        overflow: hidden;
+      }
+      body.is-loading #smooth,
+      body.is-loading .nav,
+      body.is-loading .menu,
+      body.is-loading .cursor,
+      body.is-loading .cursor-trail {
+        opacity: 0;
+        pointer-events: none;
+      }
+      .preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+      }
+      .preloader__shutters {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+      }
+      .preloader__shutters span {
+        background-color: #07040f;
+        height: 100%;
+      }
+    </style>
+    <link rel="stylesheet" href="/src/styles/main.css" />
+  </head>
+  <body class="is-loading">
+    <!-- WebGL universe -->
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <!-- Cursor & Cosmic Particle Trail -->
+    <canvas class="cursor-trail" aria-hidden="true"></canvas>
+    <div class="cursor" aria-hidden="true">
+      <div class="cursor__ring"><span class="cursor__label"></span></div>
+      <div class="cursor__dot"></div>
+    </div>
+
+    <!-- Preloader -->
+    <div class="preloader" aria-hidden="true">
+      <div class="preloader__shutters">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="preloader__glow"></div>
+
+      <div class="preloader__inner">
+        <div class="preloader__top">
+          <div class="preloader__brand">
+            <span class="preloader__dot"></span>
+            <span class="preloader__logo">MS<sup>®</sup></span>
+            <span class="preloader__sep">//</span>
+            <span>BOOT SEQUENCE v2.6</span>
+          </div>
+          <div class="preloader__coords">
+            <span>15°47′S 47°52′W</span>
+            <span class="preloader__pill">PORTFÓLIO 3D</span>
+          </div>
+        </div>
+
+        <div class="preloader__stage">
+          <div class="preloader__dial">
+            <svg class="preloader__svg" viewBox="0 0 360 360" fill="none">
+              <defs>
+                <linearGradient id="plGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#c4b5fd" />
+                  <stop offset="50%" stop-color="#a855f7" />
+                  <stop offset="100%" stop-color="#e879f9" />
+                </linearGradient>
+              </defs>
+              <!-- Outer tick ring -->
+              <circle class="preloader__ring-ticks" cx="180" cy="180" r="166" />
+              <!-- Counter-rotating dashed orbit -->
+              <circle class="preloader__ring-orbit" cx="180" cy="180" r="148" />
+              <!-- Subtle track -->
+              <circle class="preloader__ring-track" cx="180" cy="180" r="128" />
+              <!-- Animated progress arc -->
+              <circle class="preloader__ring-prog" cx="180" cy="180" r="128" stroke="url(#plGrad)" />
+              <!-- Crosshair accents -->
+              <path
+                class="preloader__cross"
+                d="M180 4 V20 M180 340 V356 M4 180 H20 M340 180 H356"
+              />
+            </svg>
+
+            <div class="preloader__core">
+              <span class="preloader__tag">CARREGANDO UNIVERSO</span>
+              <div class="odometer" aria-label="Progresso">
+                <div class="odometer__col">
+                  <div class="odometer__strip js-odo-h">
+                    <span>0</span><span>1</span>
+                  </div>
+                </div>
+                <div class="odometer__col">
+                  <div class="odometer__strip js-odo-t">
+                    <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span>
+                  </div>
+                </div>
+                <div class="odometer__col">
+                  <div class="odometer__strip js-odo-o">
+                    <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>0</span>
+                  </div>
+                </div>
+                <sup class="odometer__unit">%</sup>
+              </div>
+              <div class="preloader__hex">
+                <span class="js-pl-hex">0x00</span>
+                <i>·</i>
+                <span class="preloader__msg">Inicializando pipeline WebGL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="preloader__bottom">
+          <div class="preloader__logs">
+            <div class="preloader__log is-active" data-step="0"><i></i><span>Alocando 16.000 partículas GPU</span></div>
+            <div class="preloader__log" data-step="1"><i></i><span>Compilando shaders Simplex 3D</span></div>
+            <div class="preloader__log" data-step="2"><i></i><span>Iniciando física Matter.js 2D</span></div>
+            <div class="preloader__log" data-step="3"><i></i><span>Sincronizando perfil @Lettify</span></div>
+          </div>
+          <div class="preloader__meter">
+            <div class="preloader__bar"><i></i></div>
+            <div class="preloader__meta-row">
+              <span>SHADERS: GLSL3</span>
+              <span class="js-pl-pct">000 / 100</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll progress -->
+    <div class="progress" aria-hidden="true"><i></i></div>
+
+    <!-- Navigation -->
+    <header class="nav">
+      <a href="#top" class="nav__logo" data-magnetic data-cursor="Topo">
+        <span class="nav__logo-mark">MS</span><sup>®</sup>
+      </a>
+      <nav class="nav__links" aria-label="Principal">
+        <a href="#sobre" data-scramble>Sobre</a>
+        <a href="#expertise" data-scramble>Expertise</a>
+        <a href="#projetos" data-scramble>Projetos</a>
+        <a href="#stack" data-scramble>Stack</a>
+        <a href="#contato" data-scramble>Contato</a>
+      </nav>
+      <div class="nav__right">
+        <span class="nav__status"><i></i>Disponível para projetos</span>
+        <button class="nav__sound" data-magnetic data-cursor="Som" aria-label="Alternar áudio ambiente" aria-pressed="false">
+          <i></i><i></i><i></i><i></i>
+        </button>
+        <button class="nav__menu" data-magnetic aria-label="Abrir menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Fullscreen menu -->
+    <div class="menu" aria-hidden="true">
+      <div class="menu__bg"></div>
+      <nav class="menu__links">
+        <a href="#sobre"><em>01</em><span>Sobre</span></a>
+        <a href="#expertise"><em>02</em><span>Expertise</span></a>
+        <a href="#projetos"><em>03</em><span>Projetos</span></a>
+        <a href="#stack"><em>04</em><span>Stack</span></a>
+        <a href="#alem"><em>05</em><span>Além do código</span></a>
+        <a href="#contato"><em>06</em><span>Contato</span></a>
+      </nav>
+      <div class="menu__foot">
+        <a href="mailto:contato@michael.dev.br">contato@michael.dev.br</a>
+        <a href="https://github.com/Lettify" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/michael-felipe-ss/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+
+    <div id="smooth">
+      <main>
+        <!-- ============ HERO ============ -->
+        <section class="hero" id="top" data-gl="sphere">
+          <div class="hero__meta hero__meta--tl">
+            <span class="mono">Portfólio</span>
+            <span class="mono">©2016 — 2026</span>
+          </div>
+          <div class="hero__meta hero__meta--tr">
+            <span class="mono">15°47′S 47°52′W</span>
+            <span class="mono">Brasília, DF — <b class="js-clock">--:--</b></span>
+          </div>
+
+          <h1 class="hero__title" aria-label="Michael Silva">
+            <span class="hero__line" data-proximity>Michael</span>
+            <span class="hero__line hero__line--outline" data-proximity>Silva</span>
+          </h1>
+
+          <div class="hero__bottom">
+            <p class="hero__role">
+              <span class="reveal-line"><span>Desenvolvedor <em>Full Stack</em></span></span>
+              <span class="reveal-line"><span>&amp; Analista de Sistemas</span></span>
+            </p>
+            <a href="#sobre" class="hero__scroll" data-magnetic data-cursor="Role">
+              <svg viewBox="0 0 120 120" class="hero__scroll-ring">
+                <defs><path id="circlePath" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" /></defs>
+                <text><textPath href="#circlePath">role para explorar • role para explorar • </textPath></text>
+              </svg>
+              <span class="hero__scroll-arrow">↓</span>
+            </a>
+            <p class="hero__tagline">
+              <span class="reveal-line"><span>Sistemas robustos, arquiteturas limpas</span></span>
+              <span class="reveal-line"><span>e experiências que ficam na memória.</span></span>
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ MARQUEE ============ -->
+        <section class="marquee" aria-label="Tecnologias">
+          <div class="marquee__track" data-marquee="1">
+            <div class="marquee__row">
+              <span>TypeScript</span><i>✦</i><span>Lua</span><i>✦</i><span>Node.js</span><i>✦</i><span>React</span><i>✦</i><span>Python</span><i>✦</i><span>DevOps</span><i>✦</i><span>IA</span><i>✦</i>
+            </div>
+          </div>
+          <div class="marquee__track marquee__track--alt" data-marquee="-1">
+            <div class="marquee__row">
+              <span>Clean Code</span><i>●</i><span>Automação</span><i>●</i><span>Multi Theft Auto</span><i>●</i><span>CI/CD</span><i>●</i><span>Arquitetura</span><i>●</i><span>Discord Bots</span><i>●</i>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ ABOUT ============ -->
+        <section class="about" id="sobre" data-gl="code">
+          <div class="section-label"><span class="mono">(01)</span><span class="mono">Sobre mim</span></div>
+          <div class="about__grid">
+            <h2 class="about__lead" data-split-words>
+              Olá, eu sou o Michael. Construo <em>sistemas robustos</em> e <em>arquiteturas limpas</em> — aliando a precisão do código à compreensão do comportamento humano.
+            </h2>
+            <div class="about__side">
+              <a
+                href="https://github.com/Lettify"
+                target="_blank"
+                rel="noopener"
+                class="id-card"
+                data-cursor="GitHub"
+                data-fade
+              >
+                <div class="id-card__inner">
+                  <div class="id-card__avatar-wrap">
+                    <img
+                      src="https://avatars.githubusercontent.com/u/23346866?v=4"
+                      alt="Michael Silva (@Lettify)"
+                      class="id-card__avatar"
+                      loading="lazy"
+                    />
+                    <span class="id-card__online" title="Ativo no GitHub"></span>
+                  </div>
+                  <div class="id-card__meta">
+                    <span class="mono id-card__handle">@Lettify · UDF</span>
+                    <strong class="id-card__name">Michael Silva</strong>
+                    <span class="mono id-card__sub"><b class="js-gh-repos">26</b> repos · <b class="js-gh-followers">11</b> seguidores</span>
+                  </div>
+                  <span class="id-card__badge mono">GH ↗</span>
+                </div>
+              </a>
+              <p data-fade>
+                Graduando em Análise e Desenvolvimento de Sistemas na UDF, baseado em Brasília. Uso minha experiência técnica para criar
+                automações inteligentes e infraestruturas escaláveis — do primeiro commit ao deploy final.
+              </p>
+              <p data-fade>
+                Lidero, organizo fluxos e estabeleço métricas de evolução técnica. Acredito que tipagem forte e semântica clara valem mais que mil comentários.
+              </p>
+              <a href="#contato" class="btn" data-magnetic data-cursor="Bora?">
+                <span class="btn__fill"></span><span class="btn__text">Vamos conversar</span><span class="btn__icon">→</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="stats">
+            <div class="stat" data-fade>
+              <span class="stat__num" data-count="2016">0</span>
+              <span class="stat__label mono">Codando no GitHub desde</span>
+            </div>
+            <div class="stat" data-fade>
+              <span class="stat__num" data-count="26">0</span>
+              <span class="stat__label mono">Repositórios públicos</span>
+            </div>
+            <div class="stat" data-fade>
+              <span class="stat__num" data-count="4">0</span>
+              <span class="stat__label mono">Linguagens principais</span>
+            </div>
+            <div class="stat" data-fade>
+              <span class="stat__num">∞</span>
+              <span class="stat__label mono">Curiosidade</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ MANIFESTO ============ -->
+        <section class="manifesto" data-gl="code">
+          <div class="section-label"><span class="mono">(02)</span><span class="mono">Filosofia — Clean Code</span></div>
+          <blockquote class="manifesto__quote" data-scrub-words>
+            “Se você precisa comentar o que uma função faz e quais são seus parâmetros em uma linguagem tipada, o código ainda não está limpo o suficiente.”
+          </blockquote>
+          <div class="manifesto__code mono" aria-hidden="true">
+            <span><b>const</b> code = <i>conversation</i>&lt;Developer, Developer&gt;();</span>
+            <span><b>type</b> Clean = Typed &amp; Semantic &amp; SelfExplanatory;</span>
+          </div>
+        </section>
+
+        <!-- ============ EXPERTISE ============ -->
+        <section class="expertise" id="expertise" data-gl="network">
+          <div class="section-label"><span class="mono">(03)</span><span class="mono">Expertise</span></div>
+          <h2 class="section-title" data-split-chars>O que eu <em>faço</em></h2>
+          <ul class="services">
+            <li class="service" data-cursor="✦">
+              <span class="service__num mono">01</span>
+              <h3 class="service__title">MTA Scripting</h3>
+              <p class="service__desc">Scripting de alta performance e segurança para Multi Theft Auto: SQL sanitization, otimização de rede e sistemas complexos em Lua.</p>
+              <div class="service__tags mono"><span>Lua</span><span>MySQL</span><span>Network</span></div>
+            </li>
+            <li class="service" data-cursor="✦">
+              <span class="service__num mono">02</span>
+              <h3 class="service__title">Full Stack Web</h3>
+              <p class="service__desc">Aplicações web completas com tipos ponta a ponta: React, TypeScript, tRPC, Express e PostgreSQL — de e-commerces a painéis de gestão.</p>
+              <div class="service__tags mono"><span>React</span><span>tRPC</span><span>PostgreSQL</span></div>
+            </li>
+            <li class="service" data-cursor="✦">
+              <span class="service__num mono">03</span>
+              <h3 class="service__title">DevOps &amp; Automação</h3>
+              <p class="service__desc">Ambientes VPS com Nginx e PM2, pipelines de CI/CD com GitHub Actions e deploy automatizado sem dor de cabeça.</p>
+              <div class="service__tags mono"><span>Linux</span><span>Nginx</span><span>Actions</span></div>
+            </li>
+            <li class="service" data-cursor="✦">
+              <span class="service__num mono">04</span>
+              <h3 class="service__title">IA &amp; Bots</h3>
+              <p class="service__desc">Discord AI Moderator: um bot avançado que usa IA para identificar intenções comerciais e comportamentos em comunidades.</p>
+              <div class="service__tags mono"><span>Discord.js</span><span>LLMs</span><span>Node</span></div>
+            </li>
+          </ul>
+        </section>
+
+        <!-- ============ WORK (horizontal) ============ -->
+        <section class="work" id="projetos" data-gl="galaxy">
+          <div class="work__pin">
+            <div class="work__head">
+              <div class="section-label"><span class="mono">(04)</span><span class="mono">Projetos selecionados</span></div>
+              <h2 class="section-title">Trabalhos <em>recentes</em></h2>
+              <div class="work__counter mono"><span class="js-work-current">01</span> / <span class="js-work-total">06</span></div>
+            </div>
+            <div class="work__track js-work-track"></div>
+            <div class="work__bar"><i class="js-work-bar"></i></div>
+          </div>
+        </section>
+
+        <!-- ============ STACK (physics) ============ -->
+        <section class="stack" id="stack" data-gl="knot">
+          <div class="section-label"><span class="mono">(05)</span><span class="mono">Tech stack</span></div>
+          <div class="stack__head">
+            <h2 class="section-title" data-split-chars>Minha <em>caixa</em> de ferramentas</h2>
+            <p class="stack__hint mono" data-fade>↳ Arraste, jogue, bagunce. Elas aguentam.</p>
+          </div>
+          <div class="stack__box" data-cursor="Arraste">
+            <div class="stack__pills"></div>
+          </div>
+        </section>
+
+        <!-- ============ BEYOND ============ -->
+        <section class="beyond" id="alem" data-gl="king">
+          <div class="section-label"><span class="mono">(06)</span><span class="mono">Além do código</span></div>
+          <h2 class="section-title" data-split-chars>Pessoas &amp; <em>estratégia</em></h2>
+          <p class="beyond__intro" data-fade>
+            Além da tecnologia, estudo <strong>Comportamento Humano e Linguagem Corporal</strong> — o que potencializa minha atuação em cargos estratégicos.
+          </p>
+          <div class="beyond__grid">
+            <article class="card3d" data-tilt>
+              <div class="card3d__inner">
+                <span class="card3d__icon">♛</span>
+                <h3>Liderança &amp; Equipes</h3>
+                <p>Experiência em guiar desenvolvedores e estabelecer métricas de evolução técnica.</p>
+              </div>
+            </article>
+            <article class="card3d" data-tilt>
+              <div class="card3d__inner">
+                <span class="card3d__icon">◈</span>
+                <h3>Gestão de Projetos</h3>
+                <p>Visão sistêmica para organizar fluxos de trabalho, da concepção ao deploy final.</p>
+              </div>
+            </article>
+            <article class="card3d" data-tilt>
+              <div class="card3d__inner">
+                <span class="card3d__icon">⌕</span>
+                <h3>Análise Investigativa</h3>
+                <p>Capacidade analítica apurada, influenciada por estudos em Investigação Forense e Perícia Criminal.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="interests">
+            <div class="interest" data-fade>
+              <span class="interest__icon">♞</span>
+              <div><h4>Xadrez</h4><p>Estratégia e antecipação de movimentos.</p></div>
+            </div>
+            <div class="interest" data-fade>
+              <span class="interest__icon">↗</span>
+              <div><h4>Mercado Financeiro</h4><p>Investimentos focados em Fundos Imobiliários (FIIs).</p></div>
+            </div>
+            <div class="interest" data-fade>
+              <span class="interest__icon">◉</span>
+              <div><h4>Linguagem Corporal</h4><p>Estudo contínuo da comunicação não-verbal.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ CONTACT ============ -->
+        <section class="contact" id="contato" data-gl="orb">
+          <div class="section-label"><span class="mono">(07)</span><span class="mono">Contato</span></div>
+          <h2 class="contact__title">
+            <span class="contact__line"><span data-proximity>Vamos criar</span></span>
+            <span class="contact__line"><span class="contact__outline" data-proximity>algo único?</span></span>
+          </h2>
+          <div class="contact__row">
+            <a href="mailto:contato@michael.dev.br" class="contact__orb" data-magnetic="0.5" data-cursor="Enviar">
+              <span>Diga<br />olá</span>
+            </a>
+            <div class="contact__links">
+              <a href="mailto:contato@michael.dev.br" class="contact__link" data-cursor="Copiar" data-copy="contato@michael.dev.br">
+                <span class="mono">E-mail</span><strong data-scramble>contato@michael.dev.br</strong>
+              </a>
+              <a href="https://www.linkedin.com/in/michael-felipe-ss/" target="_blank" rel="noopener" class="contact__link" data-cursor="Abrir">
+                <span class="mono">LinkedIn</span><strong data-scramble>/in/michael-felipe-ss</strong>
+              </a>
+              <a href="https://github.com/Lettify" target="_blank" rel="noopener" class="contact__link" data-cursor="Abrir">
+                <span class="mono">GitHub</span><strong data-scramble>@Lettify</strong>
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="footer__big" aria-hidden="true">MICHAEL<span>.</span>DEV</div>
+        <div class="footer__row mono">
+          <span>© 2026 Michael Silva</span>
+          <span>Brasília, DF — <b class="js-clock">--:--</b></span>
+          <span>Feito com Three.js, GSAP &amp; muito roxo</span>
+          <a href="#top" class="footer__top" data-magnetic>Voltar ao topo ↑</a>
+        </div>
+      </footer>
+    </div>
+
+    <div class="toast mono" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
