@@ -3,15 +3,10 @@ import gsap from 'gsap';
 const finePointer = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
 /* ------------------------------------------------------------------ */
-/* Custom cursor                                                       */
+/* Custom cursor & Touch Stardust                                      */
 /* ------------------------------------------------------------------ */
 export function initCursor() {
-  if (!finePointer()) return;
-  document.documentElement.classList.add('has-cursor');
-  const cursor = document.querySelector<HTMLElement>('.cursor')!;
-  const dot = cursor.querySelector<HTMLElement>('.cursor__dot')!;
-  const ring = cursor.querySelector<HTMLElement>('.cursor__ring')!;
-  const label = cursor.querySelector<HTMLElement>('.cursor__label')!;
+  const isFine = finePointer();
   const trailCanvas = document.querySelector<HTMLCanvasElement>('.cursor-trail');
   const ctx = trailCanvas?.getContext('2d') ?? null;
 
@@ -63,6 +58,93 @@ export function initCursor() {
       vRot: (Math.random() - 0.5) * 0.08,
     });
   };
+
+  const renderSparks = () => {
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const s = sparks[i];
+      s.life++;
+      if (s.life >= s.maxLife) {
+        sparks.splice(i, 1);
+        continue;
+      }
+      s.x += s.vx;
+      s.y += s.vy;
+      s.vx *= 0.96;
+      s.vy = s.vy * 0.96 - 0.015;
+      s.rot += s.vRot;
+
+      const progress = s.life / s.maxLife;
+      const alpha = Math.sin(progress * Math.PI) * 0.78;
+      const r = s.size * (1 - progress * 0.4);
+
+      if (!ctx) continue;
+      ctx.save();
+      ctx.translate(s.x, s.y);
+      ctx.rotate(s.rot);
+      ctx.globalAlpha = alpha;
+      ctx.fillStyle = s.color;
+
+      if (s.star) {
+        ctx.beginPath();
+        const outer = r * 1.9;
+        const inner = r * 0.42;
+        for (let p = 0; p < 8; p++) {
+          const rad = p % 2 === 0 ? outer : inner;
+          const a = (p * Math.PI) / 4;
+          if (p === 0) ctx.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
+          else ctx.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
+        }
+        ctx.closePath();
+        ctx.fill();
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+  };
+
+  // Touch mode: cosmic stardust bursts on tap & swipe without showing mouse ring
+  if (!isFine) {
+    document.documentElement.classList.add('has-touch-trail');
+    let lastTouch = { x: 0, y: 0 };
+    window.addEventListener(
+      'pointerdown',
+      (e) => {
+        lastTouch = { x: e.clientX, y: e.clientY };
+        for (let i = 0; i < 9; i++) spawnSpark(e.clientX, e.clientY, 0, 0, 1.5);
+      },
+      { passive: true },
+    );
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        const dx = e.clientX - lastTouch.x;
+        const dy = e.clientY - lastTouch.y;
+        lastTouch = { x: e.clientX, y: e.clientY };
+        if (Math.hypot(dx, dy) > 4 && Math.random() < 0.7) {
+          spawnSpark(e.clientX, e.clientY, dx * 0.4, dy * 0.4, 1.1);
+        }
+      },
+      { passive: true },
+    );
+    gsap.ticker.add(() => {
+      if (!ctx || !trailCanvas || sparks.length === 0) return;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      renderSparks();
+      ctx.restore();
+    });
+    return;
+  }
+
+  document.documentElement.classList.add('has-cursor');
+  const cursor = document.querySelector<HTMLElement>('.cursor')!;
+  const dot = cursor.querySelector<HTMLElement>('.cursor__dot')!;
+  const ring = cursor.querySelector<HTMLElement>('.cursor__ring')!;
+  const label = cursor.querySelector<HTMLElement>('.cursor__label')!;
 
   const pos = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
   const prev = { ...pos };
@@ -140,52 +222,7 @@ export function initCursor() {
       spawnSpark(ringPos.x, ringPos.y, 0, 0, 0.5);
     }
 
-    // Render and advance stardust particles
-    for (let i = sparks.length - 1; i >= 0; i--) {
-      const s = sparks[i];
-      s.life++;
-      if (s.life >= s.maxLife) {
-        sparks.splice(i, 1);
-        continue;
-      }
-      s.x += s.vx;
-      s.y += s.vy;
-      s.vx *= 0.96;
-      s.vy = s.vy * 0.96 - 0.015;
-      s.rot += s.vRot;
-
-      const progress = s.life / s.maxLife;
-      const alpha = Math.sin(progress * Math.PI) * 0.78;
-      const r = s.size * (1 - progress * 0.4);
-
-      ctx.save();
-      ctx.translate(s.x, s.y);
-      ctx.rotate(s.rot);
-      ctx.globalAlpha = alpha;
-      ctx.fillStyle = s.color;
-
-      if (s.star) {
-        // 4-point cosmic star
-        ctx.beginPath();
-        const outer = r * 1.9;
-        const inner = r * 0.42;
-        for (let p = 0; p < 8; p++) {
-          const rad = p % 2 === 0 ? outer : inner;
-          const a = (p * Math.PI) / 4;
-          if (p === 0) ctx.moveTo(Math.cos(a) * rad, Math.sin(a) * rad);
-          else ctx.lineTo(Math.cos(a) * rad, Math.sin(a) * rad);
-        }
-        ctx.closePath();
-        ctx.fill();
-      } else {
-        // Soft glowing orb mote
-        ctx.beginPath();
-        ctx.arc(0, 0, r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.restore();
-    }
-
+    renderSparks();
     ctx.restore();
   });
 
@@ -264,11 +301,48 @@ export function initScramble() {
 }
 
 /* ------------------------------------------------------------------ */
-/* 3D tilt                                                             */
+/* 3D tilt & Mobile Scroll Holographic Glare                           */
 /* ------------------------------------------------------------------ */
 export function initTilt(selector: string, inner?: string, max = 10) {
-  if (!finePointer()) return;
-  document.querySelectorAll<HTMLElement>(selector).forEach((el) => {
+  const isFine = finePointer();
+  const els = Array.from(document.querySelectorAll<HTMLElement>(selector));
+
+  if (!isFine) {
+    // Touch/Mobile: gentle scroll-driven holographic glare + touch tilt
+    els.forEach((el) => {
+      const target = inner ? el.querySelector<HTMLElement>(inner) ?? el : el;
+      gsap.set(target, { transformPerspective: 900 });
+      el.addEventListener(
+        'pointermove',
+        (e) => {
+          const r = el.getBoundingClientRect();
+          const px = Math.min(Math.max((e.clientX - r.left) / r.width, 0), 1);
+          const py = Math.min(Math.max((e.clientY - r.top) / r.height, 0), 1);
+          target.style.setProperty('--gx', `${(px * 100).toFixed(1)}%`);
+          target.style.setProperty('--gy', `${(py * 100).toFixed(1)}%`);
+        },
+        { passive: true },
+      );
+    });
+
+    gsap.ticker.add((time) => {
+      const vh = window.innerHeight;
+      for (let i = 0; i < els.length; i++) {
+        const el = els[i];
+        const r = el.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) continue;
+        const progress = (r.top + r.height * 0.5) / vh; // 0 at top, 1 at bottom
+        const target = inner ? el.querySelector<HTMLElement>(inner) ?? el : el;
+        const gx = 50 + Math.sin(time * 1.1 + i * 1.3) * 32;
+        const gy = (1 - progress) * 85;
+        target.style.setProperty('--gx', `${gx.toFixed(1)}%`);
+        target.style.setProperty('--gy', `${gy.toFixed(1)}%`);
+      }
+    });
+    return;
+  }
+
+  els.forEach((el) => {
     const target = inner ? el.querySelector<HTMLElement>(inner) ?? el : el;
     const rx = gsap.quickTo(target, 'rotationX', { duration: 0.6, ease: 'power3.out' });
     const ry = gsap.quickTo(target, 'rotationY', { duration: 0.6, ease: 'power3.out' });
@@ -292,18 +366,41 @@ export function initTilt(selector: string, inner?: string, max = 10) {
 }
 
 /* ------------------------------------------------------------------ */
-/* Variable-font proximity (letters swell near the cursor)             */
+/* Variable-font proximity (letters swell near cursor / mobile wave)   */
 /* ------------------------------------------------------------------ */
 export function initProximity() {
-  if (!finePointer()) return;
+  const isFine = finePointer();
   const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-proximity]'));
   const chars = groups.flatMap((g) => Array.from(g.querySelectorAll<HTMLElement>('.split-char')));
   const values = new Map<HTMLElement, number>();
   const mouse = { x: -9999, y: -9999 };
-  window.addEventListener('pointermove', (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  });
+  window.addEventListener(
+    'pointermove',
+    (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    },
+    { passive: true },
+  );
+
+  if (!isFine) {
+    // On mobile/touch: smooth cosmic wave across headline letters when visible
+    gsap.ticker.add((time) => {
+      const vh = window.innerHeight;
+      for (const g of groups) {
+        const gr = g.getBoundingClientRect();
+        if (gr.bottom < -40 || gr.top > vh + 40) continue;
+        const gChars = Array.from(g.querySelectorAll<HTMLElement>('.split-char'));
+        const len = gChars.length || 1;
+        for (let i = 0; i < len; i++) {
+          const c = gChars[i];
+          const wave = Math.pow(0.5 + 0.5 * Math.sin(time * 2.1 - (i / len) * Math.PI * 2.2), 2) * 0.78;
+          c.style.setProperty('--p', wave.toFixed(3));
+        }
+      }
+    });
+    return;
+  }
 
   gsap.ticker.add(() => {
     const vh = window.innerHeight;

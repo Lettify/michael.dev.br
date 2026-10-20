@@ -498,6 +498,7 @@
           <div class="contact__row">
             <button type="button" class="contact__orb" data-open-contact data-magnetic="0.5" data-cursor="Mensagem">
               <span>Diga<br />olá</span>
+              <small class="contact__orb-sub mono">✦ Mensagem direta</small>
             </button>
             <div class="contact__links">
               <a href="mailto:contato@michael.dev.br" class="contact__link" data-cursor="Copiar" data-copy="contato@michael.dev.br">
@@ -528,11 +529,11 @@
     <!-- Contact Modal -->
     <div class="cmodal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cmodalTitle">
       <div class="cmodal__backdrop" data-close-contact></div>
-      <div class="cmodal__panel">
+      <div class="cmodal__panel" data-lenis-prevent>
         <div class="cmodal__head">
           <div class="mono cmodal__tag"><span>●</span> CANAL DIRETO // MICHAEL SILVA</div>
           <button type="button" class="cmodal__close mono" data-close-contact data-cursor="Fechar" aria-label="Fechar modal">
-            ESC ✕
+            <span class="cmodal__esc">ESC </span>✕
           </button>
         </div>
 

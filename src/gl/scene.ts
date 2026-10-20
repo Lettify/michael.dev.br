@@ -235,7 +235,15 @@ export class Universe {
       case 'king':
         return { ...base, x: side * 1.05, scale: m ? 0.55 : 0.95, alpha: m ? 0.4 : 0.95, tiltX: 0.12 };
       case 'orb':
-        return { ...base, scale: m ? 0.6 : 0.9, alpha: 0.9, orb: m ? 0.6 : 0.85, tiltX: 0.32, tiltZ: -0.22 };
+        return {
+          ...base,
+          y: m ? 0.85 : 0,
+          scale: m ? 0.52 : 0.9,
+          alpha: m ? 0.5 : 0.9,
+          orb: m ? 0.52 : 0.85,
+          tiltX: 0.32,
+          tiltZ: -0.22,
+        };
     }
   }
 

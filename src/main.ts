@@ -510,6 +510,11 @@ async function boot() {
   await fontsWithTimeout;
   universe?.init();
   physics = createStackPhysics($('.stack__box'));
+  $('.stack__hint')?.addEventListener('click', () => {
+    physics?.shake();
+    sound.morph();
+    toast('✦ Pílulas embaralhadas!');
+  });
   await count.then();
 
   initScrollAnimations();

@@ -79,15 +79,27 @@ export function createStackPhysics(box: HTMLElement) {
     box.removeEventListener('touchmove', m.mousemove);
     box.removeEventListener('touchstart', m.mousedown);
     box.removeEventListener('touchend', m.mouseup);
-    box.addEventListener('click', (e) => {
+
+    const kickAt = (clientX: number, clientY: number, vy = -16) => {
       const r = box.getBoundingClientRect();
-      const pt = { x: e.clientX - r.left, y: e.clientY - r.top };
+      const pt = { x: clientX - r.left, y: clientY - r.top };
       const bodies = items.map((i) => i.body).filter(Boolean) as Matter.Body[];
       Query.point(bodies, pt).forEach((b) => {
-        Body.setVelocity(b, { x: (Math.random() - 0.5) * 12, y: -18 });
-        Body.setAngularVelocity(b, (Math.random() - 0.5) * 0.4);
+        Body.setVelocity(b, { x: (Math.random() - 0.5) * 14, y: vy - Math.random() * 6 });
+        Body.setAngularVelocity(b, (Math.random() - 0.5) * 0.5);
       });
-    });
+    };
+
+    box.addEventListener('click', (e) => kickAt(e.clientX, e.clientY, -18));
+    box.addEventListener(
+      'pointermove',
+      (e) => {
+        if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+          kickAt(e.clientX, e.clientY, -10);
+        }
+      },
+      { passive: true },
+    );
   } else {
     const mc = MouseConstraint.create(engine, {
       mouse,
