@@ -2766,13 +2766,26 @@ section {
     padding: 5rem 0 2rem;
   }
   .work__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 0.8rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 0.35rem 1rem;
+    margin-bottom: 1.4rem;
+  }
+  .work__head .section-label {
+    grid-column: 1 / -1;
+    margin-bottom: 0.35rem;
   }
   .work__head .section-title {
-    font-size: clamp(1.8rem, 7.2vw, 3rem);
+    font-size: clamp(1.5rem, 6.4vw, 2.6rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+  .work__counter {
+    align-self: flex-end;
+    padding-bottom: 0.15rem;
   }
   .project {
     width: clamp(285px, 82vw, 360px);
