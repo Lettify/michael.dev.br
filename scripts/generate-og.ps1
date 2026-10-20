@@ -21,14 +21,14 @@ $g.FillRectangle($bgBrush, 0, 0, $width, $height)
 $nebulaPath = New-Object System.Drawing.Drawing2D.GraphicsPath
 $nebulaPath.AddEllipse(650, 60, 650, 480)
 $pthGrBrush = New-Object System.Drawing.Drawing2D.PathGradientBrush($nebulaPath)
-$pthGrBrush.CenterColor = [System.Drawing.Color]::FromArgb(120, 168, 85, 247)
+$pthGrBrush.CenterColor = [System.Drawing.Color]::FromArgb(130, 168, 85, 247)
 $pthGrBrush.SurroundColors = @([System.Drawing.Color]::FromArgb(0, 7, 4, 15))
 $g.FillPath($pthGrBrush, $nebulaPath)
 
 $nebulaPath2 = New-Object System.Drawing.Drawing2D.GraphicsPath
 $nebulaPath2.AddEllipse(-100, 200, 550, 500)
 $pthGrBrush2 = New-Object System.Drawing.Drawing2D.PathGradientBrush($nebulaPath2)
-$pthGrBrush2.CenterColor = [System.Drawing.Color]::FromArgb(90, 232, 121, 249)
+$pthGrBrush2.CenterColor = [System.Drawing.Color]::FromArgb(100, 232, 121, 249)
 $pthGrBrush2.SurroundColors = @([System.Drawing.Color]::FromArgb(0, 7, 4, 15))
 $g.FillPath($pthGrBrush2, $nebulaPath2)
 
@@ -66,15 +66,15 @@ $fontPill = New-Object System.Drawing.Font("Segoe UI", 12, [System.Drawing.FontS
 $fontTitle = New-Object System.Drawing.Font("Arial", 62, [System.Drawing.FontStyle]::Bold)
 $fontSub = New-Object System.Drawing.Font("Segoe UI", 25, [System.Drawing.FontStyle]::Bold)
 $fontChips = New-Object System.Drawing.Font("Segoe UI", 13, [System.Drawing.FontStyle]::Regular)
-$fontCTA = New-Object System.Drawing.Font("Segoe UI", 15, [System.Drawing.FontStyle]::Bold)
-$fontDomain = New-Object System.Drawing.Font("Segoe UI", 17, [System.Drawing.FontStyle]::Bold)
+$fontCTA = New-Object System.Drawing.Font("Segoe UI", 16, [System.Drawing.FontStyle]::Bold)
+$fontDomain = New-Object System.Drawing.Font("Segoe UI", 18, [System.Drawing.FontStyle]::Bold)
 $fontMeta = New-Object System.Drawing.Font("Segoe UI", 14, [System.Drawing.FontStyle]::Regular)
 
 # Colors
 $logoBrush = New-Object System.Drawing.SolidBrush([System.Drawing.ColorTranslator]::FromHtml("#ffffff"))
 $violetBrush = New-Object System.Drawing.SolidBrush([System.Drawing.ColorTranslator]::FromHtml("#a855f7"))
 $lilacBrush = New-Object System.Drawing.SolidBrush([System.Drawing.ColorTranslator]::FromHtml("#c4b5fd"))
-$dimBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(180, 244, 239, 254))
+$dimBrush = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(190, 244, 239, 254))
 $limeBrush = New-Object System.Drawing.SolidBrush([System.Drawing.ColorTranslator]::FromHtml("#c6ff4a"))
 
 # Top Bar: MS logo badge
@@ -91,23 +91,23 @@ $g.FillEllipse($limeBrush, 842, 96, 10, 10)
 $g.DrawString("DISPONÍVEL PARA PROJETOS", $fontPill, $lilacBrush, 862, 92)
 
 # Central Display Titles
-$g.DrawString("MICHAEL SILVA", $fontTitle, $logoBrush, 86, 175)
+$g.DrawString("MICHAEL SILVA", $fontTitle, $logoBrush, 86, 172)
 
 $subBrush = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
-    (New-Object System.Drawing.Point(90, 260)),
-    (New-Object System.Drawing.Point(800, 260)),
+    (New-Object System.Drawing.Point(90, 255)),
+    (New-Object System.Drawing.Point(800, 255)),
     [System.Drawing.ColorTranslator]::FromHtml("#c4b5fd"),
     [System.Drawing.ColorTranslator]::FromHtml("#e879f9")
 )
-$g.DrawString("Desenvolvedor Full Stack & Analista de Sistemas", $fontSub, $subBrush, 88, 262)
+$g.DrawString("Desenvolvedor Full Stack & Analista de Sistemas", $fontSub, $subBrush, 88, 258)
 
 # Tagline / Call to Action note
-$g.DrawString("Sistemas robustos, arquiteturas limpas e experiências digitais 3D interativas.", $fontChips, $dimBrush, 90, 318)
+$g.DrawString("Sistemas robustos, arquiteturas limpas e experiências digitais 3D interativas.", $fontChips, $dimBrush, 90, 314)
 
 # Tech stack chips
 $tags = @("TypeScript", "React", "Lua", "Node.js", "Three.js", "PostgreSQL", "DevOps", "Brasília, DF")
 $tx = 90
-$ty = 372
+$ty = 368
 $chipBg = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(60, 168, 85, 247))
 $chipPen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(100, 196, 181, 253), 1)
 
@@ -124,29 +124,31 @@ foreach ($tag in $tags) {
 
 # Bottom Bar Line
 $linePen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(50, 196, 181, 253), 1)
-$g.DrawLine($linePen, 90, 465, 1110, 465)
+$g.DrawLine($linePen, 90, 460, 1110, 460)
 
-# High-Converting CTA Button: "EXPLORAR PORTFÓLIO 3D ↗"
-$ctaRect = New-Object System.Drawing.Rectangle(90, 495, 330, 52)
+# Prominent CTA Button: "VISITAR PORTFÓLIO 3D ↗" (High Conversion Call to Action)
+$ctaRect = New-Object System.Drawing.Rectangle(90, 490, 330, 54)
 $ctaBrush = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
-    (New-Object System.Drawing.Point(90, 495)),
-    (New-Object System.Drawing.Point(420, 547)),
+    (New-Object System.Drawing.Point(90, 490)),
+    (New-Object System.Drawing.Point(420, 544)),
     [System.Drawing.ColorTranslator]::FromHtml("#9333ea"),
     [System.Drawing.ColorTranslator]::FromHtml("#d946ef")
 )
 $g.FillRectangle($ctaBrush, $ctaRect)
-$ctaPen = New-Object System.Drawing.Pen([System.Drawing.ColorTranslator]::FromHtml("#f5d0fe"), 1)
+$ctaPen = New-Object System.Drawing.Pen([System.Drawing.ColorTranslator]::FromHtml("#fdf4ff"), 2)
 $g.DrawRectangle($ctaPen, $ctaRect)
-$g.DrawString("EXPLORAR PORTFÓLIO 3D ↗", $fontCTA, $logoBrush, 120, 508)
+$g.DrawString("VISITAR PORTFÓLIO 3D ↗", $fontCTA, $logoBrush, 118, 503)
 
 # Domain & GitHub info beside CTA
-$g.DrawString("https://michael.dev.br", $fontDomain, $lilacBrush, 450, 500)
-$g.DrawString("GitHub: @Lettify   ·   Acesse online", $fontMeta, $dimBrush, 450, 526)
+$g.DrawString("https://michael.dev.br", $fontDomain, $lilacBrush, 450, 495)
+$g.DrawString("GitHub: @Lettify   ·   Acesse online", $fontMeta, $dimBrush, 450, 523)
 
-# Output directory and save
-$dest = "public/og-image.png"
-$bmp.Save($dest, [System.Drawing.Imaging.ImageFormat]::Png)
+# Save as og-cover.png and og-image.png
+$destCover = "public/og-cover.png"
+$destImage = "public/og-image.png"
+$bmp.Save($destCover, [System.Drawing.Imaging.ImageFormat]::Png)
+$bmp.Save($destImage, [System.Drawing.Imaging.ImageFormat]::Png)
 
 $g.Dispose()
 $bmp.Dispose()
-"Generated $dest with CTA button"
+"Generated $destCover and $destImage successfully."
