@@ -81,7 +81,8 @@
       body.is-loading .nav,
       body.is-loading .menu,
       body.is-loading .cursor,
-      body.is-loading .cursor-trail {
+      body.is-loading .cursor-trail,
+      body.is-loading .cmodal {
         opacity: 0;
         pointer-events: none;
       }
@@ -495,9 +496,9 @@
             <span class="contact__line"><span class="contact__outline" data-proximity>algo único?</span></span>
           </h2>
           <div class="contact__row">
-            <a href="mailto:contato@michael.dev.br" class="contact__orb" data-magnetic="0.5" data-cursor="Enviar">
+            <button type="button" class="contact__orb" data-open-contact data-magnetic="0.5" data-cursor="Mensagem">
               <span>Diga<br />olá</span>
-            </a>
+            </button>
             <div class="contact__links">
               <a href="mailto:contato@michael.dev.br" class="contact__link" data-cursor="Copiar" data-copy="contato@michael.dev.br">
                 <span class="mono">E-mail</span><strong data-scramble>contato@michael.dev.br</strong>
@@ -522,6 +523,60 @@
           <a href="#top" class="footer__top" data-magnetic>Voltar ao topo ↑</a>
         </div>
       </footer>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="cmodal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cmodalTitle">
+      <div class="cmodal__backdrop" data-close-contact></div>
+      <div class="cmodal__panel">
+        <div class="cmodal__head">
+          <div class="mono cmodal__tag"><span>●</span> CANAL DIRETO // MICHAEL SILVA</div>
+          <button type="button" class="cmodal__close mono" data-close-contact data-cursor="Fechar" aria-label="Fechar modal">
+            ESC ✕
+          </button>
+        </div>
+
+        <h3 class="cmodal__title" id="cmodalTitle">Envie uma <em>mensagem</em></h3>
+        <p class="cmodal__sub">Respondo rápido. Escolha o assunto e me conte sua ideia ou oportunidade:</p>
+
+        <form class="cmodal__form" id="contactForm">
+          <!-- Honeypot anti-spam -->
+          <input type="text" name="website" tabindex="-1" autocomplete="off" class="cmodal__hp" />
+
+          <div class="cmodal__topics" role="radiogroup" aria-label="Assunto">
+            <button type="button" class="cmodal__chip is-active" data-topic="Projeto Web / Full Stack">Projeto Web / Full Stack</button>
+            <button type="button" class="cmodal__chip" data-topic="Scripting MTA / Lua">Scripting MTA / Lua</button>
+            <button type="button" class="cmodal__chip" data-topic="Automação & IA / Bots">Automação &amp; IA / Bots</button>
+            <button type="button" class="cmodal__chip" data-topic="Oportunidade / Carreira">Oportunidade / Carreira</button>
+          </div>
+          <input type="hidden" name="topic" value="Projeto Web / Full Stack" />
+
+          <div class="cmodal__row">
+            <label class="cmodal__field">
+              <span class="mono">Seu nome *</span>
+              <input type="text" name="name" required placeholder="Como posso te chamar?" maxlength="120" />
+            </label>
+            <label class="cmodal__field">
+              <span class="mono">E-mail, Discord ou WhatsApp *</span>
+              <input type="text" name="contact" required placeholder="seu@email.com ou @discord" maxlength="160" />
+            </label>
+          </div>
+
+          <label class="cmodal__field">
+            <span class="mono">Mensagem *</span>
+            <textarea name="message" rows="4" required placeholder="Conte os detalhes do projeto, prazo ou ideia..." maxlength="3000"></textarea>
+          </label>
+
+          <div class="cmodal__foot">
+            <span class="mono cmodal__note">Ou envie para <b>contato@michael.dev.br</b></span>
+            <button type="submit" class="btn cmodal__submit" data-magnetic data-cursor="Enviar">
+              <span class="btn__fill"></span>
+              <span class="btn__text js-cmodal-btn">Transmitir mensagem</span>
+              <span class="btn__icon">→</span>
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <div class="toast mono" role="status" aria-live="polite"></div>

@@ -620,9 +620,111 @@ const tickClock = () => clocks.forEach((c) => (c.textContent = fmt.format(new Da
 tickClock();
 setInterval(tickClock, 1000);
 
-// secret words
+// Contact Modal controller
+const cmodal = $('.cmodal');
+const cmodalBackdrop = $('.cmodal__backdrop', cmodal);
+const cmodalPanel = $('.cmodal__panel', cmodal);
+const contactForm = $<HTMLFormElement>('#contactForm');
+const topicInput = $<HTMLInputElement>('input[name="topic"]', contactForm);
+const submitText = $('.js-cmodal-btn', contactForm);
+let cmodalOpen = false;
+
+function toggleContactModal(open = !cmodalOpen) {
+  cmodalOpen = open;
+  cmodal.setAttribute('aria-hidden', String(!open));
+  gsap.killTweensOf([cmodalBackdrop, cmodalPanel]);
+  if (open) {
+    cmodal.classList.add('is-open');
+    lenis.stop();
+    sound.morph();
+    gsap.fromTo(cmodalBackdrop, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'power2.out' });
+    gsap.fromTo(
+      cmodalPanel,
+      { opacity: 0, y: 40, scale: 0.94 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'expo.out' },
+    );
+    setTimeout(() => contactForm.querySelector<HTMLInputElement>('input[name="name"]')?.focus(), 120);
+  } else {
+    lenis.start();
+    gsap.to(cmodalBackdrop, { opacity: 0, duration: 0.35, ease: 'power2.in' });
+    gsap.to(cmodalPanel, {
+      opacity: 0,
+      y: 24,
+      scale: 0.96,
+      duration: 0.35,
+      ease: 'power2.in',
+      onComplete: () => cmodal.classList.remove('is-open'),
+    });
+  }
+}
+
+$$('[data-open-contact]').forEach((btn) => btn.addEventListener('click', () => toggleContactModal(true)));
+$$('[data-close-contact]').forEach((btn) => btn.addEventListener('click', () => toggleContactModal(false)));
+
+$$('.cmodal__chip', contactForm).forEach((chip) => {
+  chip.addEventListener('click', () => {
+    $$('.cmodal__chip', contactForm).forEach((c) => c.classList.remove('is-active'));
+    chip.classList.add('is-active');
+    topicInput.value = chip.dataset.topic || 'Projeto Web / Full Stack';
+    sound.hover();
+  });
+});
+
+contactForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(contactForm);
+  const payload = {
+    name: String(fd.get('name') || '').trim(),
+    contact: String(fd.get('contact') || '').trim(),
+    topic: String(fd.get('topic') || 'Projeto Web / Full Stack').trim(),
+    message: String(fd.get('message') || '').trim(),
+    website: String(fd.get('website') || '').trim(),
+  };
+  if (!payload.name || !payload.contact || !payload.message) return;
+
+  submitText.textContent = 'Transmitindo...';
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json().catch(() => ({ ok: false }));
+
+    if (res.ok && data.ok) {
+      universe?.explode();
+      sound.chime(880, 0.08, 0.45);
+      toast('✦ Mensagem transmitida com sucesso!');
+      contactForm.reset();
+      toggleContactModal(false);
+    } else {
+      // Fallback: abre o cliente de e-mail já preenchido para nunca perder o contato
+      const subject = encodeURIComponent(`[michael.dev.br] ${payload.topic} — ${payload.name}`);
+      const body = encodeURIComponent(`Nome: ${payload.name}\nContato: ${payload.contact}\nAssunto: ${payload.topic}\n\n${payload.message}`);
+      window.location.href = `mailto:contato@michael.dev.br?subject=${subject}&body=${body}`;
+      toast('Abrindo seu cliente de e-mail ✦');
+      toggleContactModal(false);
+    }
+  } catch {
+    const subject = encodeURIComponent(`[michael.dev.br] ${payload.topic} — ${payload.name}`);
+    const body = encodeURIComponent(`Nome: ${payload.name}\nContato: ${payload.contact}\nAssunto: ${payload.topic}\n\n${payload.message}`);
+    window.location.href = `mailto:contato@michael.dev.br?subject=${subject}&body=${body}`;
+    toast('Abrindo seu cliente de e-mail ✦');
+    toggleContactModal(false);
+  } finally {
+    submitText.textContent = 'Transmitir mensagem';
+  }
+});
+
+// secret words & ESC for modal
 let typed = '';
 window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && cmodalOpen) {
+    toggleContactModal(false);
+    return;
+  }
+  const tag = (e.target as HTMLElement)?.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
   if (e.key.length !== 1) return;
   typed = (typed + e.key.toLowerCase()).slice(-12);
   if (typed.endsWith('roxo')) {

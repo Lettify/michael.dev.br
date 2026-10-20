@@ -1987,6 +1987,198 @@ section {
   border-color: transparent;
 }
 
+/* ---------- Contact Modal (.cmodal) ---------- */
+.cmodal {
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  visibility: hidden;
+  pointer-events: none;
+}
+.cmodal.is-open {
+  visibility: visible;
+  pointer-events: all;
+}
+.cmodal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 4, 15, 0.78);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  opacity: 0;
+}
+.cmodal__panel {
+  position: relative;
+  width: min(640px, 100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: clamp(1.6rem, 3.5vw, 2.8rem);
+  border-radius: 28px;
+  border: 1px solid rgba(196, 181, 253, 0.25);
+  background:
+    radial-gradient(90% 80% at 85% 0%, rgba(168, 85, 247, 0.28), transparent 60%),
+    radial-gradient(70% 60% at 10% 100%, rgba(232, 121, 249, 0.16), transparent 60%),
+    rgba(13, 8, 25, 0.92);
+  box-shadow:
+    0 40px 100px -20px rgba(0, 0, 0, 0.85),
+    0 0 60px -20px rgba(168, 85, 247, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  opacity: 0;
+}
+.cmodal__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+.cmodal__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--lilac);
+}
+.cmodal__tag span {
+  color: var(--lime);
+}
+.cmodal__close {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  transition: border-color 0.3s, color 0.3s, background-color 0.3s;
+}
+.cmodal__close:hover {
+  border-color: var(--lilac);
+  color: #fff;
+  background: rgba(168, 85, 247, 0.18);
+}
+.cmodal__title {
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.6vw, 2.7rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.cmodal__sub {
+  color: var(--ink-dim);
+  font-size: 0.95rem;
+  margin-top: 0.35rem;
+  margin-bottom: 1.4rem;
+}
+.cmodal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+.cmodal__hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.cmodal__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.cmodal__chip {
+  padding: 0.48rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.02);
+  font-family: var(--f-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  transition: border-color 0.3s, background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+.cmodal__chip:hover {
+  border-color: rgba(196, 181, 253, 0.5);
+  color: #fff;
+}
+.cmodal__chip.is-active {
+  background: linear-gradient(120deg, var(--violet), var(--violet-2));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 24px -6px rgba(168, 85, 247, 0.7);
+}
+.cmodal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.cmodal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.cmodal__field span {
+  color: var(--lilac);
+  font-size: 0.66rem;
+}
+.cmodal__field input,
+.cmodal__field textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(7, 4, 15, 0.65);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  resize: vertical;
+}
+.cmodal__field input::placeholder,
+.cmodal__field textarea::placeholder {
+  color: rgba(244, 239, 254, 0.32);
+}
+.cmodal__field input:focus,
+.cmodal__field textarea:focus {
+  border-color: var(--violet-2);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.22);
+}
+.cmodal__foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.4rem;
+}
+.cmodal__note {
+  color: var(--ink-dim);
+  font-size: 0.65rem;
+}
+.cmodal__note b {
+  color: var(--lilac);
+}
+.cmodal__submit {
+  background: rgba(168, 85, 247, 0.16);
+  border-color: rgba(196, 181, 253, 0.4);
+}
+@media (max-width: 600px) {
+  .cmodal__row {
+    grid-template-columns: 1fr;
+  }
+  .cmodal__foot {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .cmodal__submit {
+    justify-content: center;
+  }
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
   .service {
