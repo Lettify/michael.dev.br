@@ -82,7 +82,8 @@
       body.is-loading .menu,
       body.is-loading .cursor,
       body.is-loading .cursor-trail,
-      body.is-loading .cmodal {
+      body.is-loading .cmodal,
+      body.is-loading .pmodal {
         opacity: 0;
         pointer-events: none;
       }
@@ -577,6 +578,70 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Project Case Study Modal (.pmodal) -->
+    <div class="pmodal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pmodalTitle">
+      <div class="pmodal__backdrop" data-close-case></div>
+      <div class="pmodal__panel" data-lenis-prevent>
+        <div class="pmodal__head">
+          <div class="mono pmodal__tag"><span class="js-pm-num">01</span> // <span class="js-pm-kind">E-COMMERCE</span></div>
+          <button type="button" class="pmodal__close mono" data-close-case data-cursor="Fechar" aria-label="Fechar estudo de caso">
+            <span class="pmodal__esc">ESC </span>✕
+          </button>
+        </div>
+
+        <div class="pmodal__hero">
+          <span class="pmodal__glyph js-pm-glyph">N</span>
+          <div class="pmodal__title-wrap">
+            <h3 class="pmodal__title js-pm-title" id="pmodalTitle">Nutallis Brasil</h3>
+            <p class="pmodal__sub mono js-pm-sub">E-commerce Premium &amp; Catálogo Digital</p>
+          </div>
+        </div>
+
+        <div class="pmodal__body">
+          <div class="pmodal__block">
+            <span class="mono pmodal__block-label">01. O Desafio</span>
+            <p class="js-pm-challenge"></p>
+          </div>
+
+          <div class="pmodal__block">
+            <span class="mono pmodal__block-label">02. Solução &amp; Engenharia</span>
+            <p class="js-pm-solution"></p>
+          </div>
+
+          <div class="pmodal__block">
+            <span class="mono pmodal__block-label">03. Arquitetura &amp; Stack</span>
+            <div class="pmodal__arch js-pm-arch"></div>
+          </div>
+
+          <div class="pmodal__callout">
+            <div class="pmodal__callout-icon">⚡</div>
+            <div>
+              <strong class="mono pmodal__callout-title">Destaque de Engenharia</strong>
+              <p class="js-pm-highlight"></p>
+            </div>
+          </div>
+
+          <div class="pmodal__metric">
+            <span class="mono pmodal__metric-label">Impacto &amp; Resultados</span>
+            <p class="js-pm-outcome"></p>
+          </div>
+        </div>
+
+        <div class="pmodal__foot">
+          <a href="#" target="_blank" rel="noopener" class="btn pmodal__btn js-pm-github" data-magnetic>
+            <span class="btn__fill"></span>
+            <span class="btn__text">Ver no GitHub</span>
+            <span class="btn__icon">↗</span>
+          </a>
+          <a href="#" target="_blank" rel="noopener" class="btn pmodal__btn pmodal__btn--live js-pm-live" data-magnetic>
+            <span class="btn__fill"></span>
+            <span class="btn__text">Acessar Projeto</span>
+            <span class="btn__icon">↗</span>
+          </a>
+        </div>
       </div>
     </div>
 

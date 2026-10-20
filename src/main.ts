@@ -39,21 +39,26 @@ function renderProjects() {
     projects
       .map(
         (p, i) => `
-    <a class="project" href="${p.url}" target="_blank" rel="noopener" data-cursor="${p.live ? 'Visitar' : 'Código'}">
-      <div class="project__media" style="--h1:${p.hues[0]};--h2:${p.hues[1]}">
+    <div class="project" data-cursor="${p.live ? 'Visitar' : 'Código'}">
+      <a class="project__media" href="${p.url}" target="_blank" rel="noopener" style="--h1:${p.hues[0]};--h2:${p.hues[1]}">
         <div class="project__grid"></div>
         <span class="project__glyph">${p.glyph}</span>
         <span class="project__badge ${p.live ? 'is-live' : ''}">${p.badge}</span>
         <span class="project__glare"></span>
-      </div>
+      </a>
       <div class="project__info">
         <div class="project__meta mono"><span>${pad(i + 1)} — ${p.kind}</span><span>${p.year}</span></div>
-        <h3 class="project__title">${p.title}</h3>
-        <span class="project__arrow" aria-hidden="true">↗</span>
+        <h3 class="project__title"><a href="${p.url}" target="_blank" rel="noopener">${p.title}</a></h3>
+        <a class="project__arrow" href="${p.url}" target="_blank" rel="noopener" aria-label="Abrir link de ${p.title}">↗</a>
         <p class="project__desc">${p.description}</p>
-        <div class="project__tags">${p.tags.map((t) => `<span>${t}</span>`).join('')}</div>
+        <div class="project__actions">
+          <button type="button" class="project__case-btn mono" data-open-case="${i}" data-cursor="Raio-X">
+            <i>✦</i> Raio-X Técnico
+          </button>
+          <div class="project__tags">${p.tags.map((t) => `<span>${t}</span>`).join('')}</div>
+        </div>
       </div>
-    </a>`,
+    </div>`,
       )
       .join('') +
     `
@@ -721,12 +726,97 @@ contactForm.addEventListener('submit', async (e) => {
   }
 });
 
-// secret words & ESC for modal
+// Case Study Modal controller (.pmodal)
+const pmodal = $('.pmodal');
+const pmodalBackdrop = $('.pmodal__backdrop', pmodal);
+const pmodalPanel = $('.pmodal__panel', pmodal);
+let pmodalOpen = false;
+
+function openCaseStudy(index: number) {
+  const p = projects[index];
+  if (!p) return;
+  const cs = p.caseStudy;
+
+  $('.js-pm-num', pmodal).textContent = pad(index + 1);
+  $('.js-pm-kind', pmodal).textContent = p.kind.toUpperCase();
+  $('.js-pm-glyph', pmodal).textContent = p.glyph;
+  $('.js-pm-title', pmodal).textContent = p.title;
+  $('.js-pm-sub', pmodal).textContent = cs.subtitle;
+  $('.js-pm-challenge', pmodal).textContent = cs.challenge;
+  $('.js-pm-solution', pmodal).textContent = cs.solution;
+  $('.js-pm-highlight', pmodal).textContent = cs.highlight;
+  $('.js-pm-outcome', pmodal).textContent = cs.outcome;
+
+  const archEl = $('.js-pm-arch', pmodal);
+  archEl.innerHTML = cs.architecture.map((item) => `<span><i>✦</i> ${item}</span>`).join('');
+
+  const ghBtn = $<HTMLAnchorElement>('.js-pm-github', pmodal);
+  if (cs.githubUrl) {
+    ghBtn.href = cs.githubUrl;
+    ghBtn.style.display = 'inline-flex';
+  } else {
+    ghBtn.style.display = 'none';
+  }
+
+  const liveBtn = $<HTMLAnchorElement>('.js-pm-live', pmodal);
+  if (cs.liveUrl) {
+    liveBtn.href = cs.liveUrl;
+    liveBtn.style.display = 'inline-flex';
+  } else {
+    liveBtn.style.display = 'none';
+  }
+
+  pmodalOpen = true;
+  pmodal.setAttribute('aria-hidden', 'false');
+  pmodal.classList.add('is-open');
+  lenis.stop();
+  sound.morph();
+  gsap.fromTo(pmodalBackdrop, { opacity: 0 }, { opacity: 1, duration: 0.45, ease: 'power2.out' });
+  gsap.fromTo(
+    pmodalPanel,
+    { opacity: 0, y: 40, scale: 0.94 },
+    { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'expo.out' },
+  );
+}
+
+function closeCaseStudy() {
+  if (!pmodalOpen) return;
+  pmodalOpen = false;
+  pmodal.setAttribute('aria-hidden', 'true');
+  lenis.start();
+  gsap.to(pmodalBackdrop, { opacity: 0, duration: 0.35, ease: 'power2.in' });
+  gsap.to(pmodalPanel, {
+    opacity: 0,
+    y: 24,
+    scale: 0.96,
+    duration: 0.35,
+    ease: 'power2.in',
+    onComplete: () => pmodal.classList.remove('is-open'),
+  });
+}
+
+$$('[data-open-case]').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const idx = Number(btn.dataset.openCase || 0);
+    openCaseStudy(idx);
+  });
+});
+$$('[data-close-case]').forEach((btn) => btn.addEventListener('click', () => closeCaseStudy()));
+
+// secret words & ESC for modals
 let typed = '';
 window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && cmodalOpen) {
-    toggleContactModal(false);
-    return;
+  if (e.key === 'Escape') {
+    if (pmodalOpen) {
+      closeCaseStudy();
+      return;
+    }
+    if (cmodalOpen) {
+      toggleContactModal(false);
+      return;
+    }
   }
   const tag = (e.target as HTMLElement)?.tagName;
   if (tag === 'INPUT' || tag === 'TEXTAREA') return;
