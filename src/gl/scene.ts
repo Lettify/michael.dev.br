@@ -225,7 +225,7 @@ export class Universe {
       case 'sphere':
         return { ...base, scale: m ? 0.7 : 1, orb: m ? 0.75 : 1, tiltX: 0.32, tiltZ: -0.22 };
       case 'code':
-        return { ...base, x: side, y: m ? 1.4 : 0.1, scale: m ? 0.5 : 0.85, alpha: m ? 0.4 : 0.85, spin: false };
+        return { ...base, x: side, y: m ? 1.4 : 0.18, scale: m ? 0.5 : 0.82, alpha: m ? 0.4 : 0.65, spin: false };
       case 'network':
         return { ...base, x: side, scale: m ? 0.6 : 0.9, alpha: m ? 0.35 : 0.65, tiltX: 0.2 };
       case 'galaxy':

@@ -884,6 +884,9 @@ section {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   isolation: isolate;
+  background: rgba(13, 8, 25, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .btn__fill {
   position: absolute;
@@ -1117,8 +1120,32 @@ section {
 }
 .about__side .btn {
   align-self: flex-start;
-  color: var(--ink);
-  margin-top: 0.8rem;
+  color: #fff;
+  margin-top: 0.9rem;
+  background: rgba(10, 6, 20, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(196, 181, 253, 0.35);
+  box-shadow: 0 14px 35px -10px rgba(0, 0, 0, 0.9), 0 0 20px -5px rgba(168, 85, 247, 0.35);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.about__side .btn .btn__text {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
+}
+.about__side .btn .btn__icon {
+  position: relative;
+  z-index: 1;
+  color: var(--magenta);
+}
+.about__side .btn:hover {
+  border-color: rgba(232, 121, 249, 0.75);
+  box-shadow: 0 18px 45px -10px rgba(168, 85, 247, 0.65), 0 0 28px rgba(232, 121, 249, 0.4);
+}
+.about__side .btn:hover .btn__icon {
+  color: #fff;
 }
 .about__copy {
   position: relative;
