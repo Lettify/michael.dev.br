@@ -2817,21 +2817,22 @@ section {
     margin-top: 0.2rem;
   }
   .work__pin {
-    padding: 5rem 0 2rem;
+    padding: 4.2rem 0 1rem;
+    justify-content: flex-start;
   }
   .work__head {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: end;
-    gap: 0.35rem 1rem;
-    margin-bottom: 1.4rem;
+    gap: 0.25rem 0.8rem;
+    margin-bottom: 0.75rem;
   }
   .work__head .section-label {
     grid-column: 1 / -1;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.2rem;
   }
   .work__head .section-title {
-    font-size: clamp(1.5rem, 6.4vw, 2.6rem);
+    font-size: clamp(1.35rem, 5.6vw, 2.2rem);
     line-height: 1;
     letter-spacing: -0.03em;
     word-break: normal;
@@ -2839,22 +2840,98 @@ section {
   }
   .work__counter {
     align-self: flex-end;
+    font-size: 0.75rem;
     padding-bottom: 0.15rem;
   }
+  .work__bar {
+    margin: 0.5rem var(--pad) 0;
+  }
   .project {
-    width: clamp(285px, 82vw, 360px);
+    width: clamp(270px, 80vw, 330px);
+    gap: 0.5rem;
+    transform: translateZ(0);
+    will-change: transform;
   }
   .project__media {
-    border-radius: 18px;
+    aspect-ratio: 16 / 9.2;
+    max-height: 19vh;
+    border-radius: 16px;
+    box-shadow: 0 16px 40px -15px rgba(0, 0, 0, 0.75);
+  }
+  .project__badge {
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.58rem;
   }
   .project__glyph {
-    font-size: clamp(4rem, 15vw, 6.5rem);
+    font-size: clamp(2.6rem, 10vw, 4rem);
   }
   .project__info {
-    padding: 0.4rem 0.2rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.2rem 0.6rem;
+    align-items: center;
+    padding: 0.2rem 0;
+  }
+  .project__meta {
+    font-size: 0.62rem;
   }
   .project__title {
-    font-size: clamp(1.35rem, 5.2vw, 1.8rem);
+    font-size: clamp(1.1rem, 4.4vw, 1.4rem);
+    line-height: 1.1;
+  }
+  .project__arrow {
+    width: 34px;
+    height: 34px;
+    font-size: 0.85rem;
+  }
+  .project__desc {
+    grid-column: 1 / -1;
+    font-size: 0.78rem;
+    line-height: 1.38;
+    color: rgba(244, 239, 254, 0.75);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0.1rem 0;
+  }
+  .project__actions {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: 0.15rem;
+  }
+  .project__case-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.62rem;
+    flex-shrink: 0;
+  }
+  .project__tags {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+  .project__tags span {
+    font-size: 0.54rem;
+    padding: 0.2rem 0.45rem;
+    white-space: nowrap;
+  }
+  .project--more .project__media {
+    aspect-ratio: 16 / 9.2;
+    max-height: 19vh;
+  }
+  .project--more .project__more {
+    font-size: 1.25rem;
+  }
+  .project--more .project__more small {
+    margin-top: 0.4rem;
+    font-size: 0.6rem;
   }
   .stack__hint {
     display: inline-flex;

@@ -108,7 +108,8 @@ const marquees = $$('[data-marquee]').map((track) => {
 let scrollDir = 1;
 window.addEventListener('resize', () => marquees.forEach((m) => (m.w = m.row.offsetWidth)));
 
-const projectEls = () => $$('.project');
+const isTouchDevice = window.matchMedia('(pointer: coarse), (max-width: 900px)').matches;
+let cachedProjects: HTMLElement[] = [];
 let skew = 0;
 
 gsap.ticker.add((time, delta) => {
@@ -130,9 +131,14 @@ gsap.ticker.add((time, delta) => {
     m.track.style.transform = `translate3d(${x}px,0,0) skewX(${sk}deg)`;
   }
 
-  // card skew in the horizontal gallery
-  skew += (clamp(v * -0.12, -6, 6) - skew) * 0.12;
-  if (Math.abs(skew) > 0.01) projectEls().forEach((el) => (el.style.transform = `skewX(${skew}deg)`));
+  // card skew in the horizontal gallery (desktop only to prevent mobile GPU redraw lag)
+  if (!isTouchDevice) {
+    skew += (clamp(v * -0.12, -6, 6) - skew) * 0.12;
+    if (Math.abs(skew) > 0.01) {
+      if (!cachedProjects.length) cachedProjects = $$('.project');
+      cachedProjects.forEach((el) => (el.style.transform = `skewX(${skew}deg)`));
+    }
+  }
 });
 gsap.ticker.lagSmoothing(0);
 

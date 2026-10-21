@@ -60,7 +60,7 @@ export class Universe {
 
   constructor(canvas: HTMLCanvasElement) {
     this.mobile = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
-    this.count = this.mobile ? 7000 : 16000;
+    this.count = this.mobile ? 5000 : 16000;
 
     this.renderer = new THREE.WebGLRenderer({
       canvas,
@@ -69,7 +69,7 @@ export class Universe {
       powerPreference: 'high-performance',
     });
     this.renderer.setClearColor(0x000000, 0);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.mobile ? 1.5 : 1.75));
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.mobile ? 1.25 : 1.75));
 
     this.camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
     this.camera.position.set(0, 0, 9);
@@ -148,7 +148,7 @@ export class Universe {
   }
 
   private buildStars() {
-    const n = this.mobile ? 900 : 2000;
+    const n = this.mobile ? 600 : 2000;
     const pos = new Float32Array(n * 3);
     const rnd = new Float32Array(n);
     for (let i = 0; i < n; i++) {
