@@ -160,5 +160,9 @@ export function createStackPhysics(box: HTMLElement) {
     });
   };
 
-  return { start, update, shake };
+  const setEco = (enabled: boolean) => {
+    engine.enableSleeping = enabled;
+  };
+
+  return { start, update, shake, setEco };
 }

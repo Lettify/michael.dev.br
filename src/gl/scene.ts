@@ -57,6 +57,8 @@ export class Universe {
   private intro = 0;
   private running = true;
   private mobile: boolean;
+  private eco = false;
+  private lastRenderTime = 0;
 
   constructor(canvas: HTMLCanvasElement) {
     this.mobile = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
@@ -300,6 +302,26 @@ export class Universe {
     this.intro = 1;
   }
 
+  setEco(enabled: boolean) {
+    if (this.eco === enabled) return;
+    this.eco = enabled;
+    if (enabled) {
+      this.renderer.setPixelRatio(1);
+      if (this.geo) {
+        this.geo.setDrawRange(0, Math.floor(this.count * 0.55));
+      }
+    } else {
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.mobile ? 1.25 : 1.75));
+      if (this.geo) {
+        this.geo.setDrawRange(0, this.count);
+      }
+    }
+  }
+
+  getEco() {
+    return this.eco;
+  }
+
   private resize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
@@ -317,6 +339,13 @@ export class Universe {
   tick() {
     if (!this.running || !this.pMat) return;
     const now = performance.now();
+
+    // In Eco Mode when idle, throttle frame rendering to ~30 FPS to preserve battery and GPU
+    if (this.eco && this.mouse.speed < 0.04 && Math.abs(this.velocity) < 0.1) {
+      if (now - this.lastRenderTime < 33) return;
+    }
+    this.lastRenderTime = now;
+
     const dt = Math.min((now - this.lastTime) / 1000, 0.05);
     this.lastTime = now;
     this.time += dt;

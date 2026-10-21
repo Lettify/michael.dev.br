@@ -12,6 +12,7 @@ import { projects } from './data';
 import { split } from './ui/split';
 import { initCursor, initMagnetic, initProximity, initScramble, initTilt } from './ui/interactions';
 import { createStackPhysics } from './ui/physics';
+import { initPowerManager, type EcoReason } from './ui/power';
 import { sound } from './ui/sound';
 import { inject as injectAnalytics } from '@vercel/analytics';
 import { injectSpeedInsights } from '@vercel/speed-insights';
@@ -576,6 +577,19 @@ function toast(text: string) {
   toastTimer = window.setTimeout(() => toastEl.classList.remove('is-visible'), 2600);
 }
 
+// Adaptive Battery & Performance Mode Manager
+initPowerManager((eco: boolean, reason: EcoReason) => {
+  universe?.setEco(eco);
+  physics?.setEco(eco);
+  if (eco) {
+    if (reason === 'low-battery') {
+      toast('✦ Modo Eco ativado para poupar bateria');
+    } else if (reason === 'adaptive-fps') {
+      toast('✦ Performance adaptativa ativada');
+    }
+  }
+});
+
 // copy e-mail
 $$('[data-copy]').forEach((el) =>
   el.addEventListener('click', async (e) => {
@@ -845,11 +859,16 @@ window.addEventListener('keydown', (e) => {
   } else if (typed.endsWith('lua')) {
     universe?.morphTo('orb');
     toast('🌙 local dev = "Michael"');
+  } else if (typed.endsWith('eco')) {
+    const isNowEco = !universe?.getEco();
+    universe?.setEco(isNowEco);
+    physics?.setEco(isNowEco);
+    toast(isNowEco ? '✦ Modo Eco ativado' : '✦ Gráficos em performance máxima');
   }
 });
 
 console.log(
-  '%c MS® %c Olá, dev curioso! Digite "roxo", "xadrez" ou "lua" na página. → contato@michael.dev.br',
+  '%c MS® %c Olá, dev curioso! Digite "roxo", "xadrez", "lua" ou "eco" na página. → contato@michael.dev.br',
   'background:linear-gradient(90deg,#7c3aed,#e879f9);color:#fff;font-weight:800;padding:6px 10px;border-radius:6px',
   'color:#c4b5fd;padding:6px',
 );
