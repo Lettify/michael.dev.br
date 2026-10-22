@@ -66,8 +66,8 @@ $fontPill = New-Object System.Drawing.Font("Segoe UI", 12, [System.Drawing.FontS
 $fontTitle = New-Object System.Drawing.Font("Arial", 62, [System.Drawing.FontStyle]::Bold)
 $fontSub = New-Object System.Drawing.Font("Segoe UI", 25, [System.Drawing.FontStyle]::Bold)
 $fontChips = New-Object System.Drawing.Font("Segoe UI", 13, [System.Drawing.FontStyle]::Regular)
-$fontCTA = New-Object System.Drawing.Font("Segoe UI", 16, [System.Drawing.FontStyle]::Bold)
-$fontDomain = New-Object System.Drawing.Font("Segoe UI", 18, [System.Drawing.FontStyle]::Bold)
+$fontDomain = New-Object System.Drawing.Font("Segoe UI", 25, [System.Drawing.FontStyle]::Bold)
+$fontRight = New-Object System.Drawing.Font("Segoe UI", 16, [System.Drawing.FontStyle]::Bold)
 $fontMeta = New-Object System.Drawing.Font("Segoe UI", 14, [System.Drawing.FontStyle]::Regular)
 
 # Colors
@@ -126,28 +126,30 @@ foreach ($tag in $tags) {
 $linePen = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(50, 196, 181, 253), 1)
 $g.DrawLine($linePen, 90, 460, 1110, 460)
 
-# Prominent CTA Button: "VISITAR PORTFÓLIO 3D ↗" (High Conversion Call to Action)
-$ctaRect = New-Object System.Drawing.Rectangle(90, 490, 330, 54)
-$ctaBrush = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
-    (New-Object System.Drawing.Point(90, 490)),
-    (New-Object System.Drawing.Point(420, 544)),
-    [System.Drawing.ColorTranslator]::FromHtml("#9333ea"),
-    [System.Drawing.ColorTranslator]::FromHtml("#d946ef")
+# Clean, professional footer branding (No artificial CTA buttons)
+$domainBrush = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
+    (New-Object System.Drawing.Point(90, 480)),
+    (New-Object System.Drawing.Point(400, 520)),
+    [System.Drawing.ColorTranslator]::FromHtml("#ffffff"),
+    [System.Drawing.ColorTranslator]::FromHtml("#c4b5fd")
 )
-$g.FillRectangle($ctaBrush, $ctaRect)
-$ctaPen = New-Object System.Drawing.Pen([System.Drawing.ColorTranslator]::FromHtml("#fdf4ff"), 2)
-$g.DrawRectangle($ctaPen, $ctaRect)
-$g.DrawString("VISITAR PORTFÓLIO 3D ↗", $fontCTA, $logoBrush, 118, 503)
+$g.DrawString("https://michael.dev.br", $fontDomain, $domainBrush, 90, 480)
+$g.DrawString("Portfólio Interativo 3D  ·  Engenharia & Arquitetura Web", $fontMeta, $dimBrush, 92, 524)
 
-# Domain & GitHub info beside CTA
-$g.DrawString("https://michael.dev.br", $fontDomain, $lilacBrush, 450, 495)
-$g.DrawString("GitHub: @Lettify   ·   Acesse online", $fontMeta, $dimBrush, 450, 523)
+# Right: GitHub Profile & Direct Contact
+$g.DrawString("GitHub: @Lettify", $fontRight, $logoBrush, 820, 484)
+$g.DrawString("contato@michael.dev.br", $fontMeta, $lilacBrush, 820, 520)
 
 # Save as og-cover.png and og-image.png
 $destCover = "public/og-cover.png"
 $destImage = "public/og-image.png"
 $bmp.Save($destCover, [System.Drawing.Imaging.ImageFormat]::Png)
 $bmp.Save($destImage, [System.Drawing.Imaging.ImageFormat]::Png)
+
+if (Test-Path "dist") {
+    Copy-Item "public/og-cover.png" "dist/og-cover.png" -Force
+    Copy-Item "public/og-image.png" "dist/og-image.png" -Force
+}
 
 $g.Dispose()
 $bmp.Dispose()
