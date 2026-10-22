@@ -447,10 +447,15 @@ function initScrollAnimations() {
 function heroIntro() {
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
   tl.from(heroChars, { yPercent: 110, rotate: 10, opacity: 0, duration: 1.6, stagger: 0.045 }, 0)
-    .from('.hero .reveal-line > span', { yPercent: 110, duration: 1.2, stagger: 0.08 }, 0.5)
-    .from('.hero__meta', { opacity: 0, y: 20, duration: 1.2, stagger: 0.1 }, 0.7)
-    .from('.hero__scroll', { scale: 0, rotate: -180, duration: 1.6, ease: 'elastic.out(1, 0.6)' }, 0.8)
-    .from(nav, { yPercent: -100, opacity: 0, duration: 1.2 }, 0.6);
+    .from('.hero .reveal-line > span', { yPercent: 110, duration: 1.2, stagger: 0.08 }, 0.4)
+    .from('.hero__meta', { opacity: 0, y: 20, duration: 1.0, stagger: 0.1 }, 0.5)
+    .from('.hero__scroll', { scale: 0, rotate: -180, duration: 1.4, ease: 'elastic.out(1, 0.6)' }, 0.6)
+    .fromTo(
+      nav,
+      { yPercent: -40, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 0.7, ease: 'power2.out', clearProps: 'transform,opacity' },
+      0.15,
+    );
   return tl;
 }
 
@@ -569,6 +574,7 @@ async function boot() {
     )
     .add(() => {
       document.body.classList.remove('is-loading');
+      nav.classList.remove('is-hidden');
       lenis.start();
       universe?.startIntro();
       heroIntro();
