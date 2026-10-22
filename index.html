@@ -220,14 +220,19 @@
         <span class="nav__logo-mark">MS</span><sup>®</sup>
       </a>
       <nav class="nav__links" aria-label="Principal">
-        <a href="#sobre" data-scramble>Sobre</a>
-        <a href="#expertise" data-scramble>Expertise</a>
-        <a href="#projetos" data-scramble>Projetos</a>
-        <a href="#stack" data-scramble>Stack</a>
-        <a href="#contato" data-scramble>Contato</a>
+        <a href="#sobre" data-scramble data-i18n="nav.about">Sobre</a>
+        <a href="#expertise" data-scramble data-i18n="nav.expertise">Expertise</a>
+        <a href="#projetos" data-scramble data-i18n="nav.projects">Projetos</a>
+        <a href="#stack" data-scramble data-i18n="nav.stack">Stack</a>
+        <a href="#contato" data-scramble data-i18n="nav.contact">Contato</a>
       </nav>
       <div class="nav__right">
-        <span class="nav__status"><i></i>Disponível para projetos</span>
+        <span class="nav__status" data-i18n-html="nav.status"><i></i>Disponível para projetos</span>
+        <button class="nav__lang" id="langToggle" data-magnetic data-cursor="Idioma" aria-label="Alternar idioma (PT / EN)">
+          <span class="lang-pill is-active" data-lang="pt">PT</span>
+          <span class="lang-divider">/</span>
+          <span class="lang-pill" data-lang="en">EN</span>
+        </button>
         <button class="nav__sound" data-magnetic data-cursor="Som" aria-label="Alternar áudio ambiente" aria-pressed="false">
           <i></i><i></i><i></i><i></i>
         </button>
@@ -241,14 +246,21 @@
     <div class="menu" aria-hidden="true">
       <div class="menu__bg"></div>
       <nav class="menu__links">
-        <a href="#sobre"><em>01</em><span>Sobre</span></a>
-        <a href="#expertise"><em>02</em><span>Expertise</span></a>
-        <a href="#projetos"><em>03</em><span>Projetos</span></a>
-        <a href="#stack"><em>04</em><span>Stack</span></a>
-        <a href="#alem"><em>05</em><span>Além do código</span></a>
-        <a href="#contato"><em>06</em><span>Contato</span></a>
+        <a href="#sobre"><em>01</em><span data-i18n="nav.about">Sobre</span></a>
+        <a href="#expertise"><em>02</em><span data-i18n="nav.expertise">Expertise</span></a>
+        <a href="#projetos"><em>03</em><span data-i18n="nav.projects">Projetos</span></a>
+        <a href="#stack"><em>04</em><span data-i18n="nav.stack">Stack</span></a>
+        <a href="#alem"><em>05</em><span data-i18n="nav.beyond">Além do código</span></a>
+        <a href="#contato"><em>06</em><span data-i18n="nav.contact">Contato</span></a>
       </nav>
       <div class="menu__foot">
+        <div class="menu__lang-switch">
+          <span class="mono">IDIOMA / LANGUAGE:</span>
+          <div class="menu__lang-btns">
+            <button type="button" class="btn-lang is-active" data-set-lang="pt">Português (BR)</button>
+            <button type="button" class="btn-lang" data-set-lang="en">English (US)</button>
+          </div>
+        </div>
         <a href="mailto:contato@michael.dev.br">contato@michael.dev.br</a>
         <a href="https://github.com/Lettify" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/michael-felipe-ss/" target="_blank" rel="noopener">LinkedIn</a>
@@ -260,7 +272,7 @@
         <!-- ============ HERO ============ -->
         <section class="hero" id="top" data-gl="sphere">
           <div class="hero__meta hero__meta--tl">
-            <span class="mono">Portfólio</span>
+            <span class="mono" data-i18n="hero.portfolio">Portfólio</span>
             <span class="mono">©2016 — 2026</span>
           </div>
           <div class="hero__meta hero__meta--tr">
@@ -275,8 +287,8 @@
 
           <div class="hero__bottom">
             <p class="hero__role">
-              <span class="reveal-line"><span>Desenvolvedor <em>Full Stack</em></span></span>
-              <span class="reveal-line"><span>&amp; Analista de Sistemas</span></span>
+              <span class="reveal-line"><span data-i18n-html="hero.role1">Desenvolvedor <em>Full Stack</em></span></span>
+              <span class="reveal-line"><span data-i18n="hero.role2">&amp; Analista de Sistemas</span></span>
             </p>
             <a href="#sobre" class="hero__scroll" data-magnetic data-cursor="Role">
               <svg viewBox="0 0 120 120" class="hero__scroll-ring">
@@ -286,8 +298,8 @@
               <span class="hero__scroll-arrow">↓</span>
             </a>
             <p class="hero__tagline">
-              <span class="reveal-line"><span>Sistemas robustos, arquiteturas limpas</span></span>
-              <span class="reveal-line"><span>e experiências que ficam na memória.</span></span>
+              <span class="reveal-line"><span data-i18n="hero.tagline1">Sistemas robustos, arquiteturas limpas</span></span>
+              <span class="reveal-line"><span data-i18n="hero.tagline2">e experiências que ficam na memória.</span></span>
             </p>
           </div>
         </section>
@@ -308,9 +320,9 @@
 
         <!-- ============ ABOUT ============ -->
         <section class="about" id="sobre" data-gl="code">
-          <div class="section-label"><span class="mono">(01)</span><span class="mono">Sobre mim</span></div>
+          <div class="section-label"><span class="mono">(01)</span><span class="mono" data-i18n="about.label">Sobre mim</span></div>
           <div class="about__grid">
-            <h2 class="about__lead" data-split-words>
+            <h2 class="about__lead" data-split-words data-i18n-html="about.lead">
               Olá, eu sou o Michael. Construo <em>sistemas robustos</em> e <em>arquiteturas limpas</em> — aliando a precisão do código à compreensão do comportamento humano.
             </h2>
             <div class="about__side">
@@ -333,52 +345,55 @@
                     <span class="id-card__online" title="Ativo no GitHub"></span>
                   </div>
                   <div class="id-card__meta">
-                    <span class="mono id-card__handle">@Lettify · UDF</span>
+                    <span class="mono id-card__handle" data-i18n="about.ghHandle">@Lettify · UDF</span>
                     <strong class="id-card__name">Michael Silva</strong>
-                    <span class="mono id-card__sub"><b class="js-gh-repos">26</b> repos · <b class="js-gh-followers">11</b> seguidores</span>
+                    <span class="mono id-card__sub"><b class="js-gh-repos">26</b> <span data-i18n="about.ghRepos">repos</span> · <b class="js-gh-followers">11</b> <span data-i18n="about.ghFollowers">seguidores</span></span>
                   </div>
                   <span class="id-card__badge mono">GH ↗</span>
                 </div>
               </a>
               <div class="about__copy" data-fade>
-                <p>
+                <p data-i18n="about.p1">
                   Graduando em Análise e Desenvolvimento de Sistemas na UDF, baseado em Brasília. Uso minha experiência técnica para criar
                   automações inteligentes e infraestruturas escaláveis — do primeiro commit ao deploy final.
                 </p>
-                <p>
+                <p data-i18n="about.p2">
                   Lidero, organizo fluxos e estabeleço métricas de evolução técnica. Acredito que tipagem forte e semântica clara valem mais que mil comentários.
                 </p>
               </div>
               <a href="#contato" class="btn" data-magnetic data-cursor="Bora?">
-                <span class="btn__fill"></span><span class="btn__text">Vamos conversar</span><span class="btn__icon">→</span>
+                <span class="btn__fill"></span><span class="btn__text" data-i18n="about.btn">Vamos conversar</span><span class="btn__icon">→</span>
               </a>
             </div>
           </div>
 
+          <!-- Personal Specs Bento HUD (Dynamic Age, Exp, Location, Studies, Hobbies) -->
+          <div class="js-bio-hud-container"></div>
+
           <div class="stats">
             <div class="stat" data-fade>
               <span class="stat__num" data-count="2016">0</span>
-              <span class="stat__label mono">Codando no GitHub desde</span>
+              <span class="stat__label mono" data-i18n="about.statsGithub">Codando no GitHub desde</span>
             </div>
             <div class="stat" data-fade>
               <span class="stat__num" data-count="26">0</span>
-              <span class="stat__label mono">Repositórios públicos</span>
+              <span class="stat__label mono" data-i18n="about.statsRepos">Repositórios públicos</span>
             </div>
             <div class="stat" data-fade>
               <span class="stat__num" data-count="4">0</span>
-              <span class="stat__label mono">Linguagens principais</span>
+              <span class="stat__label mono" data-i18n="about.statsLangs">Linguagens principais</span>
             </div>
             <div class="stat" data-fade>
               <span class="stat__num">∞</span>
-              <span class="stat__label mono">Curiosidade</span>
+              <span class="stat__label mono" data-i18n="about.statsCuriosity">Curiosidade</span>
             </div>
           </div>
         </section>
 
         <!-- ============ MANIFESTO ============ -->
         <section class="manifesto" data-gl="code">
-          <div class="section-label"><span class="mono">(02)</span><span class="mono">Filosofia — Clean Code</span></div>
-          <blockquote class="manifesto__quote" data-scrub-words>
+          <div class="section-label"><span class="mono">(02)</span><span class="mono" data-i18n="manifesto.label">Filosofia — Clean Code</span></div>
+          <blockquote class="manifesto__quote" data-scrub-words data-i18n="manifesto.quote">
             “Se você precisa comentar o que uma função faz e quais são seus parâmetros em uma linguagem tipada, o código ainda não está limpo o suficiente.”
           </blockquote>
           <div class="manifesto__code mono" aria-hidden="true">
@@ -389,31 +404,31 @@
 
         <!-- ============ EXPERTISE ============ -->
         <section class="expertise" id="expertise" data-gl="network">
-          <div class="section-label"><span class="mono">(03)</span><span class="mono">Expertise</span></div>
-          <h2 class="section-title" data-split-chars>O que eu <em>faço</em></h2>
+          <div class="section-label"><span class="mono">(03)</span><span class="mono" data-i18n="expertise.label">Expertise</span></div>
+          <h2 class="section-title" data-split-chars data-i18n-html="expertise.title">O que eu <em>faço</em></h2>
           <ul class="services">
             <li class="service" data-cursor="✦">
               <span class="service__num mono">01</span>
-              <h3 class="service__title">Full Stack Web</h3>
-              <p class="service__desc">Aplicações completas com tipagem ponta a ponta: React, TypeScript, Node.js, tRPC e PostgreSQL — de plataformas escaláveis a painéis de gestão modernos.</p>
+              <h3 class="service__title" data-i18n="expertise.s1Title">Full Stack Web</h3>
+              <p class="service__desc" data-i18n="expertise.s1Desc">Aplicações completas com tipagem ponta a ponta: React, TypeScript, Node.js, tRPC e PostgreSQL — de plataformas escaláveis a painéis de gestão modernos.</p>
               <div class="service__tags mono"><span>TypeScript</span><span>React</span><span>Node.js</span><span>PostgreSQL</span></div>
             </li>
             <li class="service" data-cursor="✦">
               <span class="service__num mono">02</span>
-              <h3 class="service__title">IA &amp; Automação</h3>
-              <p class="service__desc">Agentes autônomos, engenharia de prompt avançada e bots inteligentes para Discord: moderação contextual com LLMs e integração com APIs modernas.</p>
+              <h3 class="service__title" data-i18n="expertise.s2Title">IA &amp; Automação</h3>
+              <p class="service__desc" data-i18n="expertise.s2Desc">Agentes autônomos, engenharia de prompt avançada e bots inteligentes para Discord: moderação contextual com LLMs e integração com APIs modernas.</p>
               <div class="service__tags mono"><span>LLMs</span><span>Python</span><span>Discord.js</span><span>OpenAI</span></div>
             </li>
             <li class="service" data-cursor="✦">
               <span class="service__num mono">03</span>
-              <h3 class="service__title">DevOps &amp; Cloud</h3>
-              <p class="service__desc">Infraestrutura estável e segura: servidores Linux/Nginx, orquestração com PM2, pipelines de CI/CD automatizados com GitHub Actions e deploy contínuo.</p>
+              <h3 class="service__title" data-i18n="expertise.s3Title">DevOps &amp; Cloud</h3>
+              <p class="service__desc" data-i18n="expertise.s3Desc">Infraestrutura estável e segura: servidores Linux/Nginx, orquestração com PM2, pipelines de CI/CD automatizados com GitHub Actions e deploy contínuo.</p>
               <div class="service__tags mono"><span>Linux</span><span>CI/CD</span><span>Nginx</span><span>Actions</span></div>
             </li>
             <li class="service" data-cursor="✦">
               <span class="service__num mono">04</span>
-              <h3 class="service__title">Scripting MTA &amp; Lua</h3>
-              <p class="service__desc">Sistemas complexos de alta performance para Multi Theft Auto: sanitização SQL, otimização de rede UDP de baixa latência e arquiteturas seguras em Lua.</p>
+              <h3 class="service__title" data-i18n="expertise.s4Title">Scripting MTA &amp; Lua</h3>
+              <p class="service__desc" data-i18n="expertise.s4Desc">Sistemas complexos de alta performance para Multi Theft Auto: sanitização SQL, otimização de rede UDP de baixa latência e arquiteturas seguras em Lua.</p>
               <div class="service__tags mono"><span>Lua</span><span>MySQL</span><span>Networking</span><span>MTA:SA</span></div>
             </li>
           </ul>
@@ -423,8 +438,8 @@
         <section class="work" id="projetos" data-gl="galaxy">
           <div class="work__pin">
             <div class="work__head">
-              <div class="section-label"><span class="mono">(04)</span><span class="mono">Projetos selecionados</span></div>
-              <h2 class="section-title">Trabalhos <em>recentes</em></h2>
+              <div class="section-label"><span class="mono">(04)</span><span class="mono" data-i18n="work.label">Projetos selecionados</span></div>
+              <h2 class="section-title" data-i18n-html="work.title">Trabalhos <em>recentes</em></h2>
               <div class="work__counter mono"><span class="js-work-current">01</span> / <span class="js-work-total">06</span></div>
             </div>
             <div class="work__track js-work-track"></div>
@@ -434,10 +449,10 @@
 
         <!-- ============ STACK (physics) ============ -->
         <section class="stack" id="stack" data-gl="knot">
-          <div class="section-label"><span class="mono">(05)</span><span class="mono">Tech stack</span></div>
+          <div class="section-label"><span class="mono">(05)</span><span class="mono" data-i18n="stack.label">Tech stack</span></div>
           <div class="stack__head">
-            <h2 class="section-title" data-split-chars>Minha <em>caixa</em> de ferramentas</h2>
-            <p class="stack__hint mono" data-fade>↳ Arraste, jogue, bagunce. Elas aguentam.</p>
+            <h2 class="section-title" data-split-chars data-i18n-html="stack.title">Minha <em>caixa</em> de ferramentas</h2>
+            <p class="stack__hint mono" data-fade data-i18n="stack.hint">↳ Arraste, jogue, bagunce. Elas aguentam.</p>
           </div>
           <div class="stack__box" data-cursor="Arraste">
             <div class="stack__pills"></div>
@@ -446,31 +461,31 @@
 
         <!-- ============ BEYOND ============ -->
         <section class="beyond" id="alem" data-gl="king">
-          <div class="section-label"><span class="mono">(06)</span><span class="mono">Além do código</span></div>
-          <h2 class="section-title" data-split-chars>Pessoas &amp; <em>estratégia</em></h2>
-          <p class="beyond__intro" data-fade>
+          <div class="section-label"><span class="mono">(06)</span><span class="mono" data-i18n="beyond.label">Além do código</span></div>
+          <h2 class="section-title" data-split-chars data-i18n-html="beyond.title">Pessoas &amp; <em>estratégia</em></h2>
+          <p class="beyond__intro" data-fade data-i18n-html="beyond.intro">
             Além da tecnologia, estudo <strong>Comportamento Humano e Linguagem Corporal</strong> — o que potencializa minha atuação em cargos estratégicos.
           </p>
           <div class="beyond__grid">
             <article class="card3d" data-tilt>
               <div class="card3d__inner">
                 <span class="card3d__icon">♛</span>
-                <h3>Liderança &amp; Equipes</h3>
-                <p>Experiência em guiar desenvolvedores e estabelecer métricas de evolução técnica.</p>
+                <h3 data-i18n="beyond.c1Title">Liderança &amp; Equipes</h3>
+                <p data-i18n="beyond.c1Desc">Experiência em guiar desenvolvedores e estabelecer métricas de evolução técnica.</p>
               </div>
             </article>
             <article class="card3d" data-tilt>
               <div class="card3d__inner">
                 <span class="card3d__icon">◈</span>
-                <h3>Gestão de Projetos</h3>
-                <p>Visão sistêmica para organizar fluxos de trabalho, da concepção ao deploy final.</p>
+                <h3 data-i18n="beyond.c2Title">Gestão de Projetos</h3>
+                <p data-i18n="beyond.c2Desc">Visão sistêmica para organizar fluxos de trabalho, da concepção ao deploy final.</p>
               </div>
             </article>
             <article class="card3d" data-tilt>
               <div class="card3d__inner">
                 <span class="card3d__icon">⌕</span>
-                <h3>Análise Investigativa</h3>
-                <p>Capacidade analítica apurada, influenciada por estudos em Investigação Forense e Perícia Criminal.</p>
+                <h3 data-i18n="beyond.c3Title">Análise Investigativa</h3>
+                <p data-i18n="beyond.c3Desc">Capacidade analítica apurada, influenciada por estudos em Investigação Forense e Perícia Criminal.</p>
               </div>
             </article>
           </div>
@@ -493,15 +508,14 @@
 
         <!-- ============ CONTACT ============ -->
         <section class="contact" id="contato" data-gl="orb">
-          <div class="section-label"><span class="mono">(07)</span><span class="mono">Contato</span></div>
+          <div class="section-label"><span class="mono">(07)</span><span class="mono" data-i18n="contact.label">Contato</span></div>
           <h2 class="contact__title">
-            <span class="contact__line"><span data-proximity>Vamos criar</span></span>
-            <span class="contact__line"><span class="contact__outline" data-proximity>algo único?</span></span>
+            <span class="contact__line"><span data-proximity data-i18n="contact.title">Vamos criar algo <em>lendário</em> juntos?</span></span>
           </h2>
           <div class="contact__row">
             <button type="button" class="contact__orb" data-open-contact data-magnetic="0.5" data-cursor="Mensagem">
               <span>Diga<br />olá</span>
-              <small class="contact__orb-sub mono">✦ Mensagem direta</small>
+              <small class="contact__orb-sub mono" data-i18n="contact.btnDirect">✦ Mensagem direta</small>
             </button>
             <div class="contact__links">
               <a href="mailto:contato@michael.dev.br" class="contact__link" data-cursor="Copiar" data-copy="contato@michael.dev.br">
@@ -523,8 +537,8 @@
         <div class="footer__row mono">
           <span>© 2026 Michael Silva</span>
           <span>Brasília, DF — <b class="js-clock">--:--</b></span>
-          <span>Feito com Three.js, GSAP &amp; muito roxo</span>
-          <a href="#top" class="footer__top" data-magnetic>Voltar ao topo ↑</a>
+          <span data-i18n="footer.rights">Projetado &amp; Construído por Michael Silva. Todos os direitos reservados.</span>
+          <a href="#top" class="footer__top" data-magnetic data-i18n="footer.backToTop">Voltar ao topo ↑</a>
         </div>
       </footer>
     </div>
@@ -540,8 +554,8 @@
           </button>
         </div>
 
-        <h3 class="cmodal__title" id="cmodalTitle">Envie uma <em>mensagem</em></h3>
-        <p class="cmodal__sub">Respondo rápido. Escolha o assunto e me conte sua ideia ou oportunidade:</p>
+        <h3 class="cmodal__title" id="cmodalTitle" data-i18n-html="contact.modalTitle">Envie uma <em>mensagem</em></h3>
+        <p class="cmodal__sub" data-i18n="contact.modalSub">Respondo rápido. Escolha o assunto e me conte sua ideia ou oportunidade:</p>
 
         <form class="cmodal__form" id="contactForm">
           <!-- Honeypot anti-spam -->
@@ -558,25 +572,25 @@
 
           <div class="cmodal__row">
             <label class="cmodal__field">
-              <span class="mono">Seu nome *</span>
-              <input type="text" name="name" required placeholder="Como posso te chamar?" maxlength="120" />
+              <span class="mono" data-i18n="contact.nameLabel">Seu nome *</span>
+              <input type="text" name="name" required placeholder="Como posso te chamar?" maxlength="120" data-i18n-placeholder="contact.namePlaceholder" />
             </label>
             <label class="cmodal__field">
-              <span class="mono">E-mail, Discord ou WhatsApp *</span>
-              <input type="text" name="contact" required placeholder="seu@email.com ou @discord" maxlength="160" />
+              <span class="mono" data-i18n="contact.emailLabel">E-mail, Discord ou WhatsApp *</span>
+              <input type="text" name="contact" required placeholder="seu@email.com ou @discord" maxlength="160" data-i18n-placeholder="contact.emailPlaceholder" />
             </label>
           </div>
 
           <label class="cmodal__field">
-            <span class="mono">Mensagem *</span>
-            <textarea name="message" rows="4" required placeholder="Conte os detalhes do projeto, prazo ou ideia..." maxlength="3000"></textarea>
+            <span class="mono" data-i18n="contact.msgLabel">Mensagem *</span>
+            <textarea name="message" rows="4" required placeholder="Conte os detalhes do projeto, prazo ou ideia..." maxlength="3000" data-i18n-placeholder="contact.msgPlaceholder"></textarea>
           </label>
 
           <div class="cmodal__foot">
             <span class="mono cmodal__note">Ou envie para <b>contato@michael.dev.br</b></span>
             <button type="submit" class="btn cmodal__submit" data-magnetic data-cursor="Enviar">
               <span class="btn__fill"></span>
-              <span class="btn__text js-cmodal-btn">Transmitir mensagem</span>
+              <span class="btn__text js-cmodal-btn" data-i18n="contact.btnSubmit">Transmitir mensagem</span>
               <span class="btn__icon">→</span>
             </button>
           </div>
@@ -605,30 +619,30 @@
 
         <div class="pmodal__body">
           <div class="pmodal__block">
-            <span class="mono pmodal__block-label">01. O Desafio</span>
+            <span class="mono pmodal__block-label" data-i18n="caseStudy.challenge">01. O Desafio</span>
             <p class="js-pm-challenge"></p>
           </div>
 
           <div class="pmodal__block">
-            <span class="mono pmodal__block-label">02. Solução &amp; Engenharia</span>
+            <span class="mono pmodal__block-label" data-i18n="caseStudy.solution">02. Solução &amp; Engenharia</span>
             <p class="js-pm-solution"></p>
           </div>
 
           <div class="pmodal__block">
-            <span class="mono pmodal__block-label">03. Arquitetura &amp; Stack</span>
+            <span class="mono pmodal__block-label" data-i18n="caseStudy.architecture">03. Arquitetura &amp; Stack</span>
             <div class="pmodal__arch js-pm-arch"></div>
           </div>
 
           <div class="pmodal__callout">
             <div class="pmodal__callout-icon">⚡</div>
             <div>
-              <strong class="mono pmodal__callout-title">Destaque de Engenharia</strong>
+              <strong class="mono pmodal__callout-title" data-i18n="caseStudy.highlight">Destaque de Engenharia</strong>
               <p class="js-pm-highlight"></p>
             </div>
           </div>
 
           <div class="pmodal__metric">
-            <span class="mono pmodal__metric-label">Impacto &amp; Resultados</span>
+            <span class="mono pmodal__metric-label" data-i18n="caseStudy.outcome">Impacto &amp; Resultados</span>
             <p class="js-pm-outcome"></p>
           </div>
         </div>
@@ -636,10 +650,17 @@
         <div class="pmodal__foot">
           <a href="#" target="_blank" rel="noopener" class="btn pmodal__btn js-pm-github" data-magnetic>
             <span class="btn__fill"></span>
-            <span class="btn__text">Ver no GitHub</span>
+            <span class="btn__text" data-i18n="caseStudy.btnGithub">Ver no GitHub</span>
             <span class="btn__icon">↗</span>
           </a>
           <a href="#" target="_blank" rel="noopener" class="btn pmodal__btn pmodal__btn--live js-pm-live" data-magnetic>
+            <span class="btn__fill"></span>
+            <span class="btn__text" data-i18n="caseStudy.btnLive">Acessar Projeto</span>
+            <span class="btn__icon">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
             <span class="btn__fill"></span>
             <span class="btn__text">Acessar Projeto</span>
             <span class="btn__icon">↗</span>

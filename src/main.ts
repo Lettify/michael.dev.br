@@ -8,7 +8,9 @@ import Lenis from 'lenis';
 
 import { Universe } from './gl/scene';
 import type { ShapeName } from './gl/shapes';
-import { projects } from './data';
+import { getProjects, projects } from './data';
+import { initI18n, setLang, getLang } from './i18n';
+import type { Lang } from './i18n/translations';
 import { split } from './ui/split';
 import { initCursor, initMagnetic, initProximity, initScramble, initTilt } from './ui/interactions';
 import { createStackPhysics } from './ui/physics';
@@ -36,11 +38,18 @@ window.scrollTo(0, 0);
 /* ================================================================== */
 function renderProjects() {
   const track = $('.js-work-track');
+  if (!track) return;
+  const lang = getLang();
+  const currentProjects = getProjects(lang);
+  const deepDiveText = lang === 'pt' ? 'Raio-X Técnico' : 'Technical Deep Dive';
+  const moreTitle = lang === 'pt' ? 'Ver tudo<br/>no GitHub ↗' : 'View all on<br/>GitHub ↗';
+  const moreSub = lang === 'pt' ? '26 repositórios públicos' : '26 public repositories';
+
   track.innerHTML =
-    projects
+    currentProjects
       .map(
         (p, i) => `
-    <div class="project" data-cursor="${p.live ? 'Visitar' : 'Código'}">
+    <div class="project" data-cursor="${p.live ? (lang === 'pt' ? 'Visitar' : 'Visit') : (lang === 'pt' ? 'Código' : 'Source')}">
       <a class="project__media" href="${p.url}" target="_blank" rel="noopener" style="--h1:${p.hues[0]};--h2:${p.hues[1]}">
         <div class="project__grid"></div>
         <span class="project__glyph">${p.glyph}</span>
@@ -54,7 +63,7 @@ function renderProjects() {
         <p class="project__desc">${p.description}</p>
         <div class="project__actions">
           <button type="button" class="project__case-btn mono" data-open-case="${i}" data-cursor="Raio-X">
-            <i>✦</i> Raio-X Técnico
+            <i>✦</i> ${deepDiveText}
           </button>
           <div class="project__tags">${p.tags.map((t) => `<span>${t}</span>`).join('')}</div>
         </div>
@@ -65,11 +74,13 @@ function renderProjects() {
     `
     <a class="project project--more" href="https://github.com/Lettify?tab=repositories" target="_blank" rel="noopener" data-cursor="GitHub">
       <div class="project__media">
-        <div class="project__more">Ver tudo<br/>no GitHub ↗<small>26 repositórios públicos</small></div>
+        <div class="project__more">${moreTitle}<small>${moreSub}</small></div>
       </div>
     </a>`;
-  $('.js-work-total').textContent = pad(projects.length);
+  $('.js-work-total').textContent = pad(currentProjects.length);
 }
+
+initI18n();
 renderProjects();
 
 /* ================================================================== */
@@ -536,6 +547,7 @@ async function boot() {
   initTilt('[data-tilt]', '.card3d__inner', 12);
   initTilt('.id-card', '.id-card__inner', 10);
   initTilt('.project', '.project__media', 9);
+  initTilt('.bio-card', undefined, 8);
   initProximity();
 
   const preloader = $('.preloader');
@@ -757,7 +769,7 @@ const pmodalPanel = $('.pmodal__panel', pmodal);
 let pmodalOpen = false;
 
 function openCaseStudy(index: number) {
-  const p = projects[index];
+  const p = getProjects(getLang())[index];
   if (!p) return;
   const cs = p.caseStudy;
 
@@ -822,15 +834,38 @@ function closeCaseStudy() {
   });
 }
 
-$$('[data-open-case]').forEach((btn) => {
-  btn.addEventListener('click', (e) => {
+// Delegated case study button listener
+document.addEventListener('click', (e) => {
+  const btn = (e.target as HTMLElement)?.closest<HTMLElement>('[data-open-case]');
+  if (btn) {
     e.preventDefault();
     e.stopPropagation();
     const idx = Number(btn.dataset.openCase || 0);
     openCaseStudy(idx);
+  }
+});
+
+$$('[data-close-case]').forEach((btn) => btn.addEventListener('click', () => closeCaseStudy()));
+
+// Language Switcher Handlers
+const langBtn = $('#langToggle');
+langBtn?.addEventListener('click', () => {
+  const next: Lang = getLang() === 'pt' ? 'en' : 'pt';
+  setLang(next);
+  renderProjects();
+  initTilt('.bio-card', undefined, 8);
+  toast(next === 'pt' ? '✦ Idioma: Português' : '✦ Language: English');
+});
+
+$$('.btn-lang').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const lang = (btn.dataset.setLang as Lang) || 'pt';
+    setLang(lang);
+    renderProjects();
+    initTilt('.bio-card', undefined, 8);
+    toast(lang === 'pt' ? '✦ Idioma: Português' : '✦ Language: English');
   });
 });
-$$('[data-close-case]').forEach((btn) => btn.addEventListener('click', () => closeCaseStudy()));
 
 // secret words & ESC for modals
 let typed = '';

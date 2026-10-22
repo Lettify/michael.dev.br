@@ -3021,6 +3021,215 @@ section {
   }
 }
 
+/* ---------- Language Switcher ---------- */
+.nav__lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(22, 10, 43, 0.6);
+  border: 1px solid rgba(196, 181, 253, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-dim);
+  transition: all 0.25s ease;
+}
+.nav__lang:hover {
+  border-color: rgba(232, 121, 249, 0.6);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+}
+.lang-pill {
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+.lang-pill.is-active {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(232, 121, 249, 0.8);
+}
+.lang-divider {
+  opacity: 0.35;
+  font-size: 0.65rem;
+}
+.menu__lang-switch {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+.menu__lang-switch > span {
+  font-size: 0.68rem;
+  color: var(--lilac);
+  letter-spacing: 0.08em;
+}
+.menu__lang-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+.btn-lang {
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(196, 181, 253, 0.2);
+  color: var(--ink-dim);
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.btn-lang.is-active {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(232, 121, 249, 0.25));
+  border-color: var(--magenta);
+  color: #fff;
+}
+
+/* ---------- Personal Specs Bento HUD ---------- */
+.bio-hud {
+  margin-top: clamp(3rem, 6vw, 5.5rem);
+  position: relative;
+  z-index: 2;
+}
+.bio-hud__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(196, 181, 253, 0.12);
+}
+.bio-hud__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.bio-hud__pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 10px var(--lime);
+  animation: hudPulse 2s infinite ease-in-out;
+}
+@keyframes hudPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+.bio-hud__tag {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lilac);
+}
+.bio-hud__coords {
+  font-size: 0.68rem;
+  color: var(--ink-dim);
+  letter-spacing: 0.08em;
+}
+.bio-hud__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
+}
+.bio-card {
+  position: relative;
+  padding: 1.4rem 1.45rem;
+  border-radius: 18px;
+  background: rgba(13, 8, 25, 0.78);
+  border: 1px solid rgba(196, 181, 253, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.65rem;
+  transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  overflow: hidden;
+}
+.bio-card:hover {
+  border-color: rgba(232, 121, 249, 0.55);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px -15px rgba(168, 85, 247, 0.38);
+}
+.bio-card--wide {
+  grid-column: span 1.5;
+}
+.bio-card__top {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.bio-card__icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--magenta);
+}
+.bio-card__label {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--lilac);
+}
+.bio-card__value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+.bio-card__value strong {
+  font-family: var(--f-display);
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+  background: linear-gradient(135deg, #ffffff 30%, #e9d5ff 70%, var(--magenta) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.bio-card__value--text strong {
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+.bio-card__value--mid strong {
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+.bio-card__unit {
+  font-family: var(--f-mono);
+  font-size: 0.85rem;
+  color: var(--lilac);
+  font-weight: 600;
+}
+.bio-card__sub {
+  font-size: 0.72rem;
+  color: var(--ink-dim);
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .bio-hud__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bio-card--wide {
+    grid-column: span 2;
+  }
+}
+@media (max-width: 600px) {
+  .bio-hud__grid {
+    grid-template-columns: 1fr;
+  }
+  .bio-card--wide {
+    grid-column: span 1;
+  }
+  .bio-card {
+    padding: 1.15rem 1.2rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
