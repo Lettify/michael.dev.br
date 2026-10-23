@@ -16,6 +16,7 @@ import { initCursor, initMagnetic, initProximity, refreshProximity, initScramble
 import { createStackPhysics } from './ui/physics';
 import { initPowerManager, type EcoReason } from './ui/power';
 import { sound } from './ui/sound';
+import { initPWA } from './ui/pwa';
 import { inject as injectAnalytics } from '@vercel/analytics';
 import { injectSpeedInsights } from '@vercel/speed-insights';
 
@@ -599,6 +600,9 @@ function toast(text: string) {
   clearTimeout(toastTimer);
   toastTimer = window.setTimeout(() => toastEl.classList.remove('is-visible'), 2600);
 }
+
+// Progressive Web App (PWA) & Offline Mode
+initPWA(toast);
 
 // Adaptive Battery & Performance Mode Manager
 initPowerManager((eco: boolean, reason: EcoReason) => {

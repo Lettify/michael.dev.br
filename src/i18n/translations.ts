@@ -134,6 +134,13 @@ export interface Translations {
     purple: string;
     chess: string;
     lua: string;
+    offline: string;
+    online: string;
+    appInstalled: string;
+    updateAvailable: string;
+  };
+  pwa: {
+    installBtn: string;
   };
 }
 
@@ -272,6 +279,13 @@ export const translations: Record<Lang, Translations> = {
       purple: '💜 Roxo é a melhor cor. Concordo.',
       chess: '♞ Xeque-mate.',
       lua: '🌙 local dev = "Michael"',
+      offline: '✦ Modo Offline ativo — Navegação em cache completa',
+      online: '✦ Conexão restabelecida ✦ Online',
+      appInstalled: '✦ Aplicativo instalado com sucesso!',
+      updateAvailable: '✦ Nova versão do portfólio sincronizada',
+    },
+    pwa: {
+      installBtn: '✦ Instalar Aplicativo (PWA)',
     },
   },
   en: {
@@ -408,6 +422,13 @@ export const translations: Record<Lang, Translations> = {
       purple: '💜 Purple is the best color. Agreed.',
       chess: '♞ Checkmate.',
       lua: '🌙 local dev = "Michael"',
+      offline: '✦ Offline Mode active — Full cache browsing ready',
+      online: '✦ Connection restored ✦ Back online',
+      appInstalled: '✦ App installed successfully!',
+      updateAvailable: '✦ Fresh version of portfolio synced',
+    },
+    pwa: {
+      installBtn: '✦ Install App (PWA)',
     },
   },
 };

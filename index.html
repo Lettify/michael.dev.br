@@ -65,7 +65,18 @@
         }
       }
     </script>
+    <!-- PWA & Favicons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Michael Silva" />
+    <meta name="application-name" content="Michael Silva" />
+    <meta name="msapplication-TileColor" content="#07040f" />
     <style>
       html,
       body {
@@ -261,6 +272,9 @@
             <button type="button" class="btn-lang" data-set-lang="en">English (US)</button>
           </div>
         </div>
+        <button type="button" class="menu__pwa-btn mono" id="pwaInstallBtn" hidden data-cursor="Instalar">
+          <span data-i18n="pwa.installBtn">✦ Instalar Aplicativo (PWA)</span>
+        </button>
         <a href="mailto:contato@michael.dev.br">contato@michael.dev.br</a>
         <a href="https://github.com/Lettify" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/michael-felipe-ss/" target="_blank" rel="noopener">LinkedIn</a>

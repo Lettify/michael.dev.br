@@ -1,0 +1,72 @@
+{
+  "name": "Michael Silva — Portfólio 3D",
+  "short_name": "Michael Silva",
+  "description": "Portfólio 3D interativo de Michael Silva. Desenvolvedor Full Stack em Brasília. Arquiteturas escaláveis, código limpo e computação gráfica.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#07040f",
+  "theme_color": "#07040f",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "categories": ["portfolio", "technology", "developer"],
+  "icons": [
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Sobre",
+      "short_name": "Sobre",
+      "description": "Conheça a trajetória e stack",
+      "url": "/#sobre",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Projetos",
+      "short_name": "Projetos",
+      "description": "Projetos em destaque e Raio-X",
+      "url": "/#projetos",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Contato",
+      "short_name": "Contato",
+      "description": "Enviar mensagem direta",
+      "url": "/#contato",
+      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og-cover.png",
+      "sizes": "1200x630",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Michael Silva — Portfólio 3D Interativo"
+    }
+  ]
+}

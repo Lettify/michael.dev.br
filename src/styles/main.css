@@ -810,6 +810,31 @@ html.has-cursor .cursor {
   letter-spacing: 0.08em;
   color: var(--ink-dim);
 }
+.menu__pwa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: var(--lilac);
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.menu__pwa-btn:hover {
+  background: rgba(168, 85, 247, 0.25);
+  border-color: var(--lilac);
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.45);
+  transform: translateY(-1px);
+}
+.menu__pwa-btn[hidden] {
+  display: none !important;
+}
 
 /* ---------- Shared ---------- */
 section {
