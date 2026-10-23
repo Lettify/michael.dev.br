@@ -1,8 +1,14 @@
 import * as THREE from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { buildShapes, type ShapeName } from './shapes';
 import {
   blobFragment,
   blobVertex,
+  cinematicShader,
   particlesFragment,
   particlesVertex,
   starsFragment,
@@ -59,6 +65,11 @@ export class Universe {
   private mobile: boolean;
   private eco = false;
   private lastRenderTime = 0;
+
+  private composer: EffectComposer | null = null;
+  private bloomPass: UnrealBloomPass | null = null;
+  private warpPass: ShaderPass | null = null;
+  private postProcessingEnabled = false;
 
   constructor(canvas: HTMLCanvasElement) {
     this.mobile = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
@@ -147,6 +158,49 @@ export class Universe {
     this.group.add(points);
     this.mix = 0;
     this.layout = this.getLayout('sphere');
+    this.initPostProcessing();
+  }
+
+  private initPostProcessing() {
+    if (this.mobile) return;
+    try {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      this.composer = new EffectComposer(this.renderer);
+      this.composer.setPixelRatio(this.renderer.getPixelRatio());
+
+      const renderPass = new RenderPass(this.scene, this.camera);
+      this.composer.addPass(renderPass);
+
+      this.bloomPass = new UnrealBloomPass(
+        new THREE.Vector2(w, h),
+        0.42, // strength: elegant cinematic glow
+        0.65, // radius
+        0.24, // threshold: triggers on bright particles & highlights
+      );
+      this.composer.addPass(this.bloomPass);
+
+      this.warpPass = new ShaderPass(cinematicShader);
+      this.composer.addPass(this.warpPass);
+
+      const outputPass = new OutputPass();
+      this.composer.addPass(outputPass);
+
+      this.postProcessingEnabled = !this.eco;
+    } catch (err) {
+      console.warn('PostProcessing fallback:', err);
+      this.composer = null;
+      this.postProcessingEnabled = false;
+    }
+  }
+
+  toggleCinematic(): boolean {
+    if (this.mobile) return false;
+    if (!this.composer) {
+      this.initPostProcessing();
+    }
+    this.postProcessingEnabled = !this.postProcessingEnabled;
+    return this.postProcessingEnabled;
   }
 
   private buildStars() {
@@ -305,6 +359,7 @@ export class Universe {
   setEco(enabled: boolean) {
     if (this.eco === enabled) return;
     this.eco = enabled;
+    this.postProcessingEnabled = !enabled && !this.mobile && !!this.composer;
     if (enabled) {
       this.renderer.setPixelRatio(1);
       if (this.geo) {
@@ -334,6 +389,14 @@ export class Universe {
       this.layout = this.getLayout(this.current);
     }
     this.starsMat.uniforms.uPixelRatio.value = this.renderer.getPixelRatio();
+
+    if (this.composer) {
+      this.composer.setSize(w, h);
+      this.composer.setPixelRatio(this.renderer.getPixelRatio());
+      if (this.bloomPass) {
+        this.bloomPass.resolution.set(w, h);
+      }
+    }
   }
 
   tick() {
@@ -419,6 +482,13 @@ export class Universe {
     this.camera.position.y += (this.mouse.y * 0.3 - this.camera.position.y) * k;
     this.camera.lookAt(0, 0, 0);
 
-    this.renderer.render(this.scene, this.camera);
+    // render with cinematic bloom & chromatic warp on high-end desktop, or direct WebGL fallback
+    if (this.postProcessingEnabled && this.composer && this.warpPass) {
+      this.warpPass.uniforms.uWarp.value = Math.min(vel, 1.2);
+      this.warpPass.uniforms.uTime.value = t;
+      this.composer.render();
+    } else {
+      this.renderer.render(this.scene, this.camera);
+    }
   }
 }

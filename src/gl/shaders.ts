@@ -103,19 +103,27 @@ void main(){
   float fres = pow(1.0 - max(dot(n, v), 0.0), 2.4);
   float diff = max(dot(n, L), 0.0);
 
-  vec3 deep = vec3(0.07, 0.015, 0.18);
-  vec3 mid = vec3(0.42, 0.16, 0.85);
+  vec3 deep = vec3(0.06, 0.015, 0.18);
+  vec3 mid = vec3(0.45, 0.16, 0.88);
   vec3 col = mix(deep, mid, diff * 0.85 + vDisp * 1.2);
 
-  vec3 irid = palette(fres * 0.9 + vDisp * 2.0 + uTime * 0.05);
-  col += irid * fres * 1.35;
+  // Cinematic chromatic dispersion
+  vec3 iridR = palette(fres * 0.92 + vDisp * 2.0 + uTime * 0.05);
+  vec3 iridG = palette(fres * 0.88 + vDisp * 2.0 + uTime * 0.05 + 0.04);
+  vec3 iridB = palette(fres * 0.84 + vDisp * 2.0 + uTime * 0.05 + 0.08);
+  vec3 irid = vec3(iridR.r, iridG.g, iridB.b);
+  col += irid * fres * 1.45;
 
-  float spec = pow(max(dot(reflect(-L, n), v), 0.0), 40.0);
-  col += vec3(1.0, 0.85, 1.0) * spec * 0.9;
+  float spec = pow(max(dot(reflect(-L, n), v), 0.0), 38.0);
+  col += vec3(1.2, 0.95, 1.2) * spec * 1.05;
 
-  // soft back light
-  float back = pow(max(dot(n, normalize(vec3(0.7, -0.4, -0.3))), 0.0), 2.0);
-  col += vec3(0.9, 0.3, 0.95) * back * 0.35;
+  // Soft rim / backlight glow
+  float back = pow(max(dot(n, normalize(vec3(0.7, -0.4, -0.3))), 0.0), 2.2);
+  col += vec3(0.95, 0.35, 1.0) * back * 0.42;
+
+  // Cyan secondary highlight
+  float side = pow(max(dot(n, normalize(vec3(-0.8, -0.2, 0.5))), 0.0), 3.0);
+  col += vec3(0.3, 0.85, 1.0) * side * 0.32;
 
   gl_FragColor = vec4(col, 1.0);
 }
@@ -182,20 +190,84 @@ void main(){
   vec2 uv = gl_PointCoord - 0.5;
   float r = length(uv);
   if (r > 0.5) discard;
-  float core = smoothstep(0.5, 0.0, r);
-  core = pow(core, 1.8);
 
-  vec3 lilac = vec3(0.77, 0.71, 0.99);
-  vec3 violet = vec3(0.60, 0.33, 0.97);
-  vec3 magenta = vec3(0.91, 0.47, 0.98);
-  vec3 col = mix(violet, lilac, smoothstep(0.2, 0.8, vRand));
-  col = mix(col, magenta, smoothstep(0.82, 0.95, fract(vRand * 7.0 + uHue)));
-  col = mix(col, vec3(1.0), step(0.965, vRand));
+  // Cinematic dual-corona profile: hot core + soft optical halo
+  float core = exp(-r * 8.5);
+  float halo = smoothstep(0.5, 0.05, r);
+  float intensity = core * 0.78 + halo * 0.42;
 
-  float a = core * uAlpha * mix(1.0, 0.35, vDepth);
+  // Micro starlight diffraction spikes on select bright stars
+  if (vRand > 0.91) {
+    vec2 sUv = abs(uv);
+    float spike = max(
+      smoothstep(0.035, 0.0, sUv.x) * smoothstep(0.48, 0.0, sUv.y),
+      smoothstep(0.035, 0.0, sUv.y) * smoothstep(0.48, 0.0, sUv.x)
+    );
+    intensity += spike * (vRand - 0.91) * 7.5;
+  }
+
+  // Harmonic cosmic palette: Deep Indigo -> Electric Violet -> Neon Magenta -> Ethereal Cyan
+  vec3 indigo  = vec3(0.42, 0.18, 0.92);
+  vec3 lilac   = vec3(0.78, 0.72, 1.0);
+  vec3 magenta = vec3(0.96, 0.42, 0.98);
+  vec3 cyan    = vec3(0.45, 0.88, 1.0);
+
+  vec3 col = mix(indigo, lilac, smoothstep(0.15, 0.75, vRand));
+  col = mix(col, magenta, smoothstep(0.78, 0.93, fract(vRand * 7.0 + uHue)));
+  col = mix(col, cyan, smoothstep(0.94, 0.985, fract(vRand * 13.0 + uHue * 1.5)));
+
+  // Overbright HDR core for the top stars to trigger cinematic bloom
+  col = mix(col, vec3(1.3, 1.25, 1.45), step(0.97, vRand));
+
+  float a = intensity * uAlpha * mix(1.0, 0.35, vDepth);
   gl_FragColor = vec4(col, a);
 }
 `;
+
+/* ---------------- Cinematic Screen Warp & Dispersion ---------------- */
+export const cinematicShader = {
+  uniforms: {
+    tDiffuse: { value: null },
+    uTime: { value: 0 },
+    uWarp: { value: 0 },
+  },
+  vertexShader: /* glsl */ `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: /* glsl */ `
+    uniform sampler2D tDiffuse;
+    uniform float uTime;
+    uniform float uWarp;
+    varying vec2 vUv;
+
+    void main() {
+      vec2 uv = vUv;
+      vec2 center = vec2(0.5);
+      vec2 dir = uv - center;
+      float dist = length(dir);
+
+      // Scroll velocity-driven chromatic warp
+      float aberration = 0.0012 + uWarp * 0.0035 * dist;
+      vec2 uvR = uv - dir * aberration;
+      vec2 uvG = uv;
+      vec2 uvB = uv + dir * aberration;
+
+      float r = texture2D(tDiffuse, uvR).r;
+      float g = texture2D(tDiffuse, uvG).g;
+      float b = texture2D(tDiffuse, uvB).b;
+      float a = texture2D(tDiffuse, uvG).a;
+
+      // Microscopic quantum stardust shimmer
+      float noise = (fract(sin(dot(uv + fract(uTime * 0.05), vec2(12.9898, 78.233))) * 43758.5453) - 0.5) * 0.008;
+
+      gl_FragColor = vec4(r + noise, g + noise, b + noise, a);
+    }
+  `,
+};
 
 /* ---------------- Background stars ---------------- */
 export const starsVertex = /* glsl */ `

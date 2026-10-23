@@ -905,11 +905,14 @@ window.addEventListener('keydown', (e) => {
     universe?.setEco(isNowEco);
     physics?.setEco(isNowEco);
     toast(isNowEco ? '✦ Modo Eco ativado' : '✦ Gráficos em performance máxima');
+  } else if (typed.endsWith('bloom') || typed.endsWith('cine')) {
+    const isCine = universe?.toggleCinematic();
+    toast(isCine ? '✦ Shaders Cinematográficos & Bloom Ativados' : '✦ Modo Padrão Ativado');
   }
 });
 
 console.log(
-  '%c MS® %c Olá, dev curioso! Digite "roxo", "xadrez", "lua" ou "eco" na página. → contato@michael.dev.br',
+  '%c MS® %c Olá, dev curioso! Digite "roxo", "xadrez", "lua", "eco" ou "bloom" na página. → contato@michael.dev.br',
   'background:linear-gradient(90deg,#7c3aed,#e879f9);color:#fff;font-weight:800;padding:6px 10px;border-radius:6px',
   'color:#c4b5fd;padding:6px',
 );
