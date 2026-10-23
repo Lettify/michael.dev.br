@@ -12,7 +12,7 @@ import { getProjects, projects } from './data';
 import { initI18n, setLang, getLang } from './i18n';
 import type { Lang } from './i18n/translations';
 import { split } from './ui/split';
-import { initCursor, initMagnetic, initProximity, initScramble, initTilt } from './ui/interactions';
+import { initCursor, initMagnetic, initProximity, refreshProximity, initScramble, initTilt } from './ui/interactions';
 import { createStackPhysics } from './ui/physics';
 import { initPowerManager, type EcoReason } from './ui/power';
 import { sound } from './ui/sound';
@@ -205,8 +205,13 @@ window.addEventListener('keydown', (e) => e.key === 'Escape' && menuOpen && togg
 /* Text splitting                                                      */
 /* ================================================================== */
 const heroChars = $$('.hero__line').flatMap((el) => split(el, { chars: true, mask: false }).chars);
-const contactChars = $$('.contact__line > span').flatMap((el) => split(el, { chars: true, mask: false }).chars);
-void contactChars;
+function splitContactHeading() {
+  $$('.contact__line > span').forEach((el) => {
+    split(el, { chars: true, mask: false });
+  });
+  refreshProximity();
+}
+splitContactHeading();
 const leadWords = $$('[data-split-words]').map((el) => ({ el, words: split(el).words }));
 const titleChars = $$('[data-split-chars]').map((el) => ({ el, chars: split(el, { chars: true }).chars }));
 const scrubWords = $$('[data-scrub-words]').map((el) => ({ el, words: split(el, { mask: false }).words }));
@@ -858,6 +863,7 @@ const langBtn = $('#langToggle');
 langBtn?.addEventListener('click', () => {
   const next: Lang = getLang() === 'pt' ? 'en' : 'pt';
   setLang(next);
+  splitContactHeading();
   renderProjects();
   initTilt('.bio-card', undefined, 8);
   toast(next === 'pt' ? '✦ Idioma: Português' : '✦ Language: English');
@@ -867,6 +873,7 @@ $$('.btn-lang').forEach((btn) => {
   btn.addEventListener('click', () => {
     const lang = (btn.dataset.setLang as Lang) || 'pt';
     setLang(lang);
+    splitContactHeading();
     renderProjects();
     initTilt('.bio-card', undefined, 8);
     toast(lang === 'pt' ? '✦ Idioma: Português' : '✦ Language: English');

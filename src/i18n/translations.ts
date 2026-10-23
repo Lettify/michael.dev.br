@@ -104,6 +104,8 @@ export interface Translations {
   contact: {
     label: string;
     title: string;
+    titleLine1: string;
+    titleLine2: string;
     sub: string;
     btnDirect: string;
     btnCopy: string;
@@ -239,7 +241,9 @@ export const translations: Record<Lang, Translations> = {
     },
     contact: {
       label: 'Contato',
-      title: 'Vamos criar algo <em>lendário</em> juntos?',
+      title: 'Vamos criar algo lendário juntos?',
+      titleLine1: 'Vamos criar',
+      titleLine2: 'algo lendário?',
       sub: 'Disponível para novos projetos, consultorias e posições de alto impacto.',
       btnDirect: 'Enviar Mensagem Direta ✦',
       btnCopy: 'Copiar E-mail ✦',
@@ -373,7 +377,9 @@ export const translations: Record<Lang, Translations> = {
     },
     contact: {
       label: 'Contact',
-      title: "Let's build something <em>legendary</em> together.",
+      title: "Let's build something legendary together.",
+      titleLine1: "Let's build",
+      titleLine2: 'something legendary?',
       sub: 'Available for new projects, technical consulting, and high-impact engineering roles.',
       btnDirect: 'Send Direct Message ✦',
       btnCopy: 'Copy E-mail ✦',

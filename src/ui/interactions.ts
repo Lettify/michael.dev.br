@@ -368,11 +368,23 @@ export function initTilt(selector: string, inner?: string, max = 10) {
 /* ------------------------------------------------------------------ */
 /* Variable-font proximity (letters swell near cursor / mobile wave)   */
 /* ------------------------------------------------------------------ */
+let refreshProximityFn: (() => void) | null = null;
+
+export function refreshProximity() {
+  refreshProximityFn?.();
+}
+
 export function initProximity() {
   const isFine = finePointer();
-  const groups = Array.from(document.querySelectorAll<HTMLElement>('[data-proximity]'));
-  const chars = groups.flatMap((g) => Array.from(g.querySelectorAll<HTMLElement>('.split-char')));
+  let groups = Array.from(document.querySelectorAll<HTMLElement>('[data-proximity]'));
+  let chars = groups.flatMap((g) => Array.from(g.querySelectorAll<HTMLElement>('.split-char')));
   const values = new Map<HTMLElement, number>();
+
+  refreshProximityFn = () => {
+    groups = Array.from(document.querySelectorAll<HTMLElement>('[data-proximity]'));
+    chars = groups.flatMap((g) => Array.from(g.querySelectorAll<HTMLElement>('.split-char')));
+    values.clear();
+  };
   const mouse = { x: -9999, y: -9999 };
   window.addEventListener(
     'pointermove',

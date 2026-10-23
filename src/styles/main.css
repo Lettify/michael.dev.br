@@ -1795,6 +1795,10 @@ section {
 .contact__line:last-child {
   text-align: right;
 }
+.contact__outline {
+  color: rgba(244, 239, 254, var(--p, 0));
+  -webkit-text-stroke: 1.5px var(--lilac);
+}
 .contact__outline .split-char {
   color: rgba(244, 239, 254, var(--p, 0));
   -webkit-text-stroke: 1.5px var(--lilac);
