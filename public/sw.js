@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ms-portfolio-v1.0.0';
+const CACHE_NAME = 'ms-portfolio-v1.0.1';
 
 // Core shell assets to pre-cache on install
 const PRECACHE_ASSETS = [
@@ -6,6 +6,7 @@ const PRECACHE_ASSETS = [
   '/index.html',
   '/manifest.webmanifest',
   '/favicon.svg',
+  '/favicon.ico',
   '/favicon-32x32.png',
   '/favicon-16x16.png',
   '/apple-touch-icon.png',

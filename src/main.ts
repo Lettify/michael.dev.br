@@ -33,6 +33,15 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 window.scrollTo(0, 0);
+if (window.location.hash) {
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+}
+window.addEventListener('beforeunload', () => {
+  window.scrollTo(0, 0);
+});
+window.addEventListener('pagehide', () => {
+  window.scrollTo(0, 0);
+});
 
 /* ================================================================== */
 /* Projects                                                            */
@@ -99,6 +108,7 @@ try {
 /* Smooth scroll                                                       */
 /* ================================================================== */
 const lenis = new Lenis({ lerp: reduced ? 1 : 0.085, touchMultiplier: 1.3 });
+lenis.scrollTo(0, { immediate: true });
 lenis.stop();
 lenis.on('scroll', ScrollTrigger.update);
 
@@ -581,6 +591,8 @@ async function boot() {
     .add(() => {
       document.body.classList.remove('is-loading');
       nav.classList.remove('is-hidden');
+      window.scrollTo(0, 0);
+      lenis.scrollTo(0, { immediate: true });
       lenis.start();
       universe?.startIntro();
       heroIntro();
