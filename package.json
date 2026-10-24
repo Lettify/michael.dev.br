@@ -1,16 +1,26 @@
 {
   "name": "michael-dev-br",
   "version": "1.0.0",
-  "description": "Portfólio de Michael Felipe",
+  "description": "Portfólio 3D Interativo de Michael Silva",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "portfolio",
+    "threejs",
+    "webgl",
+    "typescript",
+    "vite",
+    "shaders",
+    "matterjs",
+    "pwa",
+    "fullstack"
+  ],
+  "author": "Michael Silva <contato@michael.dev.br>",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
