@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>GitHub Banner Michael Silva</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&family=Manrope:wght@400;500;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      width: 1280px;
+      height: 480px;
+      overflow: hidden;
+      background: #06030d;
+      color: #f4effe;
+      font-family: 'Manrope', -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 60px 80px;
+      position: relative;
+    }
+
+    /* Ambient background glows */
+    .nebula-left {
+      position: absolute;
+      top: -100px;
+      left: -80px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.22) 0%, rgba(124, 58, 237, 0.08) 50%, transparent 70%);
+      filter: blur(50px);
+      pointer-events: none;
+    }
+
+    .nebula-right {
+      position: absolute;
+      top: 50%;
+      right: 40px;
+      transform: translateY(-50%);
+      width: 550px;
+      height: 550px;
+      background: radial-gradient(circle, rgba(192, 132, 252, 0.25) 0%, rgba(147, 51, 234, 0.12) 45%, transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    /* Grid overlay */
+    .grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(168, 85, 247, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(168, 85, 247, 0.06) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 80%);
+      pointer-events: none;
+    }
+
+    /* Outer border frame */
+    .frame-border {
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(168, 85, 247, 0.28);
+      border-radius: 20px;
+      pointer-events: none;
+      box-shadow: inset 0 0 40px rgba(168, 85, 247, 0.06);
+    }
+
+    .corner-tl { position: absolute; top: 10px; left: 10px; width: 14px; height: 14px; border-top: 2px solid #f0abfc; border-left: 2px solid #f0abfc; }
+    .corner-tr { position: absolute; top: 10px; right: 10px; width: 14px; height: 14px; border-top: 2px solid #f0abfc; border-right: 2px solid #f0abfc; }
+    .corner-bl { position: absolute; bottom: 10px; left: 10px; width: 14px; height: 14px; border-bottom: 2px solid #f0abfc; border-left: 2px solid #f0abfc; }
+    .corner-br { position: absolute; bottom: 10px; right: 10px; width: 14px; height: 14px; border-bottom: 2px solid #f0abfc; border-right: 2px solid #f0abfc; }
+
+    /* Content Layout */
+    .content-left {
+      position: relative;
+      z-index: 10;
+      max-width: 680px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #f0abfc;
+      width: fit-content;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #f0abfc;
+      box-shadow: 0 0 8px #f0abfc;
+    }
+
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      background: linear-gradient(115deg, #ffffff 0%, #f5d0fe 40%, #c084fc 70%, #a855f7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 20px rgba(168, 85, 247, 0.35));
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      font-weight: 500;
+      color: #cbd5e1;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+      max-width: 580px;
+    }
+
+    .hero-sub strong {
+      color: #f0abfc;
+      font-weight: 600;
+    }
+
+    .tech-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .tech-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgba(22, 10, 44, 0.85);
+      border: 1px solid rgba(168, 85, 247, 0.28);
+      color: #e2e8f0;
+      letter-spacing: 0.02em;
+    }
+
+    .tech-pill span {
+      color: #a855f7;
+      margin-right: 4px;
+    }
+
+    /* Right Emblem Lockup */
+    .emblem-wrapper {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+    }
+
+    .emblem-halo {
+      position: absolute;
+      width: 290px;
+      height: 290px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(124, 58, 237, 0.1) 60%, transparent 75%);
+      filter: blur(24px);
+    }
+
+    .emblem-ring {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      border: 1px dashed rgba(240, 171, 252, 0.25);
+    }
+
+    .emblem-ring-inner {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
+
+    .emblem-svg {
+      width: 175px;
+      height: 175px;
+      filter: drop-shadow(0 15px 35px rgba(168, 85, 247, 0.65));
+      position: relative;
+      z-index: 2;
+    }
+
+    .geo-meta {
+      position: absolute;
+      bottom: -32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #a78bfa;
+      opacity: 0.8;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background FX -->
+  <div class="nebula-left"></div>
+  <div class="nebula-right"></div>
+  <div class="grid-bg"></div>
+
+  <!-- Tech Frame Corners -->
+  <div class="frame-border"></div>
+  <div class="corner-tl"></div>
+  <div class="corner-tr"></div>
+  <div class="corner-bl"></div>
+  <div class="corner-br"></div>
+
+  <!-- Left Content Column -->
+  <div class="content-left">
+    <div class="badge-tag">
+      <span class="badge-dot"></span>
+      <span>MICHAEL.DEV.BR // FULL STACK &amp; 3D</span>
+    </div>
+
+    <h1 class="hero-title">MICHAEL SILVA</h1>
+
+    <p class="hero-sub">
+      Sistemas robustos, arquiteturas limpas e experiências digitais imersivas. Engenharia de software unida a <strong>shaders WebGL em tempo real</strong>.
+    </p>
+
+    <div class="tech-pills">
+      <div class="tech-pill"><span>#</span>Three.js</div>
+      <div class="tech-pill"><span>#</span>TypeScript</div>
+      <div class="tech-pill"><span>#</span>GLSL Shaders</div>
+      <div class="tech-pill"><span>#</span>Matter.js</div>
+      <div class="tech-pill"><span>#</span>Vite</div>
+      <div class="tech-pill"><span>#</span>PWA Offline</div>
+    </div>
+  </div>
+
+  <!-- Right Logomark Emblem -->
+  <div class="emblem-wrapper">
+    <div class="emblem-halo"></div>
+    <div class="emblem-ring"></div>
+    <div class="emblem-ring-inner"></div>
+
+    <!-- The Official Hyper-Geometric M-Crest Vector -->
+    <svg class="emblem-svg" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="b_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#180a36"/>
+          <stop offset="55%" stop-color="#0a0316"/>
+          <stop offset="100%" stop-color="#020006"/>
+        </linearGradient>
+
+        <linearGradient id="b_rim" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#f0abfc"/>
+          <stop offset="50%" stop-color="#c084fc"/>
+          <stop offset="100%" stop-color="#581c87"/>
+        </linearGradient>
+
+        <linearGradient id="b_wingL" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="30%" stop-color="#f5d0fe"/>
+          <stop offset="70%" stop-color="#c084fc"/>
+          <stop offset="100%" stop-color="#7c3aed"/>
+        </linearGradient>
+
+        <linearGradient id="b_wingR" x1="100%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="30%" stop-color="#f0abfc"/>
+          <stop offset="70%" stop-color="#a855f7"/>
+          <stop offset="100%" stop-color="#4c1d95"/>
+        </linearGradient>
+
+        <linearGradient id="b_core" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#e879f9"/>
+        </linearGradient>
+
+        <radialGradient id="b_bloom" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#a855f7" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <rect x="2.5" y="2.5" width="59" height="59" rx="16" fill="url(#b_bg)" stroke="url(#b_rim)" stroke-width="2"/>
+      <circle cx="32" cy="32" r="21" fill="url(#b_bloom)"/>
+
+      <!-- Left Chevron of M -->
+      <path d="
+        M 12 48
+        L 12 19
+        C 12 17.5 13.5 16.5 14.8 17.2
+        L 28.5 25.5
+        C 29.5 26.1 30 27.2 30 28.5
+        L 30 48
+        C 30 49 29 49.5 28 49.5
+        L 24 49.5
+        C 23 49.5 22 49 22 48
+        L 22 30
+        L 18 27.5
+        L 18 48
+        C 18 49 17 49.5 16 49.5
+        L 14 49.5
+        C 13 49.5 12 49 12 48
+        Z
+      " fill="url(#b_wingL)"/>
+
+      <!-- Right Chevron of M -->
+      <path d="
+        M 52 48
+        L 52 19
+        C 52 17.5 50.5 16.5 49.2 17.2
+        L 35.5 25.5
+        C 34.5 26.1 34 27.2 34 28.5
+        L 34 48
+        C 34 49 35 49.5 36 49.5
+        L 40 49.5
+        C 41 49.5 42 49 42 48
+        L 42 30
+        L 46 27.5
+        L 46 48
+        C 46 49 47 49.5 48 49.5
+        L 50 49.5
+        C 51 49.5 52 49 52 48
+        Z
+      " fill="url(#b_wingR)"/>
+
+      <!-- Center Floating Diamond Beacon -->
+      <path d="
+        M 32 15
+        L 35.5 20.5
+        L 32 26
+        L 28.5 20.5
+        Z
+      " fill="url(#b_core)"/>
+      <circle cx="32" cy="20.5" r="1.2" fill="#ffffff"/>
+    </svg>
+
+    <div class="geo-meta">COORD: 15.7975° S, 47.8919° W</div>
+  </div>
+
+</body>
+</html>

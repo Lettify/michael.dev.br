@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="./public/og-cover.png" alt="Michael Silva — Portfólio 3D" width="100%" />
+  <img src="./public/repo-banner.png" alt="Michael Silva — Portfólio 3D Interativo" width="100%" />
 
   <br />
   <br />
@@ -101,6 +101,7 @@ michael.dev.br/
 │   ├── favicon.ico          # Ícone multi-resolução nativo (16x16, 32x32, 48x48)
 │   ├── manifest.webmanifest # Manifesto da PWA
 │   ├── sw.js                # Service Worker com cache híbrido e modo offline
+│   ├── repo-banner.png      # Banner oficial do repositório GitHub (1280x480)
 │   ├── og-cover.png         # OpenGraph cover para redes sociais
 │   └── sitemap.xml          # Mapa do site para SEO
 ├── scripts/                 # Scripts de automação e utilitários de build
