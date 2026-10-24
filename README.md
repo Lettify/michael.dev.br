@@ -5,14 +5,14 @@
   <br />
   <br />
 
-  # ✦ Michael Silva — Portfólio 3D Interativo
+  # Michael Silva — Portfólio 3D Interativo
 
   **Desenvolvedor Full Stack & Analista de Sistemas**  
   *Sistemas robustos, arquiteturas limpas e experiências digitais imersivas.*
 
   <br />
 
-  [![Live Site](https://img.shields.io/badge/🌐%20Website-michael.dev.br-a855f7?style=for-the-badge&logoColor=white)](https://michael.dev.br)
+  [![Website](https://img.shields.io/badge/Website-michael.dev.br-a855f7?style=for-the-badge&logoColor=white)](https://michael.dev.br)
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Three.js](https://img.shields.io/badge/Three.js-black?style=for-the-badge&logo=three.js&logoColor=white)](https://threejs.org/)
   [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -23,38 +23,38 @@
 
 ---
 
-## 🌌 Visão Geral
+## Visão Geral
 
 Este repositório contém o código-fonte do portfólio oficial de **Michael Silva** ([michael.dev.br](https://michael.dev.br)).
 
-O projeto foi concebido para unir **computação gráfica 3D em tempo real** e **design editorial futurista** à engenharia de software de alta performance. Diferente de portfólios convencionais, ele combina shaders customizados, física de partículas 2D, acessibilidade, suporte offline completo e uma pontuação de segurança de **Grau A+** no Mozilla Observatory / OWASP.
+O projeto foi concebido para unir **computação gráfica 3D em tempo real** e **design editorial futurista** à engenharia de software de alta performance. Combina shaders customizados, física de partículas 2D, acessibilidade, suporte offline completo e uma pontuação de segurança de **Grau A+** no Mozilla Observatory / OWASP.
 
 ---
 
-## ✨ Principais Destaques & Funcionalidades
+## Principais Destaques e Funcionalidades
 
-### 🎮 1. WebGL & Shaders Cinematográficos 3D
+### 1. WebGL e Shaders Cinematográficos 3D
 - **Pipeline de Pós-Processamento:** Integração de `EffectComposer` com `UnrealBloomPass` para bloom seletivo em orbes e poeira estelar cósmica.
 - **Distorção Cromática Reativa:** Shader customizado de aberração cromática e curvatura óptica de lente (*cinematic chromatic warp*) reativo à velocidade de rolagem do usuário.
-- **Metamorfose Geométrica:** O universo WebGL se transforma dinamicamente através do scroll (*Esfera Cósmica ➔ Torus Interativo ➔ Malha Topográfica ➔ Rei do Xadrez ➔ Orbe Gravitacional*).
+- **Metamorfose Geométrica:** O universo WebGL se transforma dinamicamente através do scroll (Esfera Cósmica -> Torus Interativo -> Malha Topográfica -> Rei do Xadrez -> Orbe Gravitacional).
 - **Spikes de Difração Estelar:** Efeito de difração óptica de 4 pontas nas estrelas cósmicas com dispersão iridescente.
 
-### 🧩 2. Física Interativa 2D (Matter.js)
+### 2. Física Interativa 2D (Matter.js)
 - Sandbox interativo onde as pílulas de tecnologias da *Tech Stack* possuem gravidade, massa, colisões e restituição elástica reais, permitindo que o visitante as arraste, jogue e reorganize.
 
-### 🌐 3. Internacionalização Instantânea (i18n)
+### 3. Internacionalização Instantânea (i18n)
 - Suporte nativo e instantâneo a **Português (BR)** e **English (US)**.
 - Alternador reativo no cabeçalho e menu fullscreen, com persistência via `localStorage` e detecção automática do idioma do navegador.
-- Preservação de alinhamento tipográfico e quebra de linha milimétrica em ambos os idiomas.
+- Preservação de alinhamento tipográfico e quebra de linha em ambos os idiomas.
 
-### ⚡ 4. PWA & Navegação Offline (0ms)
+### 4. PWA e Navegação Offline (0ms)
 - **Instalável:** Configurado como aplicativo *standalone* no Android, iOS, Windows e macOS via manifesto PWA (`manifest.webmanifest`).
 - **Service Worker Inteligente (`sw.js`):**
   - **Navegação (HTML):** *Network-First* com fallback transparente para o cache.
-  - **Assets Estáticos (JS, CSS, Fontes WOFF2, Texturas):** *Stale-While-Revalidate* para carregamento em **0ms** com atualização silenciosa em segundo plano.
-- **Indicadores de Conexão:** Notificações elegantes de status online/offline e botão nativo de instalação no menu.
+  - **Assets Estáticos (JS, CSS, Fontes WOFF2, Texturas):** *Stale-While-Revalidate* para carregamento em 0ms com atualização silenciosa em segundo plano.
+- **Indicadores de Conexão:** Notificações de status online/offline e botão nativo de instalação no menu.
 
-### 🛡️ 5. Blindagem de Segurança (Grau A+ / 98 de 100)
+### 5. Blindagem de Segurança (Grau A+ / 98 de 100)
 - **Cabeçalhos HTTP Hardened ([`vercel.json`](./vercel.json)):**
   - `Content-Security-Policy (CSP)` restritivo.
   - `X-Frame-Options: DENY` (anti-clickjacking).
@@ -62,19 +62,19 @@ O projeto foi concebido para unir **computação gráfica 3D em tempo real** e *
   - `X-Content-Type-Options: nosniff`.
   - `Permissions-Policy` bloqueando câmera, microfone e geolocalização.
 - **API Serverless Blindada ([`api/contact.js`](./api/contact.js)):** Rate-limiting em memória por IP, mitigação de menções no Discord (`allowed_mentions`), honeypot anti-spam e validação de origem (CSRF).
-- **Zero Sinks Vulneráveis:** 100% livre de DOM XSS e dependências auditadas com `0 vulnerabilidades` (`npm audit`).
+- **Zero Sinks Vulneráveis:** 100% livre de DOM XSS e dependências auditadas com 0 vulnerabilidades (`npm audit`).
 
-### 🔋 6. Gerenciamento Adaptativo de Energia (Modo Eco)
+### 6. Gerenciamento Adaptativo de Energia (Modo Eco)
 - Monitoramento contínuo da API de Bateria (`navigator.getBattery`).
 - Redução automática da taxa de quadros e desligamento de renderizadores sob bateria fraca, dispositivos de baixa potência ou perda de foco da aba.
 
-### 🎨 7. Identidade Visual Proprietária (The Hyper-Geometric M-Crest)
-- Favicon concebido com geometria matemática pura em SVG, com asas chanfradas simétricas em 45°/60°, corredor de ascensão e singularidade estelar (`✦`).
+### 7. Identidade Visual Proprietária (The Hyper-Geometric M-Crest)
+- Favicon concebido com geometria matemática pura em SVG, com asas chanfradas simétricas em 45°/60°, corredor de ascensão e singularidade estelar.
 - Pacote multi-resolução integrado (`.ico` nativo 16/32/48, PNGs, Apple Touch Icon e PWA maskable).
 
 ---
 
-## 🛠️ Stack Tecnológica
+## Stack Tecnológica
 
 | Categoria | Tecnologias Utilizadas |
 | :--- | :--- |
@@ -90,30 +90,30 @@ O projeto foi concebido para unir **computação gráfica 3D em tempo real** e *
 
 ---
 
-## 📂 Arquitetura de Pastas
+## Arquitetura de Pastas
 
 ```bash
 michael.dev.br/
-├── 📁 api/                   # Funções Serverless (Vercel Backend)
+├── api/                     # Funções Serverless (Vercel Backend)
 │   └── contact.js           # Rota segura de envio de mensagens com rate-limiting
-├── 📁 public/                # Assets estáticos servidos na raiz
+├── public/                  # Assets estáticos servidos na raiz
 │   ├── favicon.svg          # Favicon vetorial "The Hyper-Geometric M-Crest"
 │   ├── favicon.ico          # Ícone multi-resolução nativo (16x16, 32x32, 48x48)
 │   ├── manifest.webmanifest # Manifesto da PWA
 │   ├── sw.js                # Service Worker com cache híbrido e modo offline
 │   ├── og-cover.png         # OpenGraph cover para redes sociais
 │   └── sitemap.xml          # Mapa do site para SEO
-├── 📁 scripts/               # Scripts de automação e utilitários de build
+├── scripts/                 # Scripts de automação e utilitários de build
 │   └── build_final_favicon.py # Pipeline de geração das resoluções de ícones
-├── 📁 src/                   # Código-fonte principal
-│   ├── 📁 gl/               # Pipeline WebGL e Three.js
+├── src/                     # Código-fonte principal
+│   ├── gl/                  # Pipeline WebGL e Three.js
 │   │   ├── scene.ts         # Cena 3D, EffectComposer, Bloom e Shaders
 │   │   ├── shaders.ts       # Shaders customizados em GLSL
 │   │   └── shapes.ts        # Geometrias matemáticas das formas cósmicas
-│   ├── 📁 i18n/             # Internacionalização
+│   ├── i18n/                # Internacionalização
 │   │   ├── index.ts         # Motor de tradução e reatividade de idioma
 │   │   └── translations.ts  # Dicionários em Português e Inglês
-│   ├── 📁 ui/               # Módulos de interface e interatividade
+│   ├── ui/                  # Módulos de interface e interatividade
 │   │   ├── interactions.ts  # Cursor magnético, efeito tilt 3D e proximidade
 │   │   ├── personal-hud.ts  # HUD bento de especificações pessoais dinâmicas
 │   │   ├── physics.ts       # Sandbox de física 2D com Matter.js
@@ -121,7 +121,7 @@ michael.dev.br/
 │   │   ├── pwa.ts           # Registro de Service Worker e eventos online/offline
 │   │   ├── sound.ts         # Efeitos sonoros sintetizados via Web Audio API
 │   │   └── split.ts         # Desmembramento tipográfico para animações
-│   ├── 📁 styles/           # Folhas de estilo modularizadas
+│   ├── styles/              # Folhas de estilo modularizadas
 │   │   └── main.css         # CSS global com tokens cósmicos e tipografia
 │   ├── data.ts              # Dados de projetos, estudos de caso e stack
 │   └── main.ts              # Ponto de entrada, orquestração e animações
@@ -133,7 +133,7 @@ michael.dev.br/
 
 ---
 
-## 🚀 Como Executar Localmente
+## Como Executar Localmente
 
 ### Pré-requisitos
 - [Node.js](https://nodejs.org/) (versão 18.0 ou superior recomendada)
@@ -176,7 +176,7 @@ michael.dev.br/
 
 ---
 
-## 🔐 Variáveis de Ambiente (Opcional para API)
+## Variáveis de Ambiente (Opcional para API)
 
 Para habilitar o envio direto do formulário de contato via Discord Webhook ou e-mail (Resend), configure as seguintes variáveis no painel da Vercel ou em um arquivo `.env`:
 
@@ -195,7 +195,7 @@ CONTACT_EMAIL="contato@michael.dev.br"
 
 ---
 
-## ⌨️ Easter Eggs do Terminal Cósmico
+## Easter Eggs do Terminal Cósmico
 
 Ao navegar pelo site, você pode digitar palavras secretas no teclado para acionar reações especiais no universo:
 
@@ -203,14 +203,14 @@ Ao navegar pelo site, você pode digitar palavras secretas no teclado para acion
 - Digite `xadrez`: Transforma a forma 3D na peça do **Rei do Xadrez**.
 - Digite `lua`: Converte a forma cósmica no orbe de **Lua Cheia**.
 - Digite `eco`: Ativa ou desativa manualmente o **Modo de Economia de Energia**.
-- Digite `roxo`: Dispara uma explosão cósmica roxa na tela! 💜
+- Digite `roxo`: Dispara uma explosão cósmica roxa na tela.
 
 ---
 
-## 👤 Autor
+## Autor
 
 **Michael Silva** (`Lettify`)  
-*Desenvolvedor Full Stack & Analista de Sistemas* — Brasília, DF, Brasil 🇧🇷
+*Desenvolvedor Full Stack & Analista de Sistemas* — Brasília, DF, Brasil
 
 - **Website:** [michael.dev.br](https://michael.dev.br)
 - **LinkedIn:** [linkedin.com/in/michael-felipe-ss](https://www.linkedin.com/in/michael-felipe-ss/)
@@ -219,9 +219,9 @@ Ao navegar pelo site, você pode digitar palavras secretas no teclado para acion
 
 ---
 
-## 📄 Licença
+## Licença
 
-Este projeto é disponibilizado sob a licença [MIT](./LICENSE) — sinta-se à vontade para explorar o código e se inspirar para seus próprios projetos!
+Este projeto é disponibilizado sob a licença [MIT](./LICENSE) — sinta-se à vontade para explorar o código e se inspirar para seus próprios projetos.
 
 <br />
 
