@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="d3_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15082e"/>
+      <stop offset="60%" stop-color="#080314"/>
+      <stop offset="100%" stop-color="#020006"/>
+    </linearGradient>
+
+    <linearGradient id="d3_rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0abfc" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#c084fc" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#4c1d95" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Top facet: Brilliant Starlight White -->
+    <linearGradient id="d3_top" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#fdf4ff"/>
+    </linearGradient>
+
+    <!-- Left facet: Electric Lilac to Violet -->
+    <linearGradient id="d3_left" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e879f9"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#581c87"/>
+    </linearGradient>
+
+    <!-- Right facet: Deep Cosmic Indigo -->
+    <linearGradient id="d3_right" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="50%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#3b0764"/>
+    </linearGradient>
+
+    <radialGradient id="d3_glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="2.5" y="2.5" width="59" height="59" rx="16" fill="url(#d3_bg)" stroke="url(#d3_rim)" stroke-width="1.8"/>
+  <circle cx="32" cy="32" r="22" fill="url(#d3_glow)"/>
+
+  <!-- Left Monolith Pillar -->
+  <path d="M 13 47 L 13 21 L 22 15 L 22 41 Z" fill="url(#d3_left)"/>
+  <path d="M 22 15 L 28 19 L 28 45 L 22 41 Z" fill="url(#d3_right)"/>
+  <path d="M 13 21 L 19 17 L 28 19 L 22 15 Z" fill="url(#d3_top)"/>
+
+  <!-- Right Monolith Pillar -->
+  <path d="M 51 47 L 51 21 L 42 15 L 42 41 Z" fill="url(#d3_left)"/>
+  <path d="M 42 15 L 36 19 L 36 45 L 42 41 Z" fill="url(#d3_right)"/>
+  <path d="M 51 21 L 45 17 L 36 19 L 42 15 Z" fill="url(#d3_top)"/>
+
+  <!-- Central Hanging Crystal Apex -->
+  <path d="M 28 19 L 32 30 L 36 19 Z" fill="url(#d3_top)"/>
+  <path d="M 28 19 L 32 30 L 32 37 L 28 26 Z" fill="url(#d3_left)" opacity="0.9"/>
+  <path d="M 36 19 L 32 30 L 32 37 L 36 26 Z" fill="url(#d3_right)" opacity="0.9"/>
+
+  <!-- Starlight ✦ Spark -->
+  <circle cx="32" cy="14" r="1.5" fill="#ffffff"/>
+</svg>

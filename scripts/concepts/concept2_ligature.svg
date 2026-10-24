@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="d2_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15082e"/>
+      <stop offset="60%" stop-color="#080314"/>
+      <stop offset="100%" stop-color="#020006"/>
+    </linearGradient>
+
+    <linearGradient id="d2_rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0abfc" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#a855f7" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Ribbon Gradient flowing from M to S -->
+    <linearGradient id="d2_ribbon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="25%" stop-color="#fdf4ff"/>
+      <stop offset="50%" stop-color="#f0abfc"/>
+      <stop offset="75%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+
+    <radialGradient id="d2_glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="2.5" y="2.5" width="59" height="59" rx="16" fill="url(#d2_bg)" stroke="url(#d2_rim)" stroke-width="1.8"/>
+  <circle cx="32" cy="32" r="22" fill="url(#d2_glow)"/>
+
+  <!-- The MS Continuous Ligature -->
+  <g stroke="url(#d2_ribbon)" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- M: Up, Down-Apex, Up, Down to baseline -->
+    <path d="M 13.5 46.5 L 13.5 19 L 23.5 32.5 L 33.5 19 L 33.5 46.5"/>
+    <!-- S: Sweeping from top-right down in cybernetic curve -->
+    <path d="M 50.5 21.5 C 50.5 18.5 46 18.5 43.5 18.5 C 38 18.5 38 28.5 45.5 30.5 C 53 32.5 53 45.5 44.5 45.5 C 40 45.5 37.5 42.5 37.5 39"/>
+  </g>
+
+  <!-- Starlight Diamond Spark at top-right crest -->
+  <path d="M 51.5 11 Q 51.5 13.5 54 13.5 Q 51.5 13.5 51.5 16 Q 51.5 13.5 49 13.5 Q 51.5 13.5 51.5 11 Z" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="d4_bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#15082e"/>
+      <stop offset="60%" stop-color="#080314"/>
+      <stop offset="100%" stop-color="#020006"/>
+    </linearGradient>
+
+    <linearGradient id="d4_rim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0abfc" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#c084fc" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#4c1d95" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Ring gradient -->
+    <linearGradient id="d4_ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#f0abfc"/>
+      <stop offset="70%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#3b0764"/>
+    </linearGradient>
+
+    <radialGradient id="d4_core" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="25%" stop-color="#f0abfc"/>
+      <stop offset="60%" stop-color="#a855f7" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="2.5" y="2.5" width="59" height="59" rx="16" fill="url(#d4_bg)" stroke="url(#d4_rim)" stroke-width="1.8"/>
+  <circle cx="32" cy="32" r="23" fill="url(#d4_core)" opacity="0.35"/>
+
+  <!-- Event Horizon Accretion Ring -->
+  <circle cx="32" cy="32" r="18" fill="none" stroke="url(#d4_ring)" stroke-width="3.2"/>
+
+  <!-- Intersecting Orbital Blade forming subtle 'M' in negative space -->
+  <path d="M 16 32 C 16 23 23 16 32 16 C 41 16 48 23 48 32 C 48 41 41 48 32 48" fill="none" stroke="#f0abfc" stroke-width="2.5" stroke-linecap="round" opacity="0.65"/>
+
+  <!-- Celestial 4-Point Singularity Spark (✦) -->
+  <path d="
+    M 32 18
+    Q 32 32 46 32
+    Q 32 32 32 46
+    Q 32 32 18 32
+    Q 32 32 32 18
+    Z
+  " fill="#ffffff"/>
+  <circle cx="32" cy="32" r="2.2" fill="#ffffff"/>
+</svg>
