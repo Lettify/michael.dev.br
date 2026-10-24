@@ -1,3 +1,21 @@
+// In-memory rate limiting (max 5 requests per 10 minutes per IP)
+const ipRateMap = new Map();
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const MAX_REQUESTS_PER_WINDOW = 5;
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const timestamps = ipRateMap.get(ip) || [];
+  const valid = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+  if (valid.length >= MAX_REQUESTS_PER_WINDOW) {
+    ipRateMap.set(ip, valid);
+    return true;
+  }
+  valid.push(now);
+  ipRateMap.set(ip, valid);
+  return false;
+}
+
 /**
  * Vercel Serverless Function — POST /api/contact
  * Envia mensagens do portfólio para Discord Webhook e/ou Resend Email API.
@@ -5,6 +23,30 @@
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, error: 'Method not allowed' });
+  }
+
+  // Origin verification (CSRF mitigation)
+  const origin = req.headers.origin || req.headers.referer || '';
+  if (origin) {
+    const isAllowed =
+      origin.includes('michael.dev.br') ||
+      origin.includes('localhost') ||
+      origin.includes('127.0.0.1') ||
+      origin.includes('vercel.app');
+    if (!isAllowed) {
+      return res.status(403).json({ ok: false, error: 'Forbidden origin' });
+    }
+  }
+
+  // Rate limiting by client IP
+  const clientIp =
+    String(req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.socket?.remoteAddress || 'unknown')
+      .split(',')[0]
+      .trim();
+
+  if (isRateLimited(clientIp)) {
+    res.setHeader('Retry-After', '600');
+    return res.status(429).json({ ok: false, error: 'Muitas tentativas. Aguarde alguns minutos.' });
   }
 
   try {
@@ -42,6 +84,7 @@ export default async function handler(req, res) {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             username: 'michael.dev.br · Portfólio 3D',
+            allowed_mentions: { parse: [] },
             embeds: [
               {
                 title: `✦ Nova mensagem — ${topic}`,

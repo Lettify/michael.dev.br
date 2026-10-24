@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ms-portfolio-v1.0.1';
+const CACHE_NAME = 'ms-portfolio-v1.0.2';
 
 // Core shell assets to pre-cache on install
 const PRECACHE_ASSETS = [
@@ -54,8 +54,8 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Bypass third-party analytics
-  if (url.hostname.includes('vercel-insights.com') || url.hostname.includes('vercel-scripts.com')) {
+  // Bypass third-party analytics and API serverless routes
+  if (url.hostname.includes('vercel-insights.com') || url.hostname.includes('vercel-scripts.com') || url.pathname.startsWith('/api/')) {
     return;
   }
 
@@ -79,8 +79,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Strategy 2: Static Assets (Stale-While-Revalidate with Cache-First Fallback)
+  // Strategy 2: Static Assets (Same-Origin Stale-While-Revalidate with Cache-First Fallback)
   // Assets include JS, CSS, Web Fonts (woff2), PNG, SVG, WebP, audio fx
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
   event.respondWith(
     caches.match(req).then((cachedRes) => {
       // Revalidate in background
