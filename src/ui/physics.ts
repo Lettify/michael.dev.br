@@ -3,15 +3,21 @@ import { stack } from '../data';
 
 const { Engine, Bodies, Body, Composite, Mouse, MouseConstraint, Query } = Matter;
 
-/**
- * Tech-stack "toy box": DOM pills driven by a 2D physics world.
- * Desktop: drag & throw. Touch: tap a pill to make it jump.
- */
-export function createStackPhysics(box: HTMLElement) {
+export interface StackPhysicsOptions {
+  isFallback?: boolean;
+  onDegrade?: () => void;
+}
+
+export interface StackPhysicsInstance {
+  start: () => void;
+  update: (deltaMs: number) => void;
+  shake: () => void;
+  setEco: (enabled: boolean) => void;
+  isFallback: boolean;
+}
+
+export function createStackPhysics(box: HTMLElement, options?: StackPhysicsOptions): StackPhysicsInstance {
   const layer = box.querySelector<HTMLElement>('.stack__pills')!;
-  const engine = Engine.create({ enableSleeping: false });
-  engine.gravity.y = 1.1;
-  const world = engine.world;
   const touch = window.matchMedia('(pointer: coarse)').matches;
 
   let W = box.clientWidth;
@@ -34,6 +40,38 @@ export function createStackPhysics(box: HTMLElement) {
     it.h = it.el.offsetHeight;
   });
 
+  if (options?.isFallback) {
+    box.classList.add('is-fallback-layout');
+    items.forEach((it) => it.el.classList.add('is-ready'));
+
+    return {
+      start: () => {},
+      update: () => {},
+      shake: () => {
+        items.forEach((it, idx) => {
+          it.el.animate(
+            [
+              { transform: 'translateY(0) scale(1)' },
+              { transform: 'translateY(-10px) scale(1.05)' },
+              { transform: 'translateY(0) scale(1)' },
+            ],
+            {
+              duration: 450,
+              delay: idx * 25,
+              easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            },
+          );
+        });
+      },
+      setEco: () => {},
+      isFallback: true,
+    };
+  }
+
+  const engine = Engine.create({ enableSleeping: false });
+  engine.gravity.y = 1.1;
+  const world = engine.world;
+
   let walls: Matter.Body[] = [];
   const buildWalls = () => {
     if (walls.length) Composite.remove(world, walls);
@@ -50,8 +88,25 @@ export function createStackPhysics(box: HTMLElement) {
   buildWalls();
 
   let started = false;
+  let degraded = false;
+  let testFrameCount = 0;
+  let slowFrameCount = 0;
+
+  const degradeToStaticLayout = () => {
+    if (degraded) return;
+    degraded = true;
+    started = false;
+    Composite.clear(world, false);
+    box.classList.add('is-fallback-layout');
+    items.forEach((it) => {
+      it.el.style.transform = '';
+      it.el.classList.add('is-ready');
+    });
+    options?.onDegrade?.();
+  };
+
   const start = () => {
-    if (started) return;
+    if (started || degraded) return;
     started = true;
     items.forEach((it, i) => {
       const x = Math.min(Math.max(Math.random() * W, it.w / 2 + 10), W - it.w / 2 - 10);
@@ -69,18 +124,19 @@ export function createStackPhysics(box: HTMLElement) {
     });
   };
 
-  // interaction
   const mouse = Mouse.create(box);
   const m = mouse as unknown as Record<string, EventListener>;
   box.removeEventListener('wheel', m.mousewheel);
   box.removeEventListener('mousewheel', m.mousewheel);
   box.removeEventListener('DOMMouseScroll', m.mousewheel);
+
   if (touch) {
     box.removeEventListener('touchmove', m.mousemove);
     box.removeEventListener('touchstart', m.mousedown);
     box.removeEventListener('touchend', m.mouseup);
 
     const kickAt = (clientX: number, clientY: number, vy = -16) => {
+      if (degraded) return;
       const r = box.getBoundingClientRect();
       const pt = { x: clientX - r.left, y: clientY - r.top };
       const bodies = items.map((i) => i.body).filter(Boolean) as Matter.Body[];
@@ -106,12 +162,11 @@ export function createStackPhysics(box: HTMLElement) {
       constraint: { stiffness: 0.2, damping: 0.1, render: { visible: false } } as Matter.IConstraintDefinition,
     });
     Composite.add(world, mc);
-    // release grabbed pills even if the button is released outside the box
     window.addEventListener('mouseup', m.mouseup);
 
-    // gentle push when sweeping the cursor across pills
     let last = { x: 0, y: 0 };
     box.addEventListener('pointermove', (e) => {
+      if (degraded) return;
       const r = box.getBoundingClientRect();
       const pt = { x: e.clientX - r.left, y: e.clientY - r.top };
       const dx = pt.x - last.x;
@@ -126,6 +181,7 @@ export function createStackPhysics(box: HTMLElement) {
   }
 
   const resize = () => {
+    if (degraded) return;
     W = box.clientWidth;
     H = box.clientHeight;
     buildWalls();
@@ -145,7 +201,19 @@ export function createStackPhysics(box: HTMLElement) {
   });
 
   const update = (deltaMs: number) => {
-    if (!started) return;
+    if (!started || degraded) return;
+
+    if (testFrameCount < 40) {
+      testFrameCount++;
+      if (deltaMs > 42) {
+        slowFrameCount++;
+        if (slowFrameCount >= 8) {
+          degradeToStaticLayout();
+          return;
+        }
+      }
+    }
+
     Engine.update(engine, Math.min(deltaMs, 1000 / 60));
     for (const it of items) {
       if (!it.body) continue;
@@ -155,6 +223,24 @@ export function createStackPhysics(box: HTMLElement) {
   };
 
   const shake = () => {
+    if (degraded) {
+      items.forEach((it, idx) => {
+        it.el.animate(
+          [
+            { transform: 'translateY(0) scale(1)' },
+            { transform: 'translateY(-10px) scale(1.05)' },
+            { transform: 'translateY(0) scale(1)' },
+          ],
+          {
+            duration: 450,
+            delay: idx * 25,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+          },
+        );
+      });
+      return;
+    }
+
     items.forEach((it) => {
       if (it.body) Body.setVelocity(it.body, { x: (Math.random() - 0.5) * 20, y: -15 - Math.random() * 15 });
     });
@@ -164,5 +250,13 @@ export function createStackPhysics(box: HTMLElement) {
     engine.enableSleeping = enabled;
   };
 
-  return { start, update, shake, setEco };
+  return {
+    start,
+    update,
+    shake,
+    setEco,
+    get isFallback() {
+      return degraded;
+    },
+  };
 }

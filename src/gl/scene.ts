@@ -5,6 +5,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/examples/jsm/postprocessing/OutputPass.js';
 import { buildShapes, type ShapeName } from './shapes';
+import type { GraphicsCapabilities } from './diagnostics';
 import {
   blobFragment,
   blobVertex,
@@ -62,7 +63,9 @@ export class Universe {
   private alpha = 0;
   private intro = 0;
   private running = true;
+  private isVisible = true;
   private mobile: boolean;
+  private maxDpr: number;
   private eco = false;
   private lastRenderTime = 0;
 
@@ -71,18 +74,22 @@ export class Universe {
   private warpPass: ShaderPass | null = null;
   private postProcessingEnabled = false;
 
-  constructor(canvas: HTMLCanvasElement) {
-    this.mobile = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
-    this.count = this.mobile ? 5000 : 16000;
+  constructor(canvas: HTMLCanvasElement, capabilities?: Partial<GraphicsCapabilities>) {
+    this.mobile = capabilities?.isMobile ?? window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+    this.count = capabilities?.maxParticles ?? (this.mobile ? 4800 : 16000);
+    this.maxDpr =
+      capabilities?.maxDpr ??
+      (this.mobile ? Math.min(window.devicePixelRatio, 1.5) : Math.min(window.devicePixelRatio, 1.75));
 
     this.renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: !this.mobile,
       alpha: true,
       powerPreference: 'high-performance',
+      failIfMajorPerformanceCaveat: true,
     });
     this.renderer.setClearColor(0x000000, 0);
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.mobile ? 1.25 : 1.75));
+    this.renderer.setPixelRatio(this.maxDpr);
 
     this.camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
     this.camera.position.set(0, 0, 9);
@@ -109,6 +116,7 @@ export class Universe {
 
   /** Builds particle shapes (call after fonts load so text shapes use the display font). */
   init() {
+    if (this.count <= 0) return;
     this.shapes = buildShapes(this.count);
     const n = this.count;
     this.rand = new Float32Array(n);
@@ -352,6 +360,21 @@ export class Universe {
     this.burst = 1;
   }
 
+  setVisible(visible: boolean) {
+    if (this.isVisible === visible) return;
+    this.isVisible = visible;
+    if (visible) this.lastTime = performance.now();
+  }
+
+  pause() {
+    this.running = false;
+  }
+
+  resume() {
+    this.running = true;
+    this.lastTime = performance.now();
+  }
+
   startIntro() {
     this.intro = 1;
   }
@@ -366,7 +389,7 @@ export class Universe {
         this.geo.setDrawRange(0, Math.floor(this.count * 0.55));
       }
     } else {
-      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, this.mobile ? 1.25 : 1.75));
+      this.renderer.setPixelRatio(this.maxDpr);
       if (this.geo) {
         this.geo.setDrawRange(0, this.count);
       }
@@ -381,6 +404,7 @@ export class Universe {
     const w = window.innerWidth;
     const h = window.innerHeight;
     this.renderer.setSize(w, h, false);
+    this.renderer.setPixelRatio(this.eco ? 1 : this.maxDpr);
     this.camera.aspect = w / h;
     this.camera.fov = w / h < 0.9 ? 48 : 35;
     this.camera.updateProjectionMatrix();
@@ -400,7 +424,7 @@ export class Universe {
   }
 
   tick() {
-    if (!this.running || !this.pMat) return;
+    if (!this.running || !this.isVisible || !this.pMat) return;
     const now = performance.now();
 
     // In Eco Mode when idle, throttle frame rendering to ~30 FPS to preserve battery and GPU

@@ -7,6 +7,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
 import { Universe } from './gl/scene';
+import { detectGraphicsCapabilities } from './gl/diagnostics';
+import { CanvasLifecycleTracker } from './ui/lifecycle';
 import type { ShapeName } from './gl/shapes';
 import { getProjects, projects } from './data';
 import { initI18n, setLang, getLang } from './i18n';
@@ -94,14 +96,38 @@ initI18n();
 renderProjects();
 
 /* ================================================================== */
+/* Graphics diagnostics & fallback detection                          */
+/* ================================================================== */
+const graphics = detectGraphicsCapabilities();
+if (graphics.isFallback) {
+  document.documentElement.dataset.graphicsMode = 'fallback';
+}
+
+/* ================================================================== */
 /* WebGL universe                                                      */
 /* ================================================================== */
 let universe: Universe | null = null;
-try {
-  universe = new Universe($<HTMLCanvasElement>('#gl'));
-} catch (err) {
-  console.warn('WebGL indisponível — seguindo sem 3D.', err);
-  $('#gl').remove();
+if (!graphics.isFallback) {
+  try {
+    universe = new Universe($<HTMLCanvasElement>('#gl'), graphics);
+  } catch (err) {
+    console.warn('WebGL indisponível — ativando modo fallback.', err);
+    graphics.isFallback = true;
+    document.documentElement.dataset.graphicsMode = 'fallback';
+    const glEl = document.getElementById('gl');
+    if (glEl) glEl.style.display = 'none';
+  }
+}
+
+const lifecycleTracker = new CanvasLifecycleTracker();
+
+if (!graphics.isFallback && universe) {
+  const glCanvas = $<HTMLCanvasElement>('#gl');
+  if (glCanvas) {
+    lifecycleTracker.observe(glCanvas, (visible) => {
+      universe?.setVisible(visible);
+    });
+  }
 }
 
 /* ================================================================== */
@@ -122,6 +148,13 @@ lenis.on('scroll', (l: Lenis) => {
 let physics: ReturnType<typeof createStackPhysics> | null = null;
 let physicsActive = false;
 
+const stackBoxEl = $('.stack__box');
+if (stackBoxEl) {
+  lifecycleTracker.observe(stackBoxEl, (visible) => {
+    physicsActive = visible;
+  });
+}
+
 /* Marquees driven by scroll velocity */
 const marquees = $$('[data-marquee]').map((track) => {
   const row = $('.marquee__row', track);
@@ -140,8 +173,10 @@ gsap.ticker.add((time, delta) => {
   const v = lenis.velocity || 0;
   if (Math.abs(v) > 0.1) scrollDir = Math.sign(v);
 
-  universe?.setVelocity(v);
-  universe?.tick();
+  if (!graphics.isFallback) {
+    universe?.setVelocity(v);
+    universe?.tick();
+  }
 
   if (physicsActive) physics?.update(delta);
 
@@ -274,7 +309,12 @@ function initScrollAnimations() {
 
   // --- hero scroll-out
   const heroST = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true };
-  ScrollTrigger.create({ ...heroST, onUpdate: (s) => universe?.setHeroProgress(s.progress) });
+  ScrollTrigger.create({
+    ...heroST,
+    onUpdate: (s) => {
+      if (!graphics.isFallback) universe?.setHeroProgress(s.progress);
+    },
+  });
   gsap.to('.hero__line:first-child', { xPercent: -14, ease: 'none', scrollTrigger: heroST });
   gsap.to('.hero__line:last-child', { xPercent: 14, ease: 'none', scrollTrigger: heroST });
   gsap.to('.hero__title', { yPercent: -18, opacity: 0.1, ease: 'none', scrollTrigger: heroST });
@@ -288,11 +328,11 @@ function initScrollAnimations() {
       start: 'top 55%',
       end: 'bottom 55%',
       onEnter: () => {
-        universe?.morphTo(shape);
+        if (!graphics.isFallback) universe?.morphTo(shape);
         sound.morph();
       },
       onEnterBack: () => {
-        universe?.morphTo(shape);
+        if (!graphics.isFallback) universe?.morphTo(shape);
         sound.morph();
       },
     });
@@ -499,19 +539,37 @@ async function boot() {
   const logs = $$('.preloader__log');
   const circumference = 2 * Math.PI * 128; // 804.25
 
-  const messages = [
-    'Inicializando pipeline WebGL',
-    'Compilando shaders Simplex 3D',
-    'Sanitizando SQL & tipagem',
-    'Calibrando física Matter.js',
-    'Calculando xeque-mate',
-    'Universo pronto',
-  ];
+  if (graphics.isFallback) {
+    const log0 = $('.preloader__log[data-step="0"] span');
+    if (log0) log0.textContent = 'Modo de alta eficiência (CSS puro)';
+    const log1 = $('.preloader__log[data-step="1"] span');
+    if (log1) log1.textContent = 'Renderização estática otimizada';
+    const metaRowSpan = $('.preloader__meta-row span:first-child');
+    if (metaRowSpan) metaRowSpan.textContent = 'MODO: CSS / CPU-SAFE';
+  }
+
+  const messages = graphics.isFallback
+    ? [
+        'Ativando modo de alta eficiência',
+        'Configurando gradientes CSS puros',
+        'Sanitizando SQL & tipagem',
+        'Organizando grid técnico',
+        'Calculando xeque-mate',
+        'Interface pronta',
+      ]
+    : [
+        'Inicializando pipeline WebGL',
+        'Compilando shaders Simplex 3D',
+        'Sanitizando SQL & tipagem',
+        'Calibrando física Matter.js',
+        'Calculando xeque-mate',
+        'Universo pronto',
+      ];
 
   const counter = { v: 0 };
   const count = gsap.to(counter, {
     v: 100,
-    duration: reduced ? 0.45 : 2.7,
+    duration: reduced ? 0.45 : graphics.isFallback ? 0.85 : 2.7,
     ease: 'expo.inOut',
     onUpdate: () => {
       const v = counter.v;
@@ -552,8 +610,15 @@ async function boot() {
   });
 
   await fontsWithTimeout;
-  universe?.init();
-  physics = createStackPhysics($('.stack__box'));
+  if (!graphics.isFallback) {
+    universe?.init();
+  }
+  physics = createStackPhysics($('.stack__box'), {
+    isFallback: graphics.isFallback,
+    onDegrade: () => {
+      toast('✦ Física adaptada para maior fluidez');
+    },
+  });
   $('.stack__hint')?.addEventListener('click', () => {
     physics?.shake();
     sound.morph();
@@ -594,7 +659,9 @@ async function boot() {
       window.scrollTo(0, 0);
       lenis.scrollTo(0, { immediate: true });
       lenis.start();
-      universe?.startIntro();
+      if (!graphics.isFallback) {
+        universe?.startIntro();
+      }
       heroIntro();
       ScrollTrigger.refresh();
     }, 0.55);
@@ -618,7 +685,7 @@ initPWA(toast);
 
 // Adaptive Battery & Performance Mode Manager
 initPowerManager((eco: boolean, reason: EcoReason) => {
-  universe?.setEco(eco);
+  if (!graphics.isFallback) universe?.setEco(eco);
   physics?.setEco(eco);
   if (eco) {
     if (reason === 'low-battery') {
@@ -645,7 +712,7 @@ $$('[data-copy]').forEach((el) =>
 // click the hero to make the universe pop
 $('.hero').addEventListener('click', (e) => {
   if ((e.target as HTMLElement).closest('a, button')) return;
-  universe?.explode();
+  if (!graphics.isFallback) universe?.explode();
   sound.morph();
 });
 
