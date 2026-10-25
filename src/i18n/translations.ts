@@ -181,9 +181,9 @@ export const translations: Record<Lang, Translations> = {
     },
     bioHud: {
       sectionTitle: 'Identidade & Especificações',
-      ageLabel: 'IDADE & ORIGEM',
+      ageLabel: 'IDADE',
       ageSuffix: 'anos',
-      ageSub: 'Nascido em 17/08/2002',
+      ageSub: '',
       expLabel: 'EXPERIÊNCIA',
       expSuffix: '+ anos',
       expSub: 'No ecossistema dev desde 2016',
@@ -324,9 +324,9 @@ export const translations: Record<Lang, Translations> = {
     },
     bioHud: {
       sectionTitle: 'Identity & Specifications',
-      ageLabel: 'AGE & ORIGIN',
+      ageLabel: 'AGE',
       ageSuffix: 'yrs old',
-      ageSub: 'Born Aug 17, 2002',
+      ageSub: '',
       expLabel: 'EXPERIENCE',
       expSuffix: '+ yrs',
       expSub: 'In the dev ecosystem since 2016',

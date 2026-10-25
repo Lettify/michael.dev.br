@@ -32,7 +32,7 @@ export function renderPersonalHud(lang: Lang = 'pt'): string {
       </div>
 
       <div class="bio-hud__grid">
-        <!-- 01: Dynamic Age & Birthdate -->
+        <!-- 01: Dynamic Age -->
         <div class="bio-card" data-tilt>
           <div class="bio-card__glass"></div>
           <div class="bio-card__top">
@@ -43,7 +43,7 @@ export function renderPersonalHud(lang: Lang = 'pt'): string {
             <strong class="js-val-age">${age}</strong>
             <span class="bio-card__unit">${t.ageSuffix}</span>
           </div>
-          <p class="bio-card__sub mono">${t.ageSub}</p>
+          ${t.ageSub ? `<p class="bio-card__sub mono">${t.ageSub}</p>` : ''}
         </div>
 
         <!-- 02: Dynamic Experience -->

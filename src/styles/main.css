@@ -3172,7 +3172,6 @@ section {
   -webkit-backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 0.65rem;
   transition: border-color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
   overflow: hidden;
@@ -3233,6 +3232,7 @@ section {
   font-weight: 600;
 }
 .bio-card__sub {
+  margin-top: auto;
   font-size: 0.72rem;
   color: var(--ink-dim);
   line-height: 1.4;
