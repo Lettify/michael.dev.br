@@ -106,6 +106,18 @@ canvas {
   text-transform: uppercase;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 @media (hover: hover) and (pointer: fine) {
   html.has-cursor,
   html.has-cursor * {
@@ -598,6 +610,45 @@ html.has-cursor .cursor {
 }
 .preloader__meta-row .js-pl-pct {
   color: #fff;
+}
+
+.preloader__skip {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.28rem 0.68rem;
+  margin-top: 0.45rem;
+  border-radius: 999px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(196, 181, 253, 0.22);
+  color: var(--lilac);
+  font-family: var(--f-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+.preloader__skip:hover {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: var(--magenta);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.25);
+}
+.preloader__skip kbd {
+  display: inline-block;
+  padding: 0.12rem 0.35rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(196, 181, 253, 0.3);
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  color: #fff;
+  line-height: 1;
 }
 
 @media (max-width: 680px) {

@@ -229,6 +229,9 @@
               <span>SHADERS: GLSL3</span>
               <span class="js-pl-pct">000 / 100</span>
             </div>
+            <button type="button" class="preloader__skip mono" id="preloaderSkipBtn" aria-label="Pular introdução">
+              <span>Pular intro</span> <kbd>ESC</kbd>
+            </button>
           </div>
         </div>
       </div>
@@ -398,15 +401,15 @@
 
           <div class="stats">
             <div class="stat" data-fade>
-              <span class="stat__num" data-count="2016">0</span>
+              <span class="stat__num" data-count="2016" data-target="2016">2016</span>
               <span class="stat__label mono" data-i18n="about.statsGithub">Codando no GitHub desde</span>
             </div>
             <div class="stat" data-fade>
-              <span class="stat__num" data-count="26">0</span>
+              <span class="stat__num" data-count="26" data-target="26">26</span>
               <span class="stat__label mono" data-i18n="about.statsRepos">Repositórios públicos</span>
             </div>
             <div class="stat" data-fade>
-              <span class="stat__num" data-count="4">0</span>
+              <span class="stat__num" data-count="4" data-target="4">4</span>
               <span class="stat__label mono" data-i18n="about.statsLangs">Linguagens principais</span>
             </div>
             <div class="stat" data-fade>
@@ -468,7 +471,133 @@
               <h2 class="section-title" data-i18n-html="work.title">Trabalhos <em>recentes</em></h2>
               <div class="work__counter mono"><span class="js-work-current">01</span> / <span class="js-work-total">06</span></div>
             </div>
-            <div class="work__track js-work-track"></div>
+            <div class="work__track js-work-track">
+              <div class="project" data-cursor="Código">
+                <a class="project__media" href="https://github.com/Lettify/nutallis-brasil" target="_blank" rel="noopener" style="--h1:285;--h2:325">
+                  <div class="project__grid"></div>
+                  <span class="project__glyph">N</span>
+                  <span class="project__badge">Código Fonte</span>
+                  <span class="project__glare"></span>
+                </a>
+                <div class="project__info">
+                  <div class="project__meta mono"><span>01 — E-commerce</span><span>2026</span></div>
+                  <h3 class="project__title"><a href="https://github.com/Lettify/nutallis-brasil" target="_blank" rel="noopener">Nutallis Brasil</a></h3>
+                  <a class="project__arrow" href="https://github.com/Lettify/nutallis-brasil" target="_blank" rel="noopener" aria-label="Abrir link de Nutallis Brasil">↗</a>
+                  <p class="project__desc">E-commerce premium multi-página com API serverless, autenticação e banco Postgres via Supabase.</p>
+                  <div class="project__actions">
+                    <button type="button" class="project__case-btn mono" data-open-case="0" data-cursor="Raio-X">
+                      <i>✦</i> Raio-X Técnico
+                    </button>
+                    <div class="project__tags"><span>React</span><span>tRPC</span><span>Express</span><span>Supabase</span><span>Vercel</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="project" data-cursor="Visitar">
+                <a class="project__media" href="https://controle-vendas-gold.vercel.app" target="_blank" rel="noopener" style="--h1:258;--h2:205">
+                  <div class="project__grid"></div>
+                  <span class="project__glyph">R$</span>
+                  <span class="project__badge is-live">Online</span>
+                  <span class="project__glare"></span>
+                </a>
+                <div class="project__info">
+                  <div class="project__meta mono"><span>02 — Web App</span><span>2026</span></div>
+                  <h3 class="project__title"><a href="https://controle-vendas-gold.vercel.app" target="_blank" rel="noopener">Controle de Vendas</a></h3>
+                  <a class="project__arrow" href="https://controle-vendas-gold.vercel.app" target="_blank" rel="noopener" aria-label="Abrir link de Controle de Vendas">↗</a>
+                  <p class="project__desc">Controle diário de vendas e rendimento de funcionários, com autenticação por código único e relatórios.</p>
+                  <div class="project__actions">
+                    <button type="button" class="project__case-btn mono" data-open-case="1" data-cursor="Raio-X">
+                      <i>✦</i> Raio-X Técnico
+                    </button>
+                    <div class="project__tags"><span>React 19</span><span>tRPC</span><span>Drizzle</span><span>PostgreSQL</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="project" data-cursor="Código">
+                <a class="project__media" href="https://github.com/Lettify/let-assistant" target="_blank" rel="noopener" style="--h1:240;--h2:290">
+                  <div class="project__grid"></div>
+                  <span class="project__glyph">AI</span>
+                  <span class="project__badge">Em evolução</span>
+                  <span class="project__glare"></span>
+                </a>
+                <div class="project__info">
+                  <div class="project__meta mono"><span>03 — Discord Bot</span><span>2026</span></div>
+                  <h3 class="project__title"><a href="https://github.com/Lettify/let-assistant" target="_blank" rel="noopener">Let Assistant</a></h3>
+                  <a class="project__arrow" href="https://github.com/Lettify/let-assistant" target="_blank" rel="noopener" aria-label="Abrir link de Let Assistant">↗</a>
+                  <p class="project__desc">Assistente para Discord com automações úteis — base do moderador com IA que identifica intenções comerciais.</p>
+                  <div class="project__actions">
+                    <button type="button" class="project__case-btn mono" data-open-case="2" data-cursor="Raio-X">
+                      <i>✦</i> Raio-X Técnico
+                    </button>
+                    <div class="project__tags"><span>TypeScript</span><span>Discord.js</span><span>IA</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="project" data-cursor="Código">
+                <a class="project__media" href="https://github.com/Lettify/WaterPositions_MTA" target="_blank" rel="noopener" style="--h1:212;--h2:268">
+                  <div class="project__grid"></div>
+                  <span class="project__glyph">≋</span>
+                  <span class="project__badge">★ 3 stars</span>
+                  <span class="project__glare"></span>
+                </a>
+                <div class="project__info">
+                  <div class="project__meta mono"><span>04 — MTA Resource</span><span>2021</span></div>
+                  <h3 class="project__title"><a href="https://github.com/Lettify/WaterPositions_MTA" target="_blank" rel="noopener">WaterPositions MTA</a></h3>
+                  <a class="project__arrow" href="https://github.com/Lettify/WaterPositions_MTA" target="_blank" rel="noopener" aria-label="Abrir link de WaterPositions MTA">↗</a>
+                  <p class="project__desc">Ferramenta para Multi Theft Auto que gera e verifica posições de água no mapa, com permissões via ACL.</p>
+                  <div class="project__actions">
+                    <button type="button" class="project__case-btn mono" data-open-case="3" data-cursor="Raio-X">
+                      <i>✦</i> Raio-X Técnico
+                    </button>
+                    <div class="project__tags"><span>Lua</span><span>MTA:SA</span><span>ACL</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="project" data-cursor="Código">
+                <a class="project__media" href="https://github.com/Lettify/engenharia-de-prompt-udf" target="_blank" rel="noopener" style="--h1:305;--h2:335">
+                  <div class="project__grid"></div>
+                  <span class="project__glyph">{ }</span>
+                  <span class="project__badge">★ 2 stars</span>
+                  <span class="project__glare"></span>
+                </a>
+                <div class="project__info">
+                  <div class="project__meta mono"><span>05 — Pesquisa · UDF</span><span>2026</span></div>
+                  <h3 class="project__title"><a href="https://github.com/Lettify/engenharia-de-prompt-udf" target="_blank" rel="noopener">Engenharia de Prompt</a></h3>
+                  <a class="project__arrow" href="https://github.com/Lettify/engenharia-de-prompt-udf" target="_blank" rel="noopener" aria-label="Abrir link de Engenharia de Prompt">↗</a>
+                  <p class="project__desc">Estudos e notebooks de engenharia de prompt desenvolvidos na disciplina do curso de ADS da UDF.</p>
+                  <div class="project__actions">
+                    <button type="button" class="project__case-btn mono" data-open-case="4" data-cursor="Raio-X">
+                      <i>✦</i> Raio-X Técnico
+                    </button>
+                    <div class="project__tags"><span>Python</span><span>Jupyter</span><span>LLMs</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="project" data-cursor="Código">
+                <a class="project__media" href="https://github.com/Lettify/wiki.multitheftauto.com" target="_blank" rel="noopener" style="--h1:270;--h2:235">
+                  <div class="project__grid"></div>
+                  <span class="project__glyph">MTA</span>
+                  <span class="project__badge">Contribuição</span>
+                  <span class="project__glare"></span>
+                </a>
+                <div class="project__info">
+                  <div class="project__meta mono"><span>06 — Open Source</span><span>2026</span></div>
+                  <h3 class="project__title"><a href="https://github.com/Lettify/wiki.multitheftauto.com" target="_blank" rel="noopener">MTA Wiki</a></h3>
+                  <a class="project__arrow" href="https://github.com/Lettify/wiki.multitheftauto.com" target="_blank" rel="noopener" aria-label="Abrir link de MTA Wiki">↗</a>
+                  <p class="project__desc">Contribuição para a nova wiki do Multi Theft Auto, gerada a partir de arquivos de dados para alimentar ferramentas.</p>
+                  <div class="project__actions">
+                    <button type="button" class="project__case-btn mono" data-open-case="5" data-cursor="Raio-X">
+                      <i>✦</i> Raio-X Técnico
+                    </button>
+                    <div class="project__tags"><span>Lua</span><span>Docs</span><span>Open Source</span></div>
+                  </div>
+                </div>
+              </div>
+              <a class="project project--more" href="https://github.com/Lettify?tab=repositories" target="_blank" rel="noopener" data-cursor="GitHub">
+                <div class="project__media">
+                  <div class="project__more">Ver tudo<br/>no GitHub ↗<small>26 repositórios públicos</small></div>
+                </div>
+              </a>
+            </div>
             <div class="work__bar"><i class="js-work-bar"></i></div>
           </div>
         </section>
@@ -482,6 +611,35 @@
           </div>
           <div class="stack__box" data-cursor="Arraste">
             <div class="stack__pills"></div>
+            <div class="sr-only">
+              <h3>Tecnologias, linguagens e ferramentas dominadas</h3>
+              <ul>
+                <li>TypeScript (TS)</li>
+                <li>Lua</li>
+                <li>Node.js</li>
+                <li>JavaScript (JS)</li>
+                <li>Python</li>
+                <li>React</li>
+                <li>Discord.js</li>
+                <li>PostgreSQL</li>
+                <li>GitHub Actions (CI/CD)</li>
+                <li>Linux</li>
+                <li>IA &amp; LLMs</li>
+                <li>Clean Code</li>
+                <li>Multi Theft Auto (MTA)</li>
+                <li>tRPC</li>
+                <li>Express</li>
+                <li>MySQL</li>
+                <li>Supabase</li>
+                <li>Drizzle</li>
+                <li>Vite</li>
+                <li>Tailwind</li>
+                <li>Nginx</li>
+                <li>PM2</li>
+                <li>Git</li>
+                <li>Vercel</li>
+              </ul>
+            </div>
           </div>
         </section>
 

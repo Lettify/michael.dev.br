@@ -408,20 +408,22 @@ function initScrollAnimations() {
 
   // --- counters
   $$('[data-count]').forEach((el) => {
-    const end = Number(el.dataset.count);
-    const obj = { v: end > 1000 ? end - 40 : 0 };
-    el.textContent = String(Math.round(obj.v));
+    const end = Number(el.dataset.target || el.dataset.count);
+    const startVal = end > 1000 ? end - 40 : 0;
+    const obj = { v: startVal };
     ScrollTrigger.create({
       trigger: el,
       start: 'top 90%',
       once: true,
-      onEnter: () =>
+      onEnter: () => {
+        el.textContent = String(Math.round(obj.v));
         gsap.to(obj, {
           v: end,
           duration: 2,
           ease: 'expo.out',
           onUpdate: () => (el.textContent = String(Math.round(obj.v))),
-        }),
+        });
+      },
     });
   });
 
@@ -519,6 +521,13 @@ function heroIntro() {
 /* Preloader + boot                                                    */
 /* ================================================================== */
 async function boot() {
+  let hasBooted = false;
+  try {
+    hasBooted = sessionStorage.getItem('ms_portfolio_booted') === '1';
+  } catch {
+    hasBooted = false;
+  }
+
   const fonts = document.fonts
     ? Promise.all([
         document.fonts.load("800 100px 'Syne Variable'"),
@@ -526,7 +535,7 @@ async function boot() {
         document.fonts.load("400 16px 'JetBrains Mono Variable'"),
       ]).then(() => document.fonts.ready)
     : Promise.resolve();
-  const fontsWithTimeout = Promise.race([fonts, new Promise((r) => setTimeout(r, 3000))]);
+  const fontsWithTimeout = Promise.race([fonts, new Promise((r) => setTimeout(r, hasBooted ? 500 : 3000))]);
 
   const odoH = $('.js-odo-h');
   const odoT = $('.js-odo-t');
@@ -567,9 +576,11 @@ async function boot() {
       ];
 
   const counter = { v: 0 };
+  const bootDuration = hasBooted ? 0.2 : reduced ? 0.45 : graphics.isFallback ? 0.85 : 2.7;
+
   const count = gsap.to(counter, {
     v: 100,
-    duration: reduced ? 0.45 : graphics.isFallback ? 0.85 : 2.7,
+    duration: bootDuration,
     ease: 'expo.inOut',
     onUpdate: () => {
       const v = counter.v;
@@ -609,6 +620,25 @@ async function boot() {
     },
   });
 
+  const skipBtn = $('#preloaderSkipBtn');
+  let isSkipped = false;
+  const skipIntro = () => {
+    if (isSkipped) return;
+    isSkipped = true;
+    count.progress(1);
+  };
+
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') skipIntro();
+  };
+
+  if (hasBooted) {
+    skipBtn?.remove();
+  } else {
+    skipBtn?.addEventListener('click', skipIntro);
+    window.addEventListener('keydown', handleKeydown);
+  }
+
   await fontsWithTimeout;
   if (!graphics.isFallback) {
     universe?.init();
@@ -639,7 +669,20 @@ async function boot() {
   const preloader = $('.preloader');
   preloader.classList.add('is-exiting');
 
-  const out = gsap.timeline({ onComplete: () => preloader.remove() });
+  const out = gsap.timeline({
+    onComplete: () => {
+      window.removeEventListener('keydown', handleKeydown);
+      try {
+        sessionStorage.setItem('ms_portfolio_booted', '1');
+      } catch {}
+      preloader.remove();
+    },
+  });
+
+  if (hasBooted) {
+    out.timeScale(2.5);
+  }
+
   out
     .to('.preloader__dial', { scale: 1.12, opacity: 0, duration: 0.65, ease: 'power3.in' }, 0)
     .to('.preloader__top, .preloader__bottom, .preloader__glow', { opacity: 0, y: -16, duration: 0.5, ease: 'power2.in' }, 0.05)
